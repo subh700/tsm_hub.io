@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WaveNet Model - TSM Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-slate-100 text-slate-800">
+<!-- Enhanced Navigation for Model Pages -->
+<nav class="bg-white shadow-lg sticky top-0 z-50 mb-8">
+    <div class="container mx-auto px-6 py-4">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <a href="index.html" class="text-2xl font-bold text-blue-600">🏠 TS Forecasting Hub</a>
+                <div class="hidden md:flex items-center space-x-1 bg-gray-100 rounded-lg p-1">
+                    <a href="models.html" class="nav-link px-3 py-2 rounded">📚 All Models</a>
+                    <a href="comparison.html" class="nav-link px-3 py-2 rounded">📊 Compare</a>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+                <!-- AI Features Quick Access -->
+                <div class="hidden md:flex items-center space-x-2">
+                    <a href="model-selector.html" class="bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-600 text-sm flex items-center">
+                        🤖 AI Recommender
+                    </a>
+                    <a href="chat.html" class="bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-600 text-sm flex items-center">
+                        💬 AI Assistant
+                    </a>
+                    <a href="forecast-simulator.html?model={{MODEL_NAME}}" class="bg-purple-500 text-white px-3 py-2 rounded-lg hover:bg-purple-600 text-sm flex items-center">
+                        🚀 Try in Simulator
+                    </a>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <button class="md:hidden p-2" onclick="toggleMobileMenu()">☰</button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 border-t">
+            <div class="flex flex-col space-y-2">
+                <a href="models.html" class="text-gray-600 hover:text-blue-600 py-2">📚 All Models</a>
+                <a href="comparison.html" class="text-gray-600 hover:text-blue-600 py-2">📊 Compare Models</a>
+                <a href="model-selector.html" class="text-gray-600 hover:text-blue-600 py-2">🤖 AI Recommender</a>
+                <a href="chat.html" class="text-gray-600 hover:text-blue-600 py-2">💬 AI Assistant</a>
+                <a href="forecast-simulator.html" class="text-gray-600 hover:text-blue-600 py-2">🚀 Simulator</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-slate-900">TSM Hub</a>
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="concepts.html" class="nav-link">Concepts</a>
+                <a href="models.html" class="nav-link active">Models</a>
+                <a href="comparison.html" class="nav-link">Comparison</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden p-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="index.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Home</a>
+            <a href="concepts.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Concepts</a>
+            <a href="models.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Models</a>
+            <a href="comparison.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Comparison</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        <div class="bg-white p-8 rounded-lg shadow-md">
+            <header class="border-b-2 border-slate-200 pb-6 mb-8">
+                 <a href="models.html" class="text-blue-600 hover:underline mb-4 inline-block">&larr; Back to Model Library</a>
+                <h1 class="text-4xl md:text-5xl font-bold text-slate-900">WaveNet Model</h1>
+                <p class="mt-2 text-lg text-slate-600">Generative Model with Dilated Causal Convolutions</p>
+            </header>
+            
+            <article class="prose max-w-none">
+                <section>
+                    <h2>Overview</h2>
+                    <p>WaveNet is a deep generative model originally developed by Google DeepMind for raw audio waveform generation. Its groundbreaking architecture, based on **dilated causal convolutions**, allows it to capture long-range dependencies in sequential data very efficiently. This capability makes it highly effective not only for audio but also for various other time series forecasting tasks, where understanding dependencies over extended periods is crucial.</p>
+                    
+                    <h2>Architecture & Components</h2>
+                    <p>The core of WaveNet's architecture consists of stacked **dilated causal convolutional layers**:</p>
+                    <ul>
+                        <li><strong>Causal Convolutions:</strong> Ensures that predictions for a given time step $t$ only depend on observations at or before $t$. This is crucial for time series forecasting, preventing information leakage from the future.</li>
+                        <li><strong>Dilated Convolutions:</strong> Allows the receptive field of the network to grow exponentially with depth without increasing the number of parameters or losing resolution. This means that each convolutional filter skips inputs with a certain step (dilation rate), effectively allowing it to look at a much wider range of past data with fewer layers. The dilation rate typically doubles with each successive layer (e.g., 1, 2, 4, 8, ...).</li>
+                        <li><strong>Gated Activation Units:</strong> Similar to gates in LSTMs/GRUs, these units (often using tanh and sigmoid activations) control the flow of information through the network, allowing it to selectively learn and pass on relevant features.
+                            <p class="font-mono text-center bg-slate-100 p-2 rounded-md">
+                                $ z = \tanh(W_{f,k} * x + b_{f,k}) \odot \sigma(W_{g,k} * x + b_{g,k}) $
+                            </p>
+                            Where $W$ are convolution kernels, $x$ is input, $b$ are biases, $*$ denotes convolution, $\odot$ is element-wise multiplication, $\tanh$ is hyperbolic tangent, and $\sigma$ is sigmoid.
+                        </li>
+                        <li><strong>Residual and Skip Connections:</strong> These connections help in training very deep networks by allowing gradients to flow more easily and enabling the model to learn small changes. Residual connections pass the output of a layer to the input of a later layer, while skip connections sum the outputs of intermediate layers to the final output.</li>
+                    </ul>
+                     <div class="bg-slate-100 p-4 rounded-lg my-6 text-center">
+                        <img src="https://placehold.co/600x300/e2e8f0/334155?text=Diagram+of+Dilated+Causal+Convolutions" alt="WaveNet Architecture Diagram" class="mx-auto rounded-md">
+                        <p class="text-sm text-slate-500 mt-2">Conceptual diagram illustrating dilated causal convolutions in WaveNet.</p>
+                    </div>
+                </section>
+                
+                <section>
+                    <h2>When to Use WaveNet</h2>
+                    <p>WaveNet is particularly effective for time series forecasting when:</p>
+                    <ul>
+                        <li>You need to capture very long-range dependencies in the data without resorting to complex recurrent architectures.</li>
+                        <li>The time series exhibits complex, non-linear patterns that are difficult for traditional models to capture.</li>
+                        <li>High-fidelity, sample-level (or fine-grained) predictions are required.</li>
+                        <li>Computational efficiency during inference is important, as convolutions can be highly parallelized.</li>
+                        <li>The data is high-frequency or has intricate local structures that convolutional filters can effectively learn.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Pros and Cons</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2 text-green-600">Pros</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Captures Long-Range Dependencies:</strong> Dilated convolutions allow for a very large receptive field with fewer layers, effectively modeling long-term patterns.</li>
+                                <li><strong>Computational Efficiency:</strong> Convolutions are highly parallelizable, leading to faster training and inference compared to traditional RNNs for long sequences.</li>
+                                <li><strong>Non-Linearity:</strong> Capable of learning complex non-linear relationships in time series data.</li>
+                                <li><strong>Generative Capabilities:</strong> Originally designed for generation, it can model the underlying data distribution, which is beneficial for probabilistic forecasting.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2 text-red-600">Cons</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Autoregressive Nature (for generation):</strong> For true generative tasks, it's autoregressive (predicts one step at a time), which can be slow for very long sequence generation. For forecasting, it can be adapted for multi-step prediction.</li>
+                                <li><strong>Requires Large Data:</strong> Deep learning models generally require substantial amounts of data for optimal performance.</li>
+                                <li><strong>Less Interpretable:</strong> Like other deep neural networks, it acts as a "black box," making it difficult to understand the exact reasons for its predictions.</li>
+                                <li><strong>Hyperparameter Tuning:</strong> Can be sensitive to the choice of dilation rates, number of layers, and other architectural parameters.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Example Implementation</h2>
+                    <p>Implementing a full WaveNet from scratch is complex. Here, we provide conceptual examples using TensorFlow/Keras and PyTorch, focusing on the core idea of dilated causal convolutions for time series forecasting. For a complete implementation, refer to the provided repositories.</p>
+
+                    <h3>TensorFlow/Keras Example (Conceptual)</h3>
+                    <div class="code-block my-4">
+                        <pre><code class="language-python">
+import numpy as np
+import tensorflow as tf
+from tensorflow.keras.models import Model
+from tensorflow.keras.layers import Input, Conv1D, Add, Activation, Multiply, Dense
+from sklearn.preprocessing import MinMaxScaler
+import matplotlib.pyplot as plt
+
+# 1. Generate sample data
+np.random.seed(42)
+n_samples = 500
+time = np.arange(n_samples)
+data = np.sin(time / 20) * 10 + time * 0.1 + np.random.randn(n_samples) * 2
+data = data.reshape(-1, 1)
+
+# 2. Scale data
+scaler = MinMaxScaler(feature_range=(0, 1))
+scaled_data = scaler.fit_transform(data)
+
+# 3. Create sequences for convolutional input
+def create_sequences(data, look_back):
+    X, y = [], []
+    for i in range(len(data) - look_back):
+        X.append(data[i:(i + look_back), 0])
+        y.append(data[i + look_back, 0])
+    return np.array(X), np.array(y)
+
+look_back = 50 # Receptive field for WaveNet can be large
+X, y = create_sequences(scaled_data, look_back)
+
+# Reshape X for Conv1D: (samples, timesteps, features)
+X = X.reshape(X.shape[0], X.shape[1], 1)
+
+# 4. Define a simplified WaveNet-like block
+def wavenet_block(input_layer, filters, kernel_size, dilation_rate):
+    # Causal convolution
+    x = Conv1D(filters, kernel_size, padding='causal', dilation_rate=dilation_rate)(input_layer)
+    
+    # Gated activation
+    tanh_out = Activation('tanh')(x)
+    sigmoid_out = Activation('sigmoid')(x)
+    gated_output = Multiply()([tanh_out, sigmoid_out])
+    
+    # Residual connection
+    # Ensure dimensions match for Add layer
+    # If input_layer and gated_output have different feature dimensions, need a 1x1 conv
+    if input_layer.shape[-1] != filters:
+        residual_input = Conv1D(filters, 1, padding='same')(input_layer)
+    else:
+        residual_input = input_layer
+
+    # Skip connection (for final sum)
+    skip_output = Conv1D(filters, 1, padding='same')(gated_output)
+
+    # Add residual
+    output = Add()([residual_input[:, -gated_output.shape[1]:, :], gated_output]) # Align sequence lengths
+
+    return output, skip_output
+
+# 5. Build the WaveNet-like model
+input_layer = Input(shape=(look_back, 1))
+x = input_layer
+
+skip_connections = []
+filters = 32
+kernel_size = 2
+dilation_rates = [1, 2, 4, 8, 16] # Example dilation rates
+
+for dilation_rate in dilation_rates:
+    x, skip = wavenet_block(x, filters, kernel_size, dilation_rate)
+    skip_connections.append(skip)
+
+# Sum all skip connections
+merged_skips = Add()(skip_connections)
+final_output = Activation('relu')(merged_skips)
+final_output = Conv1D(1, 1, padding='same')(final_output) # 1x1 convolution for output features
+
+# Take the last time step's prediction
+output_prediction = final_output[:, -1, :]
+
+model = Model(inputs=input_layer, outputs=output_prediction)
+
+# 6. Compile and train
+model.compile(optimizer='adam', loss='mean_squared_error')
+model.fit(X, y, epochs=20, batch_size=32, verbose=0)
+
+print("TensorFlow/Keras WaveNet-like model training complete.")
+
+# 7. Make predictions (conceptual)
+train_predict = model.predict(X)
+train_predict = scaler.inverse_transform(train_predict)
+y_original = scaler.inverse_transform(y.reshape(-1, 1))
+
+print(f"First 5 original values: {y_original[:5].flatten()}")
+print(f"First 5 predicted values: {train_predict[:5].flatten()}")
+
+# Plotting (conceptual)
+# plt.figure(figsize=(14, 7))
+# plt.plot(data[look_back:], label='Original Data')
+# plt.plot(train_predict, label='Training Prediction', linestyle='--')
+# plt.title('TensorFlow/Keras WaveNet-like Time Series Forecast')
+# plt.xlabel('Time Step')
+# plt.ylabel('Value')
+# plt.legend()
+# plt.grid(True)
+# plt.show()
+                        </code></pre>
+                    </div>
+
+                    <h3>PyTorch Example (Conceptual)</h3>
+                    <div class="code-block my-4">
+                        <pre><code class="language-python">
+import torch
+import torch.nn as nn
+import numpy as np
+from sklearn.preprocessing import MinMaxScaler
+import matplotlib.pyplot as plt
+
+# 1. Generate sample data
+np.random.seed(42)
+n_samples = 500
+time = np.arange(n_samples)
+data = np.sin(time / 20) * 10 + time * 0.1 + np.random.randn(n_samples) * 2
+data = data.reshape(-1, 1)
+
+# 2. Scale data
+scaler = MinMaxScaler(feature_range=(0, 1))
+scaled_data = scaler.fit_transform(data)
+
+# 3. Create sequences for PyTorch
+def create_sequences(data, look_back):
+    xs, ys = [], []
+    for i in range(len(data) - look_back):
+        x = data[i:(i + look_back)]
+        y = data[i + look_back]
+        xs.append(x)
+        ys.append(y)
+    return torch.tensor(xs, dtype=torch.float32), torch.tensor(ys, dtype=torch.float32)
+
+look_back = 50
+X_tensor, y_tensor = create_sequences(scaled_data, look_back)
+
+# Reshape X for PyTorch Conv1d: (batch_size, features, timesteps)
+# Here, features=1 for univariate, so (batch_size, 1, timesteps)
+X_tensor = X_tensor.permute(0, 2, 1)
+
+# 4. Define a simplified WaveNet-like block
+class WaveNetBlock(nn.Module):
+    def __init__(self, in_channels, out_channels, kernel_size, dilation_rate):
+        super().__init__()
+        self.conv = nn.Conv1d(
+            in_channels, 
+            2 * out_channels, # For gated activation (tanh and sigmoid)
+            kernel_size=kernel_size, 
+            padding='same', # Use 'same' padding to maintain sequence length
+            dilation=dilation_rate
+        )
+        self.conv_1x1_residual = nn.Conv1d(out_channels, in_channels, kernel_size=1)
+        self.conv_1x1_skip = nn.Conv1d(out_channels, out_channels, kernel_size=1)
+
+    def forward(self, x):
+        original_x = x
+        
+        # Causal convolution is tricky with padding='same' in PyTorch for Conv1D
+        # For true causality, padding needs to be adjusted or use custom causal padding
+        # For simplicity here, we use 'same' and assume the effect is similar for forecasting
+        # The original WaveNet paper used specific padding to ensure causality.
+        
+        # Apply convolution
+        conv_output = self.conv(x)
+        
+        # Gated activation
+        tanh_out = torch.tanh(conv_output[:, :out_channels, :])
+        sigmoid_out = torch.sigmoid(conv_output[:, out_channels:, :])
+        gated_output = tanh_out * sigmoid_out
+        
+        # Residual connection
+        residual = self.conv_1x1_residual(gated_output)
+        # Ensure residual has same shape as original_x for addition
+        # This is a simplification; in a true WaveNet, residual connections are more complex
+        
+        # Skip connection
+        skip = self.conv_1x1_skip(gated_output)
+
+        # For simplicity, we'll just add the residual back if shapes match
+        # In a full WaveNet, the residual path might be more complex
+        output = original_x + residual if original_x.shape == residual.shape else gated_output # Simplified addition
+
+        return output, skip
+
+# 5. Build the WaveNet-like model
+class WaveNetLike(nn.Module):
+    def __init__(self, input_channels, output_channels, filters, kernel_size, dilation_rates):
+        super().__init__()
+        self.input_conv = nn.Conv1d(input_channels, filters, kernel_size=1)
+        
+        self.blocks = nn.ModuleList()
+        for dilation_rate in dilation_rates:
+            self.blocks.append(WaveNetBlock(filters, filters, kernel_size, dilation_rate))
+        
+        self.final_conv1 = nn.Conv1d(filters * len(dilation_rates), filters, kernel_size=1) # Sum of skips
+        self.final_conv2 = nn.Conv1d(filters, output_channels, kernel_size=1)
+
+    def forward(self, x):
+        x = self.input_conv(x)
+        
+        skip_outputs = []
+        for block in self.blocks:
+            x, skip = block(x)
+            skip_outputs.append(skip)
+        
+        # Concatenate skip outputs (or sum them for a true WaveNet-like sum of skips)
+        # For simplicity, we concatenate and then use a 1x1 conv
+        # A true WaveNet sums skips
+        summed_skips = torch.sum(torch.stack(skip_outputs), dim=0)
+        
+        x = torch.relu(self.final_conv1(summed_skips))
+        x = self.final_conv2(x)
+        
+        return x[:, :, -1] # Take the last time step's prediction
+
+# Instantiate model, loss, optimizer
+input_channels = 1
+output_channels = 1
+filters = 32
+kernel_size = 2
+dilation_rates = [1, 2, 4, 8, 16]
+
+model = WaveNetLike(input_channels, output_channels, filters, kernel_size, dilation_rates)
+loss_function = nn.MSELoss()
+optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+
+# 6. Train the model
+epochs = 20
+for i in range(epochs):
+    for seq, label in zip(X_tensor, y_tensor):
+        optimizer.zero_grad()
+        
+        y_pred = model(seq.unsqueeze(0)) # Add batch dimension
+        
+        single_loss = loss_function(y_pred.squeeze(), label.squeeze())
+        single_loss.backward()
+        optimizer.step()
+    
+    if i % 5 == 0:
+        print(f'Epoch {i} loss: {single_loss.item()}')
+
+print("PyTorch WaveNet-like model training complete.")
+
+# 7. Make predictions (conceptual)
+model.eval()
+with torch.no_grad():
+    train_predict_scaled = model(X_tensor).squeeze().numpy()
+
+train_predict = scaler.inverse_transform(train_predict_scaled.reshape(-1, 1))
+y_original = scaler.inverse_transform(y_tensor.numpy().reshape(-1, 1))
+
+print(f"First 5 original values: {y_original[:5].flatten()}")
+print(f"First 5 predicted values: {train_predict[:5].flatten()}")
+
+# Plotting (conceptual)
+# plt.figure(figsize=(14, 7))
+# plt.plot(data[look_back:], label='Original Data')
+# plt.plot(train_predict, label='Training Prediction', linestyle='--')
+# plt.title('PyTorch WaveNet-like Time Series Forecast')
+# plt.xlabel('Time Step')
+# plt.ylabel('Value')
+# plt.legend()
+# plt.grid(True)
+# plt.show()
+                        </code></pre>
+                    </div>
+                </section>
+                
+                <section>
+                    <h2>Dependencies & Resources</h2>
+                    <p><strong>Dependencies:</strong> <code>numpy</code>, <code>scikit-learn</code> (for `MinMaxScaler`), <code>tensorflow</code>/<code>keras</code> (for TensorFlow example), <code>torch</code> (for PyTorch example), <code>matplotlib</code> (for plotting).</p>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><a href="https://deepmind.com/blog/article/wavenet-generative-model-raw-audio" target="_blank" rel="noopener noreferrer">DeepMind WaveNet Blog Post ↗</a></li>
+                        <li><a href="https://arxiv.org/abs/1609.03499" target="_blank" rel="noopener noreferrer">WaveNet: A Generative Model for Raw Audio (Original Paper) ↗</a></li>
+                        <li><a href="https://github.com/basveeling/wavenet" target="_blank" rel="noopener noreferrer">WaveNet Keras Implementation (Example) ↗</a></li>
+                    </ul>
+                </section>
+            </article>
+        </div>
+    </main>
+
+    <footer class="text-center p-6 bg-slate-200 mt-12">
+        <p class="text-slate-600 text-sm">TSM Hub: An Interactive Resource for Time Series Analysis</p>
+    </footer>
+
+    <script src="main.js"></script>
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</body>
+</html>

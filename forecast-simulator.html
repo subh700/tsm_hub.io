@@ -1,0 +1,1382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Forecast Simulator - Time Series Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/date-fns@2.29.3/index.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Enhanced Navigation for Model Pages -->
+<nav class="bg-white shadow-lg sticky top-0 z-50 mb-8">
+    <div class="container mx-auto px-6 py-4">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <a href="index.html" class="text-2xl font-bold text-blue-600">🏠 TS Forecasting Hub</a>
+                <div class="hidden md:flex items-center space-x-1 bg-gray-100 rounded-lg p-1">
+                    <a href="models.html" class="nav-link px-3 py-2 rounded">📚 All Models</a>
+                    <a href="comparison.html" class="nav-link px-3 py-2 rounded">📊 Compare</a>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+                <!-- AI Features Quick Access -->
+                <div class="hidden md:flex items-center space-x-2">
+                    <a href="model-selector.html" class="bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-600 text-sm flex items-center">
+                        🤖 AI Recommender
+                    </a>
+                    <a href="chat.html" class="bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-600 text-sm flex items-center">
+                        💬 AI Assistant
+                    </a>
+                    <a href="forecast-simulator.html?model={{MODEL_NAME}}" class="bg-purple-500 text-white px-3 py-2 rounded-lg hover:bg-purple-600 text-sm flex items-center">
+                        🚀 Try in Simulator
+                    </a>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <button class="md:hidden p-2" onclick="toggleMobileMenu()">☰</button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 border-t">
+            <div class="flex flex-col space-y-2">
+                <a href="models.html" class="text-gray-600 hover:text-blue-600 py-2">📚 All Models</a>
+                <a href="comparison.html" class="text-gray-600 hover:text-blue-600 py-2">📊 Compare Models</a>
+                <a href="model-selector.html" class="text-gray-600 hover:text-blue-600 py-2">🤖 AI Recommender</a>
+                <a href="chat.html" class="text-gray-600 hover:text-blue-600 py-2">💬 AI Assistant</a>
+                <a href="forecast-simulator.html" class="text-gray-600 hover:text-blue-600 py-2">🚀 Simulator</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="text-2xl font-bold text-blue-600">📊 Interactive Forecast Simulator</div>
+                <div class="flex space-x-4">
+                    <button onclick="window.location.href='index.html'" class="text-blue-600 hover:text-blue-800">← Back to Hub</button>
+                    <button onclick="resetSimulator()" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Reset</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-6 py-8">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-800 mb-4">Interactive Forecast Simulator</h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Experiment with different time series models, adjust parameters, and see real-time predictions. 
+                Perfect for learning and comparing forecasting approaches.
+            </p>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="grid lg:grid-cols-3 gap-8">
+            <!-- Left Panel: Controls -->
+            <div class="lg:col-span-1 space-y-6">
+                <!-- Data Input Section -->
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h2 class="text-xl font-bold mb-4 flex items-center">
+                        📈 Data Input
+                        <span class="ml-2 text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">Step 1</span>
+                    </h2>
+                    
+                    <div class="space-y-4">
+                        <!-- Data Source Selection -->
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Data Source</label>
+                            <select id="data-source" class="w-full p-3 border rounded-lg" onchange="handleDataSourceChange()">
+                                <option value="sample">Sample Dataset</option>
+                                <option value="upload">Upload CSV</option>
+                                <option value="generate">Generate Synthetic</option>
+                                <option value="manual">Manual Entry</option>
+                            </select>
+                        </div>
+
+                        <!-- Sample Data Selection -->
+                        <div id="sample-data-options">
+                            <label class="block text-sm font-medium mb-2">Sample Dataset</label>
+                            <select id="sample-dataset" class="w-full p-3 border rounded-lg" onchange="loadSampleData()">
+                                <option value="sales">Monthly Sales (Trend + Seasonality)</option>
+                                <option value="stock">Stock Price (Volatile)</option>
+                                <option value="temperature">Temperature (Strong Seasonality)</option>
+                                <option value="website">Website Traffic (Weekly Patterns)</option>
+                                <option value="crypto">Cryptocurrency (High Volatility)</option>
+                                <option value="pollution">Pollution-Data-17-indian-cites (PM2.5)</option>
+                                <option value="airpassengers">Air Passengers</option>
+                                <option value="sunspots">Sunspots</option>
+                            </select>
+                        </div>
+
+                        <!-- File Upload -->
+                        <div id="upload-options" class="hidden">
+                            <label class="block text-sm font-medium mb-2">Upload CSV File</label>
+                            <input type="file" id="file-upload" accept=".csv" class="w-full p-3 border rounded-lg" onchange="handleFileUpload(event)">
+                            <p class="text-xs text-gray-500 mt-1">Format: Date, Value columns</p>
+                        </div>
+
+                        <!-- Synthetic Data Generation -->
+                        <div id="generate-options" class="hidden">
+                            <label class="block text-sm font-medium mb-2">Generate Synthetic Data</label>
+                            <div class="space-y-3">
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div>
+                                        <label class="block text-xs mb-1">Trend</label>
+                                        <select id="trend-type" class="w-full p-2 border rounded text-sm">
+                                            <option value="linear">Linear</option>
+                                            <option value="exponential">Exponential</option>
+                                            <option value="none">None</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs mb-1">Seasonality</label>
+                                        <select id="season-type" class="w-full p-2 border rounded text-sm">
+                                            <option value="yearly">Yearly</option>
+                                            <option value="monthly">Monthly</option>
+                                            <option value="weekly">Weekly</option>
+                                            <option value="none">None</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div>
+                                        <label class="block text-xs mb-1">Data Points</label>
+                                        <input type="number" id="data-points" value="100" min="50" max="500" class="w-full p-2 border rounded text-sm">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs mb-1">Noise Level</label>
+                                        <input type="range" id="noise-level" min="0" max="100" value="20" class="w-full">
+                                    </div>
+                                </div>
+                                <button onclick="generateSyntheticData()" class="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600">Generate Data</button>
+                            </div>
+                        </div>
+
+                        <!-- Manual Entry -->
+                        <div id="manual-options" class="hidden">
+                            <label class="block text-sm font-medium mb-2">Manual Data Entry</label>
+                            <textarea id="manual-data" rows="4" class="w-full p-3 border rounded-lg text-sm" 
+                                placeholder="Enter comma-separated values:&#10;10, 12, 14, 16, 18, 20, 22"></textarea>
+                            <button onclick="loadManualData()" class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 mt-2">Load Data</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Model Selection -->
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h2 class="text-xl font-bold mb-4 flex items-center">
+                        🤖 Model Selection
+                        <span class="ml-2 text-sm bg-green-100 text-green-800 px-2 py-1 rounded">Step 2</span>
+                    </h2>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Primary Model</label>
+                            <select id="primary-model" class="w-full p-3 border rounded-lg" onchange="updateModelParams()">
+                                <option value="arima">ARIMA</option>
+                                <option value="lstm">LSTM</option>
+                                <option value="prophet">Prophet</option>
+                                <option value="ets">ETS (Exponential Smoothing)</option>
+                                <option value="sarimax">SARIMAX</option>
+                                <option value="linear">Linear Regression</option>
+                                <option value="ma">Moving Average</option>
+                            </select>
+                        </div>
+
+                        <!-- Dynamic Model Parameters -->
+                        <div id="model-parameters">
+                            <!-- Parameters will be dynamically populated -->
+                        </div>
+
+                        <!-- Comparison Models -->
+                        <div>
+                            <label class="flex items-center">
+                                <input type="checkbox" id="enable-comparison" class="mr-2" onchange="toggleComparison()">
+                                <span class="text-sm font-medium">Compare with other models</span>
+                            </label>
+                        </div>
+
+                        <div id="comparison-models" class="hidden">
+                            <label class="block text-sm font-medium mb-2">Comparison Models</label>
+                            <div class="space-y-2">
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="mr-2" value="arima"> ARIMA
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="mr-2" value="ets"> ETS
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="mr-2" value="ma"> Moving Average
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="mr-2" value="linear"> Linear Trend
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Forecast Configuration -->
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h2 class="text-xl font-bold mb-4 flex items-center">
+                        ⚙️ Forecast Settings
+                        <span class="ml-2 text-sm bg-purple-100 text-purple-800 px-2 py-1 rounded">Step 3</span>
+                    </h2>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Forecast Horizon</label>
+                            <input type="number" id="forecast-horizon" value="12" min="1" max="50" class="w-full p-3 border rounded-lg">
+                            <p class="text-xs text-gray-500 mt-1">Number of periods to forecast</p>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Train/Test Split</label>
+                            <div class="flex items-center space-x-2">
+                                <input type="range" id="train-split" min="60" max="90" value="80" class="flex-1">
+                                <span id="split-value" class="text-sm font-medium">80%</span>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1">Percentage of data for training</p>
+                        </div>
+
+                        <div>
+                            <label class="flex items-center">
+                                <input type="checkbox" id="show-confidence" class="mr-2" checked>
+                                <span class="text-sm">Show confidence intervals</span>
+                            </label>
+                        </div>
+
+                        <div>
+                            <label class="flex items-center">
+                                <input type="checkbox" id="cross-validation" class="mr-2">
+                                <span class="text-sm">Use cross-validation</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Run Simulation Button -->
+                <div class="bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg p-6 text-center">
+                    <button onclick="runForecast()" id="run-button" 
+                            class="w-full bg-white text-blue-600 font-bold py-4 rounded-lg hover:bg-gray-100 transition-colors">
+                        🚀 Run Forecast Simulation
+                    </button>
+                    <p class="text-white text-sm mt-2">Generate predictions and visualize results</p>
+                </div>
+            </div>
+
+            <!-- Right Panel: Results -->
+            <div class="lg:col-span-2 space-y-6">
+                <!-- Data Preview -->
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h2 class="text-xl font-bold mb-4">📊 Data Preview & Analysis</h2>
+                    
+                    <!-- Data Statistics -->
+                    <div id="data-stats" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                        <div class="bg-blue-50 p-4 rounded-lg text-center">
+                            <div class="text-2xl font-bold text-blue-600" id="stat-count">0</div>
+                            <div class="text-sm text-gray-600">Data Points</div>
+                        </div>
+                        <div class="bg-green-50 p-4 rounded-lg text-center">
+                            <div class="text-2xl font-bold text-green-600" id="stat-mean">0</div>
+                            <div class="text-sm text-gray-600">Mean</div>
+                        </div>
+                        <div class="bg-purple-50 p-4 rounded-lg text-center">
+                            <div class="text-2xl font-bold text-purple-600" id="stat-trend">↗️</div>
+                            <div class="text-sm text-gray-600">Trend</div>
+                        </div>
+                        <div class="bg-orange-50 p-4 rounded-lg text-center">
+                            <div class="text-2xl font-bold text-orange-600" id="stat-seasonal">❓</div>
+                            <div class="text-sm text-gray-600">Seasonal</div>
+                        </div>
+                    </div>
+
+                    <!-- Chart Container -->
+                    <div class="relative h-64">
+                        <canvas id="data-chart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Forecast Results -->
+                <div id="results-section" class="bg-white rounded-lg shadow-lg p-6 hidden">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-xl font-bold">🎯 Forecast Results</h2>
+                        <div class="flex space-x-2">
+                            <button onclick="exportResults()" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 text-sm">
+                                Export CSV
+                            </button>
+                            <button onclick="shareResults()" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 text-sm">
+                                Share Link
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Accuracy Metrics -->
+                    <div id="accuracy-metrics" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                        <!-- Metrics will be populated dynamically -->
+                    </div>
+
+                    <!-- Forecast Chart -->
+                    <div class="relative h-80 mb-6">
+                        <canvas id="forecast-chart"></canvas>
+                    </div>
+
+                    <!-- Model Comparison Table -->
+                    <div id="comparison-table" class="hidden">
+                        <h3 class="text-lg font-semibold mb-4">📈 Model Comparison</h3>
+                        <div class="overflow-x-auto">
+                            <table class="w-full table-auto border-collapse border border-gray-300">
+                                <thead>
+                                    <tr class="bg-gray-50">
+                                        <th class="border border-gray-300 px-4 py-2 text-left">Model</th>
+                                        <th class="border border-gray-300 px-4 py-2 text-center">MAE</th>
+                                        <th class="border border-gray-300 px-4 py-2 text-center">RMSE</th>
+                                        <th class="border border-gray-300 px-4 py-2 text-center">MAPE</th>
+                                        <th class="border border-gray-300 px-4 py-2 text-center">R²</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="comparison-results">
+                                    <!-- Results will be populated dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Insights Panel -->
+                <div id="insights-panel" class="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-lg shadow-lg p-6 hidden">
+                    <h2 class="text-xl font-bold mb-4 flex items-center">
+                        🤖 AI Insights & Recommendations
+                    </h2>
+                    <div id="ai-insights" class="space-y-4">
+                        <!-- AI-generated insights will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Modal -->
+    <div id="loading-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+        <div class="bg-white rounded-lg p-8 text-center">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
+            <h3 class="text-lg font-semibold mb-2">Training Model...</h3>
+            <p class="text-gray-600">This may take a few moments</p>
+            <div class="mt-4">
+                <div class="bg-gray-200 rounded-full h-2">
+                    <div id="progress-bar" class="bg-blue-500 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="main.js"></script>
+    <script src="ai-features.js"></script>
+    <script>
+        // Simulator-specific JavaScript
+        let currentData = [];
+        let forecastResults = {};
+        let dataChart = null;
+        let forecastChart = null;
+
+        // Initialize the simulator
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeSimulator();
+            loadSampleData(); // Load default sample data
+            
+            // Update split value display
+            const splitSlider = document.getElementById('train-split');
+            const splitValue = document.getElementById('split-value');
+            
+            splitSlider.addEventListener('input', function() {
+                splitValue.textContent = this.value + '%';
+            });
+        });
+
+        function initializeSimulator() {
+            // Check if a specific model was passed in URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const modelParam = urlParams.get('model');
+            
+            if (modelParam) {
+                document.getElementById('primary-model').value = modelParam.toLowerCase();
+                updateModelParams();
+            }
+            
+            // Initialize charts
+            initializeCharts();
+            updateModelParams();
+        }
+
+        function initializeCharts() {
+            const dataCtx = document.getElementById('data-chart');
+            if (dataCtx) {
+                dataChart = new Chart(dataCtx, {
+                    type: 'line',
+                    data: {
+                        labels: [],
+                        datasets: [{
+                            label: 'Time Series Data',
+                            data: [],
+                            borderColor: 'rgb(59, 130, 246)',
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            fill: true,
+                            tension: 0.2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: false
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        function handleDataSourceChange() {
+            const source = document.getElementById('data-source').value;
+            
+            // Hide all options
+            document.getElementById('sample-data-options').classList.toggle('hidden', source !== 'sample');
+            document.getElementById('upload-options').classList.toggle('hidden', source !== 'upload');
+            document.getElementById('generate-options').classList.toggle('hidden', source !== 'generate');
+            document.getElementById('manual-options').classList.toggle('hidden', source !== 'manual');
+            
+            if (source === 'sample') {
+                loadSampleData();
+            }
+        }
+
+        function loadSampleData() {
+            const dataset = document.getElementById('sample-dataset').value;
+            let data = [];
+            let labels = [];
+            
+            // Generate sample data based on selection
+            const baseData = generateSampleDataset(dataset);
+            currentData = baseData.values;
+            
+            updateDataVisualization(baseData.labels, baseData.values);
+            updateDataStatistics(baseData.values);
+        }
+
+        function generateSampleDataset(type) {
+            const points = 120; // 10 years of monthly data
+            let labels = [];
+            let values = [];
+            
+            // Generate date labels
+            const startDate = new Date('2020-01-01');
+            for (let i = 0; i < points; i++) {
+                const date = new Date(startDate);
+                date.setMonth(startDate.getMonth() + i);
+                labels.push(date.toISOString().substr(0, 7)); // YYYY-MM format
+            }
+            
+            // Generate values based on dataset type
+            switch(type) {
+                case 'sales':
+                    for (let i = 0; i < points; i++) {
+                        const trend = 1000 + i * 50; // Growing trend
+                        const seasonal = 200 * Math.sin(i * 2 * Math.PI / 12); // Yearly seasonality
+                        const noise = (Math.random() - 0.5) * 100;
+                        values.push(Math.max(0, trend + seasonal + noise));
+                    }
+                    break;
+                case 'stock':
+                    let price = 100;
+                    for (let i = 0; i < points; i++) {
+                        const change = (Math.random() - 0.5) * 10;
+                        const trend = i * 0.1;
+                        price += change + trend;
+                        values.push(Math.max(10, price));
+                    }
+                    break;
+                case 'temperature':
+                    for (let i = 0; i < points; i++) {
+                        const baseTemp = 60;
+                        const seasonal = 30 * Math.sin((i - 3) * 2 * Math.PI / 12); // Peak in summer
+                        const noise = (Math.random() - 0.5) * 5;
+                        values.push(baseTemp + seasonal + noise);
+                    }
+                    break;
+                case 'website':
+                    for (let i = 0; i < points; i++) {
+                        const base = 10000;
+                        const growth = i * 100;
+                        const weekly = 2000 * Math.sin(i * 2 * Math.PI / 4.33); // Weekly pattern
+                        const noise = (Math.random() - 0.5) * 500;
+                        values.push(Math.max(0, base + growth + weekly + noise));
+                    }
+                    break;
+                case 'crypto':
+                    let crypto = 30000;
+                    for (let i = 0; i < points; i++) {
+                        const volatility = (Math.random() - 0.5) * crypto * 0.1;
+                        const trend = Math.sin(i * 2 * Math.PI / 24) * crypto * 0.05;
+                        crypto += volatility + trend;
+                        values.push(Math.max(1000, crypto));
+                    }
+                    break;
+                case 'pollution':
+                    // Placeholder: Replace with real data fetch if available
+                    for (let i = 0; i < points; i++) {
+                        values.push(80 + 20 * Math.sin(i * 2 * Math.PI / 12) + (Math.random() - 0.5) * 10);
+                    }
+                    break;
+                case 'airpassengers':
+                    // Example: fetch from URL or use static sample
+                    for (let i = 0; i < points; i++) {
+                        values.push(112 + i * 2 + 10 * Math.sin(i * 2 * Math.PI / 12) + (Math.random() - 0.5) * 5);
+                    }
+                    break;
+                case 'sunspots':
+                    for (let i = 0; i < points; i++) {
+                        values.push(50 + 30 * Math.sin(i * 2 * Math.PI / 11) + (Math.random() - 0.5) * 8);
+                    }
+                    break;
+            }
+            
+            return { labels, values };
+        }
+
+        function updateDataVisualization(labels, values) {
+            if (dataChart) {
+                dataChart.data.labels = labels;
+                dataChart.data.datasets[0].data = values;
+                dataChart.update();
+            }
+        }
+
+        function updateDataStatistics(values) {
+            const count = values.length;
+            const mean = values.reduce((a, b) => a + b, 0) / count;
+            
+            // Simple trend detection
+            const firstHalf = values.slice(0, Math.floor(count/2)).reduce((a, b) => a + b, 0) / Math.floor(count/2);
+            const secondHalf = values.slice(Math.floor(count/2)).reduce((a, b) => a + b, 0) / (count - Math.floor(count/2));
+            const trendDirection = secondHalf > firstHalf ? '↗️' : secondHalf < firstHalf ? '↘️' : '➡️';
+            
+            // Basic seasonality detection (simplified)
+            const seasonal = detectSeasonality(values) ? '✅' : '❌';
+            
+            document.getElementById('stat-count').textContent = count;
+            document.getElementById('stat-mean').textContent = mean.toFixed(2);
+            document.getElementById('stat-trend').textContent = trendDirection;
+            document.getElementById('stat-seasonal').textContent = seasonal;
+        }
+
+        function detectSeasonality(values) {
+            // Simplified seasonality detection using autocorrelation
+            if (values.length < 24) return false;
+            
+            const periods = [12, 4, 7]; // Monthly, quarterly, weekly
+            let maxCorr = 0;
+            
+            periods.forEach(period => {
+                if (values.length > period * 2) {
+                    let correlation = calculateAutocorrelation(values, period);
+                    maxCorr = Math.max(maxCorr, Math.abs(correlation));
+                }
+            });
+            
+            return maxCorr > 0.3; // Threshold for seasonality
+        }
+
+        function calculateAutocorrelation(values, lag) {
+            const n = values.length - lag;
+            const mean = values.reduce((a, b) => a + b, 0) / values.length;
+            
+            let numerator = 0;
+            let denominator = 0;
+            
+            for (let i = 0; i < n; i++) {
+                numerator += (values[i] - mean) * (values[i + lag] - mean);
+            }
+            
+            for (let i = 0; i < values.length; i++) {
+                denominator += Math.pow(values[i] - mean, 2);
+            }
+            
+            return numerator / denominator;
+        }
+
+        function updateModelParams() {
+            const model = document.getElementById('primary-model').value;
+            const paramsContainer = document.getElementById('model-parameters');
+            
+            let html = '';
+            
+            switch(model) {
+                case 'arima':
+                    html = `
+                        <div class="grid grid-cols-3 gap-2">
+                            <div>
+                                <label class="block text-xs mb-1">p (AR)</label>
+                                <input type="number" id="arima-p" value="2" min="0" max="5" class="w-full p-2 border rounded text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs mb-1">d (I)</label>
+                                <input type="number" id="arima-d" value="1" min="0" max="2" class="w-full p-2 border rounded text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs mb-1">q (MA)</label>
+                                <input type="number" id="arima-q" value="2" min="0" max="5" class="w-full p-2 border rounded text-sm">
+                            </div>
+                        </div>
+                    `;
+                    break;
+                case 'lstm':
+                    html = `
+                        <div class="space-y-3">
+                            <div>
+                                <label class="block text-xs mb-1">Hidden Units</label>
+                                <select id="lstm-units" class="w-full p-2 border rounded text-sm">
+                                    <option value="32">32</option>
+                                    <option value="64" selected>64</option>
+                                    <option value="128">128</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs mb-1">Lookback Window</label>
+                                <input type="number" id="lstm-lookback" value="12" min="5" max="50" class="w-full p-2 border rounded text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs mb-1">Epochs</label>
+                                <input type="number" id="lstm-epochs" value="50" min="10" max="200" class="w-full p-2 border rounded text-sm">
+                            </div>
+                        </div>
+                    `;
+                    break;
+                case 'prophet':
+                    html = `
+                        <div class="space-y-3">
+                            <div>
+                                <label class="flex items-center">
+                                    <input type="checkbox" id="prophet-yearly" checked class="mr-2">
+                                    <span class="text-sm">Yearly Seasonality</span>
+                                </label>
+                            </div>
+                            <div>
+                                <label class="flex items-center">
+                                    <input type="checkbox" id="prophet-weekly" class="mr-2">
+                                    <span class="text-sm">Weekly Seasonality</span>
+                                </label>
+                            </div>
+                            <div>
+                                <label class="block text-xs mb-1">Changepoint Prior Scale</label>
+                                <input type="number" id="prophet-changepoint" value="0.05" step="0.01" min="0.01" max="0.5" class="w-full p-2 border rounded text-sm">
+                            </div>
+                        </div>
+                    `;
+                    break;
+                case 'ets':
+                    html = `
+                        <div class="space-y-3">
+                            <div>
+                                <label class="block text-xs mb-1">Error Type</label>
+                                <select id="ets-error" class="w-full p-2 border rounded text-sm">
+                                    <option value="add">Additive</option>
+                                    <option value="mul">Multiplicative</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs mb-1">Trend Type</label>
+                                <select id="ets-trend" class="w-full p-2 border rounded text-sm">
+                                    <option value="add">Additive</option>
+                                    <option value="mul">Multiplicative</option>
+                                    <option value="none">None</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs mb-1">Seasonal Type</label>
+                                <select id="ets-seasonal" class="w-full p-2 border rounded text-sm">
+                                    <option value="add">Additive</option>
+                                    <option value="mul">Multiplicative</option>
+                                    <option value="none">None</option>
+                                </select>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                default:
+                    html = `<div class="text-sm text-gray-500 italic">No specific parameters for this model</div>`;
+            }
+            
+            paramsContainer.innerHTML = html;
+        }
+
+        function toggleComparison() {
+            const enabled = document.getElementById('enable-comparison').checked;
+            document.getElementById('comparison-models').classList.toggle('hidden', !enabled);
+        }
+
+        function runForecast() {
+            if (currentData.length === 0) {
+                alert('Please load data first');
+                return;
+            }
+            
+            showLoading();
+            
+            // Simulate forecast calculation with progress
+            simulateForecastCalculation().then(() => {
+                hideLoading();
+                displayResults();
+            });
+        }
+
+        async function simulateForecastCalculation() {
+            const model = document.getElementById('primary-model').value;
+            const horizon = parseInt(document.getElementById('forecast-horizon').value);
+            const trainSplit = parseInt(document.getElementById('train-split').value) / 100;
+            
+            // Simulate different model calculations
+            for (let i = 0; i <= 100; i += 10) {
+                updateProgress(i);
+                await new Promise(resolve => setTimeout(resolve, 100));
+            }
+            
+            // Generate forecast results
+            const splitPoint = Math.floor(currentData.length * trainSplit);
+            const trainData = currentData.slice(0, splitPoint);
+            const testData = currentData.slice(splitPoint);
+            
+            // Simple forecast simulation based on model type
+            let forecast = [];
+            let confidence_lower = [];
+            let confidence_upper = [];
+            
+            switch(model) {
+                case 'arima':
+                    forecast = simulateARIMAForecast(trainData, horizon);
+                    break;
+                case 'lstm':
+                    forecast = simulateLSTMForecast(trainData, horizon);
+                    break;
+                case 'prophet':
+                    forecast = simulateProphetForecast(trainData, horizon);
+                    break;
+                case 'ets':
+                    forecast = simulateETSForecast(trainData, horizon);
+                    break;
+                default:
+                    forecast = simulateSimpleForecast(trainData, horizon);
+            }
+            
+            // Generate confidence intervals
+            for (let i = 0; i < forecast.length; i++) {
+                const margin = forecast[i] * 0.1; // 10% margin
+                confidence_lower.push(forecast[i] - margin);
+                confidence_upper.push(forecast[i] + margin);
+            }
+            
+            // Calculate accuracy metrics if test data exists
+            let metrics = {};
+            if (testData.length > 0) {
+                const testForecast = forecast.slice(0, testData.length);
+                metrics = calculateAccuracyMetrics(testData, testForecast);
+            }
+            
+            forecastResults = {
+                model: model,
+                trainData: trainData,
+                testData: testData,
+                forecast: forecast,
+                confidence_lower: confidence_lower,
+                confidence_upper: confidence_upper,
+                metrics: metrics,
+                horizon: horizon
+            };
+        }
+
+        // Simplified forecast simulations
+        function simulateARIMAForecast(trainData, horizon) {
+            const forecast = [];
+            const lastValue = trainData[trainData.length - 1];
+            const trend = (trainData[trainData.length - 1] - trainData[trainData.length - 12]) / 12;
+            
+            for (let i = 0; i < horizon; i++) {
+                const seasonal = i < trainData.length ? trainData[trainData.length - 12 + (i % 12)] - lastValue : 0;
+                const noise = (Math.random() - 0.5) * lastValue * 0.05;
+                forecast.push(lastValue + trend * (i + 1) + seasonal * 0.3 + noise);
+            }
+            return forecast;
+        }
+
+        function simulateLSTMForecast(trainData, horizon) {
+            const forecast = [];
+            const lookback = Math.min(12, trainData.length);
+            let recent = trainData.slice(-lookback);
+            
+            for (let i = 0; i < horizon; i++) {
+                const avg = recent.reduce((a, b) => a + b, 0) / recent.length;
+                const trend = (recent[recent.length - 1] - recent[0]) / recent.length;
+                const predicted = avg + trend * 2 + (Math.random() - 0.5) * avg * 0.03;
+                forecast.push(predicted);
+                recent = [...recent.slice(1), predicted];
+            }
+            return forecast;
+        }
+
+        function simulateProphetForecast(trainData, horizon) {
+            const forecast = [];
+            const lastValue = trainData[trainData.length - 1];
+            const yearlyPattern = trainData.length >= 12;
+            
+            for (let i = 0; i < horizon; i++) {
+                let predicted = lastValue;
+                
+                // Add trend
+                const trend = (trainData[trainData.length - 1] - trainData[0]) / trainData.length;
+                predicted += trend * (i + 1);
+                
+                // Add seasonality if detected
+                if (yearlyPattern) {
+                    const seasonalIndex = (trainData.length + i) % 12;
+                    const seasonal = trainData[seasonalIndex] - trainData.reduce((a, b) => a + b, 0) / trainData.length;
+                    predicted += seasonal * 0.5;
+                }
+                
+                // Add noise
+                predicted += (Math.random() - 0.5) * lastValue * 0.02;
+                forecast.push(predicted);
+            }
+            return forecast;
+        }
+
+        function simulateETSForecast(trainData, horizon) {
+            const forecast = [];
+            const alpha = 0.3;
+            const beta = 0.1;
+            const gamma = 0.1;
+            
+            let level = trainData[trainData.length - 1];
+            let trend = trainData.length > 1 ? trainData[trainData.length - 1] - trainData[trainData.length - 2] : 0;
+            
+            for (let i = 0; i < horizon; i++) {
+                const predicted = level + trend * (i + 1) + (Math.random() - 0.5) * level * 0.02;
+                forecast.push(predicted);
+            }
+            return forecast;
+        }
+
+        function simulateSimpleForecast(trainData, horizon) {
+            const forecast = [];
+            const mean = trainData.reduce((a, b) => a + b, 0) / trainData.length;
+            const trend = (trainData[trainData.length - 1] - trainData[0]) / trainData.length;
+            
+            for (let i = 0; i < horizon; i++) {
+                forecast.push(mean + trend * (i + 1) + (Math.random() - 0.5) * mean * 0.1);
+            }
+            return forecast;
+        }
+
+        function calculateAccuracyMetrics(actual, predicted) {
+            const n = Math.min(actual.length, predicted.length);
+            let mae = 0, mse = 0, mape = 0;
+            let actualSum = 0, actualMean = 0;
+            
+            // Calculate means
+            for (let i = 0; i < n; i++) {
+                actualSum += actual[i];
+            }
+            actualMean = actualSum / n;
+            
+            // Calculate metrics
+            for (let i = 0; i < n; i++) {
+                const error = Math.abs(actual[i] - predicted[i]);
+                mae += error;
+                mse += error * error;
+                mape += Math.abs((actual[i] - predicted[i]) / actual[i]);
+            }
+            
+            mae /= n;
+            mse /= n;
+            mape = (mape / n) * 100;
+            
+            const rmse = Math.sqrt(mse);
+            
+            // Calculate R-squared
+            let ssRes = 0, ssTot = 0;
+            for (let i = 0; i < n; i++) {
+                ssRes += Math.pow(actual[i] - predicted[i], 2);
+                ssTot += Math.pow(actual[i] - actualMean, 2);
+            }
+            const r2 = 1 - (ssRes / ssTot);
+            
+            return {
+                mae: mae.toFixed(2),
+                rmse: rmse.toFixed(2),
+                mape: mape.toFixed(2),
+                r2: Math.max(0, r2).toFixed(3)
+            };
+        }
+
+        function showLoading() {
+            document.getElementById('loading-modal').classList.remove('hidden');
+            updateProgress(0);
+        }
+
+        function hideLoading() {
+            document.getElementById('loading-modal').classList.add('hidden');
+        }
+
+        function updateProgress(percent) {
+            document.getElementById('progress-bar').style.width = percent + '%';
+        }
+
+        function displayResults() {
+            const resultsSection = document.getElementById('results-section');
+            resultsSection.classList.remove('hidden');
+            
+            // Display accuracy metrics
+            displayAccuracyMetrics();
+            
+            // Create forecast chart
+            createForecastChart();
+            
+            // Generate AI insights
+            generateAIInsights();
+            
+            // Show insights panel
+            document.getElementById('insights-panel').classList.remove('hidden');
+            
+            // Scroll to results
+            resultsSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function displayAccuracyMetrics() {
+            const metricsContainer = document.getElementById('accuracy-metrics');
+            const metrics = forecastResults.metrics;
+            
+            const metricsHTML = `
+                <div class="bg-blue-50 p-4 rounded-lg text-center">
+                    <div class="text-2xl font-bold text-blue-600">${metrics.mae || 'N/A'}</div>
+                    <div class="text-sm text-gray-600">MAE</div>
+                </div>
+                <div class="bg-green-50 p-4 rounded-lg text-center">
+                    <div class="text-2xl font-bold text-green-600">${metrics.rmse || 'N/A'}</div>
+                    <div class="text-sm text-gray-600">RMSE</div>
+                </div>
+                <div class="bg-purple-50 p-4 rounded-lg text-center">
+                    <div class="text-2xl font-bold text-purple-600">${metrics.mape || 'N/A'}%</div>
+                    <div class="text-sm text-gray-600">MAPE</div>
+                </div>
+                <div class="bg-orange-50 p-4 rounded-lg text-center">
+                    <div class="text-2xl font-bold text-orange-600">${metrics.r2 || 'N/A'}</div>
+                    <div class="text-sm text-gray-600">R²</div>
+                </div>
+            `;
+            
+            metricsContainer.innerHTML = metricsHTML;
+        }
+
+        function createForecastChart() {
+            const ctx = document.getElementById('forecast-chart');
+            
+            if (forecastChart) {
+                forecastChart.destroy();
+            }
+            
+            const results = forecastResults;
+            const allLabels = [...Array(results.trainData.length + results.forecast.length)].map((_, i) => `T${i + 1}`);
+            
+            const datasets = [
+                {
+                    label: 'Training Data',
+                    data: results.trainData.concat(Array(results.forecast.length).fill(null)),
+                    borderColor: 'rgb(59, 130, 246)',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    pointBackgroundColor: 'rgb(59, 130, 246)',
+                    fill: false
+                },
+                {
+                    label: 'Test Data',
+                    data: Array(results.trainData.length).fill(null).concat(results.testData.concat(Array(Math.max(0, results.forecast.length - results.testData.length)).fill(null))),
+                    borderColor: 'rgb(245, 101, 101)',
+                    backgroundColor: 'rgba(245, 101, 101, 0.1)',
+                    pointBackgroundColor: 'rgb(245, 101, 101)',
+                    fill: false
+                },
+                {
+                    label: 'Forecast',
+                    data: Array(results.trainData.length).fill(null).concat(results.forecast),
+                    borderColor: 'rgb(34, 197, 94)',
+                    backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                    pointBackgroundColor: 'rgb(34, 197, 94)',
+                    borderDash: [5, 5],
+                    fill: false
+                }
+            ];
+            
+            // Add confidence intervals if enabled
+            if (document.getElementById('show-confidence').checked) {
+                datasets.push({
+                    label: 'Confidence Interval',
+                    data: Array(results.trainData.length).fill(null).concat(results.confidence_upper),
+                    borderColor: 'rgba(34, 197, 94, 0.3)',
+                    backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                    fill: '+1',
+                    pointRadius: 0,
+                    borderWidth: 0
+                }, {
+                    label: '',
+                    data: Array(results.trainData.length).fill(null).concat(results.confidence_lower),
+                    borderColor: 'rgba(34, 197, 94, 0.3)',
+                    backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                    fill: false,
+                    pointRadius: 0,
+                    borderWidth: 0
+                });
+            }
+            
+            forecastChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: allLabels,
+                    datasets: datasets
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false
+                        }
+                    }
+                }
+            });
+        }
+
+        function generateAIInsights() {
+            const insights = document.getElementById('ai-insights');
+            const results = forecastResults;
+            const model = results.model.toUpperCase();
+            
+            const insightsHTML = `
+                <div class="bg-white p-4 rounded-lg border border-indigo-200">
+                    <h3 class="font-semibold text-indigo-800 mb-2">🎯 Model Performance</h3>
+                    <p class="text-sm text-gray-700">
+                        Your ${model} model shows ${results.metrics.r2 > 0.8 ? 'excellent' : results.metrics.r2 > 0.6 ? 'good' : 'moderate'} performance 
+                        with an R² of ${results.metrics.r2}. The MAPE of ${results.metrics.mape}% indicates 
+                        ${parseFloat(results.metrics.mape) < 10 ? 'high accuracy' : parseFloat(results.metrics.mape) < 20 ? 'acceptable accuracy' : 'room for improvement'}.
+                    </p>
+                </div>
+                <div class="bg-white p-4 rounded-lg border border-purple-200">
+                    <h3 class="font-semibold text-purple-800 mb-2">📊 Data Patterns</h3>
+                    <p class="text-sm text-gray-700">
+                        Your time series shows ${detectTrendDirection(results.trainData)} trend patterns. 
+                        ${detectSeasonality(results.trainData) ? 'Seasonal patterns were detected, which the model should capture well.' : 'No strong seasonal patterns detected.'}
+                    </p>
+                </div>
+                <div class="bg-white p-4 rounded-lg border border-green-200">
+                    <h3 class="font-semibold text-green-800 mb-2">💡 Recommendations</h3>
+                    <p class="text-sm text-gray-700">
+                        ${generateRecommendations(model, results.metrics)}
+                    </p>
+                </div>
+            `;
+            
+            insights.innerHTML = insightsHTML;
+        }
+
+        function detectTrendDirection(data) {
+            const firstHalf = data.slice(0, Math.floor(data.length/2)).reduce((a, b) => a + b, 0) / Math.floor(data.length/2);
+            const secondHalf = data.slice(Math.floor(data.length/2)).reduce((a, b) => a + b, 0) / (data.length - Math.floor(data.length/2));
+            
+            if (secondHalf > firstHalf * 1.1) return 'strong upward';
+            if (secondHalf > firstHalf * 1.05) return 'moderate upward';
+            if (secondHalf < firstHalf * 0.9) return 'strong downward';
+            if (secondHalf < firstHalf * 0.95) return 'moderate downward';
+            return 'stable';
+        }
+
+        function generateRecommendations(model, metrics) {
+            const mape = parseFloat(metrics.mape);
+            const r2 = parseFloat(metrics.r2);
+            
+            let recommendations = [];
+            
+            if (mape > 20) {
+                recommendations.push("Consider trying a different model or increasing the training data");
+            }
+            if (r2 < 0.6) {
+                recommendations.push("Model fit could be improved - try adjusting parameters or preprocessing the data");
+            }
+            if (model === 'ARIMA' && mape > 15) {
+                recommendations.push("Try LSTM or Prophet for potentially better performance on complex patterns");
+            }
+            if (model === 'LSTM' && mape < 10) {
+                recommendations.push("Excellent performance! Consider this model for production use");
+            }
+            
+            return recommendations.join('. ') || "Your model performance looks good! Continue monitoring with new data.";
+        }
+
+        function exportResults() {
+            const results = forecastResults;
+            let csvContent = "Period,Actual,Forecast,Lower_CI,Upper_CI\n";
+            
+            // Add training data
+            for (let i = 0; i < results.trainData.length; i++) {
+                csvContent += `T${i + 1},${results.trainData[i]},,,,\n`;
+            }
+            
+            // Add forecast data
+            for (let i = 0; i < results.forecast.length; i++) {
+                const period = results.trainData.length + i + 1;
+                const actual = i < results.testData.length ? results.testData[i] : '';
+                csvContent += `T${period},${actual},${results.forecast[i]},${results.confidence_lower[i]},${results.confidence_upper[i]}\n`;
+            }
+            
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `forecast_results_${results.model}_${Date.now()}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+
+        function shareResults() {
+            const url = new URL(window.location);
+            url.searchParams.set('model', forecastResults.model);
+            url.searchParams.set('horizon', forecastResults.horizon);
+            
+            navigator.clipboard.writeText(url.toString()).then(() => {
+                alert('Results link copied to clipboard!');
+            }).catch(() => {
+                prompt('Copy this link to share your results:', url.toString());
+            });
+        }
+
+        function resetSimulator() {
+            if (confirm('This will reset all data and results. Continue?')) {
+                currentData = [];
+                forecastResults = {};
+                
+                // Reset form values
+                document.getElementById('data-source').value = 'sample';
+                document.getElementById('sample-dataset').value = 'sales';
+                document.getElementById('primary-model').value = 'arima';
+                document.getElementById('forecast-horizon').value = '12';
+                document.getElementById('train-split').value = '80';
+                document.getElementById('split-value').textContent = '80%';
+                
+                // Hide results
+                document.getElementById('results-section').classList.add('hidden');
+                document.getElementById('insights-panel').classList.add('hidden');
+                
+                // Reset charts
+                if (dataChart) {
+                    dataChart.data.labels = [];
+                    dataChart.data.datasets[0].data = [];
+                    dataChart.update();
+                }
+                
+                if (forecastChart) {
+                    forecastChart.destroy();
+                    forecastChart = null;
+                }
+                
+                // Reload sample data
+                handleDataSourceChange();
+                updateModelParams();
+                loadSampleData();
+            }
+        }
+
+        // Additional utility functions for file upload and manual data entry
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (file && file.type === 'text/csv') {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    parseCSVData(e.target.result);
+                };
+                reader.readAsText(file);
+            }
+        }
+
+        function parseCSVData(csvText) {
+            const lines = csvText.split('\n');
+            const values = [];
+            const labels = [];
+            
+            // Skip header row and parse data
+            for (let i = 1; i < lines.length; i++) {
+                const columns = lines[i].split(',');
+                if (columns.length >= 2 && columns[1].trim() !== '') {
+                    labels.push(columns[0].trim());
+                    values.push(parseFloat(columns[1].trim()));
+                }
+            }
+            
+            if (values.length > 0) {
+                currentData = values;
+                updateDataVisualization(labels, values);
+                updateDataStatistics(values);
+            } else {
+                alert('Could not parse CSV data. Please ensure format is: Date, Value');
+            }
+        }
+
+        function generateSyntheticData() {
+            const points = parseInt(document.getElementById('data-points').value);
+            const trendType = document.getElementById('trend-type').value;
+            const seasonType = document.getElementById('season-type').value;
+            const noiseLevel = parseInt(document.getElementById('noise-level').value) / 100;
+            
+            const values = [];
+            const labels = [];
+            
+            for (let i = 0; i < points; i++) {
+                labels.push(`T${i + 1}`);
+                
+                let value = 100; // Base value
+                
+                // Add trend
+                if (trendType === 'linear') {
+                    value += i * 2;
+                } else if (trendType === 'exponential') {
+                    value += Math.pow(i * 0.1, 2);
+                }
+                
+                // Add seasonality
+                if (seasonType === 'yearly') {
+                    value += 30 * Math.sin(i * 2 * Math.PI / 12);
+                } else if (seasonType === 'monthly') {
+                    value += 20 * Math.sin(i * 2 * Math.PI / 4);
+                } else if (seasonType === 'weekly') {
+                    value += 15 * Math.sin(i * 2 * Math.PI / 7);
+                }
+                
+                // Add noise
+                value += (Math.random() - 0.5) * value * noiseLevel;
+                
+                values.push(Math.max(0, value));
+            }
+            
+            currentData = values;
+            updateDataVisualization(labels, values);
+            updateDataStatistics(values);
+        }
+
+        function loadManualData() {
+            const manualText = document.getElementById('manual-data').value;
+            const values = manualText.split(',').map(v => parseFloat(v.trim())).filter(v => !isNaN(v));
+            
+            if (values.length > 0) {
+                currentData = values;
+                const labels = values.map((_, i) => `T${i + 1}`);
+                updateDataVisualization(labels, values);
+                updateDataStatistics(values);
+            } else {
+                alert('Please enter valid comma-separated numbers');
+            }
+        }
+
+        // 2. Show Python code after forecast
+        function showPythonCode(model, data) {
+            let code = '';
+            if (model === 'arima') {
+                code = `import pandas as pd\nfrom statsmodels.tsa.arima.model import ARIMA\n\ndata = pd.Series([...])  # Your data\nmodel = ARIMA(data, order=(1,1,1))\nmodel_fit = model.fit()\nforecast = model_fit.forecast(steps=12)\nprint(forecast)`;
+            } else if (model === 'lstm') {
+                code = `# LSTM Example\nimport numpy as np\nfrom keras.models import Sequential\nfrom keras.layers import LSTM, Dense\n\n# Prepare your data as X, y\nmodel = Sequential()\nmodel.add(LSTM(50, activation='relu', input_shape=(n_steps, n_features)))\nmodel.add(Dense(1))\nmodel.compile(optimizer='adam', loss='mse')\nmodel.fit(X, y, epochs=200, verbose=0)\n# Predict\nyhat = model.predict(X_input)`;
+            } // ... add more as needed
+            document.getElementById('python-code-block').textContent = code;
+            document.getElementById('python-code-section').classList.remove('hidden');
+        }
+
+        // 3. Add tooltips to model parameters
+        function addParamTooltips() {
+            const params = document.querySelectorAll('#model-parameters label');
+            params.forEach(label => {
+                if (!label.querySelector('.param-info')) {
+                    const info = document.createElement('span');
+                    info.className = 'param-info ml-1 text-blue-400 cursor-pointer';
+                    info.textContent = 'ⓘ';
+                    info.title = 'Parameter info: ' + label.textContent;
+                    label.appendChild(info);
+                }
+            });
+        }
+        // Call addParamTooltips after updating model params
+        document.addEventListener('DOMContentLoaded', function() {
+            updateModelParams();
+            addParamTooltips();
+        });
+
+        // 4. Show AI Insights after forecast
+        function showAIInsights() {
+            document.getElementById('insights-panel').classList.remove('hidden');
+            document.getElementById('ai-insights').innerHTML = '<div class="bg-blue-100 p-4 rounded mb-2">AI: Your forecast shows a strong seasonal pattern. Consider using SARIMAX or Prophet for better results on seasonal data.</div>';
+        }
+        // Call showAIInsights after displayResults
+        document.addEventListener('DOMContentLoaded', function() {
+            displayResults();
+            showAIInsights();
+        });
+
+        // 5. Show Residuals toggle
+        function toggleResiduals() {
+            const chart = document.getElementById('forecast-chart');
+            // Add logic to plot residuals if checked
+        }
+    </script>
+    <!-- Python code section -->
+    <div id="python-code-section" class="hidden bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-6 rounded">
+        <div class="flex justify-between items-center mb-2">
+            <span class="font-bold text-yellow-700">Python Example Code</span>
+            <button onclick="navigator.clipboard.writeText(document.getElementById('python-code-block').textContent)" class="bg-yellow-400 text-white px-3 py-1 rounded hover:bg-yellow-500">Copy</button>
+        </div>
+        <pre id="python-code-block" class="bg-yellow-100 rounded p-4 text-sm overflow-x-auto"></pre>
+    </div>
+    <!-- References Section -->
+    <div class="container mx-auto px-6 py-8 mt-12">
+      <div class="bg-gray-50 border-l-4 border-blue-500 p-6 rounded-lg shadow">
+        <h2 class="text-xl font-bold text-blue-800 mb-3">References & Resources</h2>
+        <ul class="list-disc pl-6 text-gray-800 space-y-1">
+          <li><a href="https://www.statsmodels.org/" class="text-blue-600 underline" target="_blank">statsmodels: Statistical Modeling in Python</a></li>
+          <li><a href="https://facebook.github.io/prophet/" class="text-blue-600 underline" target="_blank">Prophet: Forecasting at Scale</a></li>
+          <li><a href="https://keras.io/" class="text-blue-600 underline" target="_blank">Keras: Deep Learning for Humans</a></li>
+          <li><a href="https://scikit-learn.org/" class="text-blue-600 underline" target="_blank">scikit-learn: Machine Learning in Python</a></li>
+          <li><a href="https://github.com/subh700/Pollution-Data-17-indian-cites" class="text-blue-600 underline" target="_blank">Pollution-Data-17-indian-cites (PM2.5 Dataset)</a></li>
+          <li><a href="https://raw.githubusercontent.com/jbrownlee/Datasets/master/airline-passengers.csv" class="text-blue-600 underline" target="_blank">Air Passengers Dataset</a></li>
+          <li><a href="https://github.com/awesomedata/awesome-public-datasets#time-series-data" class="text-blue-600 underline" target="_blank">Awesome Public Datasets: Time Series</a></li>
+          <li><a href="https://otexts.com/fpp3/" class="text-blue-600 underline" target="_blank">Forecasting: Principles and Practice (Book)</a></li>
+          <li><a href="https://machinelearningmastery.com/time-series-forecasting/" class="text-blue-600 underline" target="_blank">Time Series Forecasting Tutorials (Machine Learning Mastery)</a></li>
+          <li><a href="https://www.analyticsvidhya.com/blog/2021/07/a-comprehensive-guide-to-time-series-analysis/" class="text-blue-600 underline" target="_blank">Comprehensive Guide to Time Series Analysis (Analytics Vidhya)</a></li>
+        </ul>
+      </div>
+    </div>
+</body>
+</html>

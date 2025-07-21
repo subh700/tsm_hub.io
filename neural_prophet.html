@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuralProphet Model - TSM Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-slate-100 text-slate-800">
+<!-- Enhanced Navigation for Model Pages -->
+<nav class="bg-white shadow-lg sticky top-0 z-50 mb-8">
+    <div class="container mx-auto px-6 py-4">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <a href="index.html" class="text-2xl font-bold text-blue-600">🏠 TS Forecasting Hub</a>
+                <div class="hidden md:flex items-center space-x-1 bg-gray-100 rounded-lg p-1">
+                    <a href="models.html" class="nav-link px-3 py-2 rounded">📚 All Models</a>
+                    <a href="comparison.html" class="nav-link px-3 py-2 rounded">📊 Compare</a>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+                <!-- AI Features Quick Access -->
+                <div class="hidden md:flex items-center space-x-2">
+                    <a href="model-selector.html" class="bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-600 text-sm flex items-center">
+                        🤖 AI Recommender
+                    </a>
+                    <a href="chat.html" class="bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-600 text-sm flex items-center">
+                        💬 AI Assistant
+                    </a>
+                    <a href="forecast-simulator.html?model={{MODEL_NAME}}" class="bg-purple-500 text-white px-3 py-2 rounded-lg hover:bg-purple-600 text-sm flex items-center">
+                        🚀 Try in Simulator
+                    </a>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <button class="md:hidden p-2" onclick="toggleMobileMenu()">☰</button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 border-t">
+            <div class="flex flex-col space-y-2">
+                <a href="models.html" class="text-gray-600 hover:text-blue-600 py-2">📚 All Models</a>
+                <a href="comparison.html" class="text-gray-600 hover:text-blue-600 py-2">📊 Compare Models</a>
+                <a href="model-selector.html" class="text-gray-600 hover:text-blue-600 py-2">🤖 AI Recommender</a>
+                <a href="chat.html" class="text-gray-600 hover:text-blue-600 py-2">💬 AI Assistant</a>
+                <a href="forecast-simulator.html" class="text-gray-600 hover:text-blue-600 py-2">🚀 Simulator</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-slate-900">TSM Hub</a>
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="concepts.html" class="nav-link">Concepts</a>
+                <a href="models.html" class="nav-link active">Models</a>
+                <a href="comparison.html" class="nav-link">Comparison</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden p-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="index.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Home</a>
+            <a href="concepts.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Concepts</a>
+            <a href="models.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Models</a>
+            <a href="comparison.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Comparison</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        <div class="bg-white p-8 rounded-lg shadow-md">
+            <header class="border-b-2 border-slate-200 pb-6 mb-8">
+                 <a href="models.html" class="text-blue-600 hover:underline mb-4 inline-block">&larr; Back to Model Library</a>
+                <h1 class="text-4xl md:text-5xl font-bold text-slate-900">NeuralProphet Model</h1>
+                <p class="mt-2 text-lg text-slate-600">A Neural Network-based Forecasting Model Inspired by Facebook Prophet</p>
+            </header>
+            
+            <article class="prose max-w-none">
+                <section>
+                    <h2>Overview</h2>
+                    <p>NeuralProphet is a neural network-based forecasting model built on PyTorch, designed to be a direct evolution and enhancement of Facebook's Prophet model. It retains Prophet's intuitive component-based interpretability (trend, seasonality, holidays, auto-regressive effects, and exogenous regressors) while leveraging the power and flexibility of deep learning. By using a PyTorch backend, NeuralProphet offers faster training, especially with GPU acceleration, and extends capabilities to include lagged regressors, future regressors, and a more robust handling of missing values and outliers.</p>
+                    
+                    <h2>Architecture & Components</h2>
+                    <p>NeuralProphet's architecture combines a modular design similar to Prophet with neural network components:</p>
+                    <ul>
+                        <li><strong>Trend Component:</strong> Modeled as a piecewise linear trend with automatically detected changepoints, similar to Prophet. This captures the long-term direction of the time series.</li>
+                        <li><strong>Seasonality Component:</strong> Modeled using Fourier series, allowing for flexible representation of multiple seasonalities (e.g., daily, weekly, yearly). NeuralProphet can also automatically detect and fit these patterns.</li>
+                        <li><strong>Lagged Auto-Regressive (AR) Component:</strong> A key addition over original Prophet. This component explicitly models the dependence of the current value on past values of the time series itself, often using a shallow neural network (e.g., a multi-layer perceptron or a simple recurrent layer) to capture these effects.
+                            <p class="font-mono text-center bg-slate-100 p-2 rounded-md mathjax-process">
+                                $ y_t = \text{Trend}_t + \text{Seasonality}_t + \text{Holidays}_t + \text{AR}(y_{t-1}, \dots, y_{t-p}) + \text{Regressors}_t + \epsilon_t $
+                            </p>
+                        </li>
+                        <li><strong>Regressors (Exogenous Variables):</strong> NeuralProphet can incorporate both lagged regressors (past values of external features) and future regressors (future values of external features, which must be known for the forecast horizon). These are integrated into the model through linear or non-linear layers.</li>
+                        <li><strong>Events & Holidays:</strong> Specific events and holidays can be added as binary regressors, allowing the model to account for their impact on the time series.</li>
+                        <li><strong>Normalization & Missing Data Imputation:</strong> NeuralProphet automatically handles data normalization and can impute missing values during training, making it robust to incomplete datasets.</li>
+                        <li><strong>Uncertainty Quantification:</strong> Provides prediction intervals, typically through Monte Carlo dropout, offering a measure of forecast uncertainty.</li>
+                    </ul>
+                     <div class="bg-slate-100 p-4 rounded-lg my-6 text-center">
+                        <img src="https://placehold.co/600x300/e2e8f0/334155?text=Conceptual+NeuralProphet+Architecture" alt="NeuralProphet Architecture Diagram" class="mx-auto rounded-md">
+                        <p class="text-sm text-slate-500 mt-2">Conceptual diagram of NeuralProphet's component-based architecture, including AR and regressor components.</p>
+                    </div>
+                </section>
+                
+                <section>
+                    <h2>When to Use NeuralProphet</h2>
+                    <p>NeuralProphet is an excellent choice for time series forecasting when:</p>
+                    <ul>
+                        <li><strong>You need an interpretable model:</strong> It retains Prophet's component-based interpretability (trend, seasonality, etc.).</li>
+                        <li><strong>You require fast training and GPU acceleration:</strong> Its PyTorch backend allows for efficient training on GPUs.</li>
+                        <li><strong>You want to explicitly model auto-regressive effects:</strong> The added AR component can capture short-term dependencies more effectively than original Prophet.</li>
+                        <li><strong>You have external regressors (covariates), both lagged and future-known.</strong></li>
+                        <li><strong>Your data contains missing values or outliers:</strong> It offers robust handling of these issues.</li>
+                        <li><strong>You need probabilistic forecasts (uncertainty intervals).</strong></li>
+                        <li><strong>You are comfortable with a Python-based deep learning ecosystem.</strong></li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Pros and Cons</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2 text-green-600">Pros</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Interpretable Components:</strong> Clear breakdown into trend, seasonality, AR, etc.</li>
+                                <li><strong>Fast Training with GPU:</strong> Leverages PyTorch for efficient computation.</li>
+                                <li><strong>Explicit AR Component:</strong> Better captures short-term dynamics than original Prophet.</li>
+                                <li><strong>Robust to Missing Data & Outliers:</strong> Built-in handling mechanisms.</li>
+                                <li><strong>Probabilistic Forecasts:</strong> Provides uncertainty intervals.</li>
+                                <li><strong>Flexible Regressor Handling:</strong> Supports both lagged and future-known exogenous variables.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2 text-red-600">Cons</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Newer Model:</strong> Compared to original Prophet, it has a shorter track record and smaller community.</li>
+                                <li><strong>Complexity for Customization:</strong> While user-friendly for basic use, deep customization requires PyTorch knowledge.</li>
+                                <li><strong>Hyperparameter Tuning:</strong> Still requires careful tuning for optimal performance.</li>
+                                <li><strong>Can Be Slower than Pure Statistical Models:</strong> For very simple time series, a classical model might be faster to train.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Example Implementation</h2>
+                    <p>NeuralProphet is implemented as a Python library, making it straightforward to use. Here's a conceptual example.</p>
+
+                    <h3>Python Example (using `neuralprophet` library)</h3>
+                    <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">
+                        <code class="language-python">
+import pandas as pd
+import numpy as np
+from neuralprophet import NeuralProphet
+import matplotlib.pyplot as plt
+
+# 1. Generate synthetic data for demonstration
+N = 730 # 2 years of daily data
+df = pd.DataFrame({
+    'ds': pd.to_datetime(pd.date_range(start='2017-01-01', periods=N, freq='D')),
+    'y': [i + (i%30)*2 + (i%365)*5 + 100 + (np.random.rand()*10 - 5) for i in range(N)]
+})
+
+# Add a simple exogenous regressor (e.g., temperature proxy)
+df['temp_regressor'] = np.sin(np.arange(N) / 50) * 10 + np.random.normal(0, 1, N)
+
+# 2. Define and fit the NeuralProphet model
+# You can enable/disable components as needed
+m = NeuralProphet(
+    growth='linear', # 'linear' or 'logistic'
+    seasonality_mode='additive', # 'additive' or 'multiplicative'
+    yearly_seasonality=True,
+    weekly_seasonality=True,
+    daily_seasonality=False,
+    n_lags=10, # Add 10 lagged autoregressive values
+    n_forecasts=30, # Predict 30 steps into the future
+    epochs=50, # Reduced for quick demo
+    batch_size=32,
+)
+
+# Add future regressors (if known for forecast horizon)
+# For this example, 'temp_regressor' is known for the future
+m.add_future_regressor(name='temp_regressor')
+
+# Fit the model
+print("Starting NeuralProphet model training...")
+metrics = m.fit(df, freq="D", progress_bar=False) # freq must be specified
+print("NeuralProphet model training complete.")
+
+# 3. Create a future dataframe for predictions
+# This will include future 'ds' values and any future regressors
+future = m.make_future_dataframe(df, periods=30, n_historic_predictions=True)
+
+# Make a forecast
+# The `regressors_df` argument is crucial if you added future regressors
+forecast = m.predict(future)
+
+# Print the first few and last few rows of the forecast
+print("\nForecast Head:\n", forecast[['ds', 'yhat1', 'yhat1_lower', 'yhat1_upper']].head())
+print("\nForecast Tail:\n", forecast[['ds', 'yhat1', 'yhat1_lower', 'yhat1_upper']].tail())
+
+# 4. Plot the forecast
+fig_forecast = m.plot(forecast)
+plt.title("NeuralProphet Forecast")
+plt.show()
+
+# 5. Plot the individual components of the forecast
+fig_components = m.plot_components(forecast)
+plt.title("NeuralProphet Forecast Components")
+plt.show()
+
+# Plot the lagged regressors component
+# fig_lagged_regressors = m.plot_parameters(components=['ar'])
+# plt.title("NeuralProphet AR Component")
+# plt.show()
+                        </code></pre>
+                    </div>
+                </section>
+                
+                <section>
+                    <h2>Dependencies & Resources</h2>
+                    <p><strong>Dependencies:</strong> <code>pandas</code>, <code>numpy</code>, <code>neuralprophet</code> (which includes `pytorch` and `pytorch-lightning`), <code>matplotlib</code> (for plotting).</p>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><a href="https://neuralprophet.com/" target="_blank" rel="noopener noreferrer">NeuralProphet Official Website ↗</a></li>
+                        <li><a href="https://github.com/ourownstory/neural_prophet" target="_blank" rel="noopener noreferrer">NeuralProphet GitHub Repository ↗</a></li>
+                        <li><a href="https://neuralprophet.com/html/model_components.html" target="_blank" rel="noopener noreferrer">NeuralProphet Model Components Documentation ↗</a></li>
+                    </ul>
+                </section>
+            </article>
+        </div>
+    </main>
+
+    <footer class="text-center p-6 bg-slate-200 mt-12">
+        <p class="text-slate-600 text-sm">TSM Hub: An Interactive Resource for Time Series Analysis</p>
+    </footer>
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [['$','$'], ['\\(','\\)']],
+                displayMath: [['$$','$$'], ['\\[','\\]']],
+                processEscapes: true,
+                ignoreHtmlClass: ".*",
+                processHtmlClass: "mathjax-process"
+            },
+            skipStartupTypeset: true
+        });
+    </script>
+    <script src="main.js"></script>
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof MathJax !== 'undefined') {
+                MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+/* Enhanced styles with AI interface elements */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .nav-link {
+        @apply text-slate-600 hover:text-blue-600 transition-colors relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bottom-0 after:left-1/2 after:bg-blue-600 after:transition-all after:duration-300;
+    }
+    
+    .nav-link.active {
+        @apply text-blue-600 font-semibold;
+    }
+    
+    .nav-link:hover::after {
+        @apply w-full left-0;
+    }
+    
+    .nav-link.active::after {
+        @apply w-full left-0;
+    }
+    
+    .filter-btn {
+        @apply px-4 py-2 rounded-lg transition-all duration-200 font-medium;
+    }
+    
+    .active-filter {
+        @apply bg-blue-600 text-white shadow-md;
+    }
+    
+    .inactive-filter {
+        @apply bg-white text-gray-600 hover:bg-gray-50;
+    }
+    
+    .quick-action-btn {
+        @apply bg-blue-100 text-blue-700 px-3 py-2 rounded-lg text-sm hover:bg-blue-200 transition-colors cursor-pointer;
+    }
+    
+    .model-card {
+        @apply transform transition-all duration-200 hover:-translate-y-1;
+    }
+    
+    .ai-glow {
+        box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+    }
+    
+    .pulse-ai {
+        animation: pulse-ai 2s infinite;
+    }
+    
+    @keyframes pulse-ai {
+        0%, 100% {
+            opacity: 1;
+            transform: scale(1);
+        }
+        50% {
+            opacity: 0.8;
+            transform: scale(1.02);
+        }
+    }
+    
+    .tooltip {
+        position: absolute;
+        pointer-events: none;
+        animation: fadeIn 0.2s ease-in;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    
+    /* Chat interface styles */
+    #chat-messages {
+        scrollbar-width: thin;
+        scrollbar-color: #cbd5e0 #f7fafc;
+    }
+    
+    #chat-messages::-webkit-scrollbar {
+        width: 6px;
+    }
+    
+    #chat-messages::-webkit-scrollbar-track {
+        background: #f7fafc;
+    }
+    
+    #chat-messages::-webkit-scrollbar-thumb {
+        background: #cbd5e0;
+        border-radius: 3px;
+    }
+    
+    /* Recommendation cards */
+    .recommendation-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    
+    /* Loading animations */
+    .loading-dots::after {
+        content: '';
+        animation: loading-dots 1.5s infinite;
+    }
+    
+    @keyframes loading-dots {
+        0%, 33% { content: '.'; }
+        34%, 66% { content: '..'; }
+        67%, 100% { content: '...'; }
+    }
+}

@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRU Model - TSM Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-slate-100 text-slate-800">
+<!-- Enhanced Navigation for Model Pages -->
+<nav class="bg-white shadow-lg sticky top-0 z-50 mb-8">
+    <div class="container mx-auto px-6 py-4">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <a href="index.html" class="text-2xl font-bold text-blue-600">🏠 TS Forecasting Hub</a>
+                <div class="hidden md:flex items-center space-x-1 bg-gray-100 rounded-lg p-1">
+                    <a href="models.html" class="nav-link px-3 py-2 rounded">📚 All Models</a>
+                    <a href="comparison.html" class="nav-link px-3 py-2 rounded">📊 Compare</a>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+                <!-- AI Features Quick Access -->
+                <div class="hidden md:flex items-center space-x-2">
+                    <a href="model-selector.html" class="bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-600 text-sm flex items-center">
+                        🤖 AI Recommender
+                    </a>
+                    <a href="chat.html" class="bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-600 text-sm flex items-center">
+                        💬 AI Assistant
+                    </a>
+                    <a href="forecast-simulator.html?model={{MODEL_NAME}}" class="bg-purple-500 text-white px-3 py-2 rounded-lg hover:bg-purple-600 text-sm flex items-center">
+                        🚀 Try in Simulator
+                    </a>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <button class="md:hidden p-2" onclick="toggleMobileMenu()">☰</button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 border-t">
+            <div class="flex flex-col space-y-2">
+                <a href="models.html" class="text-gray-600 hover:text-blue-600 py-2">📚 All Models</a>
+                <a href="comparison.html" class="text-gray-600 hover:text-blue-600 py-2">📊 Compare Models</a>
+                <a href="model-selector.html" class="text-gray-600 hover:text-blue-600 py-2">🤖 AI Recommender</a>
+                <a href="chat.html" class="text-gray-600 hover:text-blue-600 py-2">💬 AI Assistant</a>
+                <a href="forecast-simulator.html" class="text-gray-600 hover:text-blue-600 py-2">🚀 Simulator</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-slate-900">TSM Hub</a>
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="concepts.html" class="nav-link">Concepts</a>
+                <a href="models.html" class="nav-link active">Models</a>
+                <a href="comparison.html" class="nav-link">Comparison</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden p-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="index.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Home</a>
+            <a href="concepts.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Concepts</a>
+            <a href="models.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Models</a>
+            <a href="comparison.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Comparison</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        <div class="bg-white p-8 rounded-lg shadow-md">
+            <header class="border-b-2 border-slate-200 pb-6 mb-8">
+                 <a href="models.html" class="text-blue-600 hover:underline mb-4 inline-block">&larr; Back to Model Library</a>
+                <h1 class="text-4xl md:text-5xl font-bold text-slate-900">GRU Model</h1>
+                <p class="mt-2 text-lg text-slate-600">Gated Recurrent Unit</p>
+            </header>
+            
+            <article class="prose max-w-none">
+                <section>
+                    <h2>Overview</h2>
+                    <p>Gated Recurrent Units (GRUs) are a type of recurrent neural network (RNN) that, like LSTMs, are designed to address the vanishing gradient problem inherent in standard RNNs. GRUs are a simplified version of LSTMs, featuring fewer gates and thus fewer parameters. This makes them computationally more efficient and sometimes faster to train, while often achieving comparable performance to LSTMs on various sequence modeling tasks, including time series forecasting.</p>
+                    
+                    <h2>Architecture & Components</h2>
+                    <p>GRUs combine the forget and input gates into a single "update gate" and merge the cell state and hidden state. This streamlined architecture consists of two main gates:</p>
+                    <ul>
+                        <li><strong>Update Gate ($z_t$):</strong> This gate determines how much of the past information (from the previous hidden state $h_{t-1}$) should be carried over to the current hidden state, and how much new information (from the current input $x_t$) should be added. It acts as both a forget and input gate.
+                            <p class="font-mono text-center bg-slate-100 p-2 rounded-md">
+                                $ z_t = \sigma(W_z \cdot [h_{t-1}, x_t] + b_z) $
+                            </p>
+                        </li>
+                        <li><strong>Reset Gate ($r_t$):</strong> This gate determines how much of the previous hidden state to "forget" or "reset." If the reset gate is close to 0, the hidden state is largely ignored, effectively allowing the model to start learning a new sequence from scratch.
+                            <p class="font-mono text-center bg-slate-100 p-2 rounded-md">
+                                $ r_t = \sigma(W_r \cdot [h_{t-1}, x_t] + b_r) $
+                            </p>
+                        </li>
+                        <li><strong>Candidate Hidden State ($\tilde{h}_t$):</strong> This is a new candidate hidden state that is computed using the current input and the previous hidden state, but the previous hidden state is first "reset" by the reset gate.
+                            <p class="font-mono text-center bg-slate-100 p-2 rounded-md">
+                                $ \tilde{h}_t = \tanh(W \cdot [r_t * h_{t-1}, x_t] + b) $
+                            </p>
+                        </li>
+                        <li><strong>Final Hidden State ($h_t$):</strong> The final hidden state is a linear combination of the previous hidden state and the candidate hidden state, controlled by the update gate.
+                            <p class="font-mono text-center bg-slate-100 p-2 rounded-md">
+                                $ h_t = (1 - z_t) * h_{t-1} + z_t * \tilde{h}_t $
+                            </p>
+                        </li>
+                    </ul>
+                     <div class="bg-slate-100 p-4 rounded-lg my-6 text-center">
+                        <img src="https://placehold.co/600x300/e2e8f0/334155?text=Diagram+of+GRU+Cell" alt="GRU Cell Diagram" class="mx-auto rounded-md">
+                        <p class="text-sm text-slate-500 mt-2">Conceptual diagram of a GRU cell showing the update and reset gates.</p>
+                    </div>
+                </section>
+                
+                <section>
+                    <h2>When to Use GRU</h2>
+                    <p>GRUs are a strong alternative to LSTMs and are particularly useful when:</p>
+                    <ul>
+                        <li>You need to capture long-term dependencies in sequential data, similar to LSTMs.</li>
+                        <li>Computational efficiency is a significant concern, as GRUs have fewer parameters and can train faster than LSTMs.</li>
+                        <li>Your dataset size is moderate, where the slight reduction in model complexity compared to LSTMs might prevent overfitting.</li>
+                        <li>You are exploring different RNN architectures and want a simpler, yet powerful, gated recurrent unit.</li>
+                        <li>The time series exhibits non-linear patterns.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Pros and Cons</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2 text-green-600">Pros</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Handles Long-Term Dependencies:</strong> Effectively addresses vanishing gradients, similar to LSTMs.</li>
+                                <li><strong>Computational Efficiency:</strong> Faster to train and less complex than LSTMs due to fewer gates.</li>
+                                <li><strong>Good Performance:</strong> Often achieves performance comparable to LSTMs on many tasks.</li>
+                                <li><strong>Simpler Architecture:</strong> Easier to understand and implement compared to LSTMs.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2 text-red-600">Cons</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Less Interpretable:</strong> Still a "black box" compared to classical statistical models.</li>
+                                <li><strong>May Be Less Powerful on Very Complex Tasks:</strong> In some highly complex scenarios, LSTMs might slightly outperform GRUs due to their additional gate.</li>
+                                <li><strong>Requires Large Data:</strong> Like LSTMs, generally benefits from a substantial amount of data for optimal performance.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Example Implementation</h2>
+                    <p>Here's an example of implementing a GRU model for time series forecasting using TensorFlow/Keras and PyTorch. The data preprocessing steps are similar to LSTMs.</p>
+
+                    <h3>TensorFlow/Keras Example</h3>
+                    <div class="code-block my-4">
+                        <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto"><code class="language-python">
+import numpy as np
+import pandas as pd
+from sklearn.preprocessing import MinMaxScaler
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import GRU, Dense
+import matplotlib.pyplot as plt
+
+# 1. Generate sample data
+np.random.seed(42)
+n_samples = 200
+time = np.arange(n_samples)
+data = np.sin(time / 20) * 10 + time * 0.1 + np.random.randn(n_samples) * 2
+data = data.reshape(-1, 1)
+
+# 2. Scale data
+scaler = MinMaxScaler(feature_range=(0, 1))
+scaled_data = scaler.fit_transform(data)
+
+# 3. Create sequences for GRU
+def create_dataset(dataset, look_back=1):
+    X, Y = [], []
+    for i in range(len(dataset) - look_back - 1):
+        a = dataset[i:(i + look_back), 0]
+        X.append(a)
+        Y.append(dataset[i + look_back, 0])
+    return np.array(X), np.array(Y)
+
+look_back = 10
+X, y = create_dataset(scaled_data, look_back)
+
+# Reshape input for GRU: [samples, time steps, features]
+X = np.reshape(X, (X.shape[0], X.shape[1], 1))
+
+# 4. Build the GRU model
+model = Sequential()
+model.add(GRU(50, activation='relu', input_shape=(look_back, 1)))
+model.add(Dense(1))
+
+# 5. Compile the model
+model.compile(optimizer='adam', loss='mean_squared_error')
+
+# 6. Train the model
+model.fit(X, y, epochs=50, batch_size=32, verbose=0)
+
+# 7. Make predictions (conceptual)
+train_predict = model.predict(X)
+train_predict = scaler.inverse_transform(train_predict)
+y_original = scaler.inverse_transform(y.reshape(-1, 1))
+
+print("TensorFlow/Keras GRU model training complete.")
+print(f"First 5 original values: {y_original[:5].flatten()}")
+print(f"First 5 predicted values: {train_predict[:5].flatten()}")
+
+# Simple recursive prediction for future steps
+last_train_sequence = scaled_data[len(scaled_data) - look_back - 1 : len(scaled_data) - 1, 0]
+last_train_sequence = last_train_sequence.reshape(1, look_back, 1)
+
+future_predictions = []
+current_input = last_train_sequence
+for _ in range(20): # Predict 20 future steps
+    next_pred = model.predict(current_input, verbose=0)[0,0]
+    future_predictions.append(next_pred)
+    current_input = np.append(current_input[:, 1:, :], [[[next_pred]]], axis=1)
+
+future_predictions = scaler.inverse_transform(np.array(future_predictions).reshape(-1, 1))
+print(f"\nFirst 5 future predictions: {future_predictions[:5].flatten()}")
+
+# Plotting (conceptual)
+# plt.figure(figsize=(14, 7))
+# plt.plot(data, label='Original Data')
+# plt.plot(np.arange(look_back + 1, len(train_predict) + look_back + 1), train_predict, label='Training Prediction', linestyle='--')
+# plt.plot(np.arange(len(data), len(data) + len(future_predictions)), future_predictions, label='Future Forecast', linestyle=':', color='red')
+# plt.title('TensorFlow/Keras GRU Time Series Forecast')
+# plt.xlabel('Time Step')
+# plt.ylabel('Value')
+# plt.legend()
+# plt.grid(True)
+# plt.show()
+                        </code></pre>
+                    </div>
+
+                    <h3>PyTorch Example</h3>
+                    <div class="code-block my-4">
+                        <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto"><code class="language-python">
+import torch
+import torch.nn as nn
+import numpy as np
+import pandas as pd
+from sklearn.preprocessing import MinMaxScaler
+import matplotlib.pyplot as plt
+
+# 1. Generate sample data
+np.random.seed(42)
+n_samples = 200
+time = np.arange(n_samples)
+data = np.sin(time / 20) * 10 + time * 0.1 + np.random.randn(n_samples) * 2
+data = data.reshape(-1, 1)
+
+# 2. Scale data
+scaler = MinMaxScaler(feature_range=(0, 1))
+scaled_data = scaler.fit_transform(data)
+
+# 3. Create sequences for GRU
+def create_sequences(data, seq_length):
+    xs, ys = [], []
+    for i in range(len(data) - seq_length):
+        x = data[i:(i + seq_length)]
+        y = data[i + seq_length]
+        xs.append(x)
+        ys.append(y)
+    return torch.tensor(xs, dtype=torch.float32), torch.tensor(ys, dtype=torch.float32)
+
+sequence_length = 10
+X_tensor, y_tensor = create_sequences(scaled_data, sequence_length)
+
+# Split into training and testing sets
+train_size = int(0.8 * len(X_tensor))
+X_train, y_train = X_tensor[:train_size], y_tensor[:train_size]
+X_test, y_test = X_tensor[train_size:], y_tensor[train_size:]
+
+# 4. Define the GRU model in PyTorch
+class GRUModel(nn.Module):
+    def __init__(self, input_size=1, hidden_layer_size=50, output_size=1):
+        super().__init__()
+        self.hidden_layer_size = hidden_layer_size
+        self.gru = nn.GRU(input_size, hidden_layer_size)
+        self.linear = nn.Linear(hidden_layer_size, output_size)
+        self.hidden = torch.zeros(1,1,self.hidden_layer_size) # GRU only has one hidden state
+
+    def forward(self, input_seq):
+        # input_seq shape: (seq_len, batch_size, input_size)
+        gru_out, self.hidden = self.gru(input_seq.view(len(input_seq), 1, -1), self.hidden)
+        predictions = self.linear(gru_out.view(len(input_seq), -1))
+        return predictions[-1]
+
+# 5. Instantiate model, loss function, and optimizer
+model = GRUModel()
+loss_function = nn.MSELoss()
+optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+
+# 6. Train the model
+epochs = 50
+for i in range(epochs):
+    for seq, labels in zip(X_train, y_train):
+        optimizer.zero_grad()
+        model.hidden = torch.zeros(1, 1, model.hidden_layer_size) # Reset hidden state for each sequence
+
+        y_pred = model(seq)
+
+        single_loss = loss_function(y_pred, labels)
+        single_loss.backward()
+        optimizer.step()
+
+    if i%10 == 0:
+        print(f'Epoch {i} loss: {single_loss.item()}')
+
+print("PyTorch GRU model training complete.")
+
+# 7. Make predictions on test set (conceptual)
+test_predictions = []
+model.eval() # Set model to evaluation mode
+with torch.no_grad():
+    for seq, labels in zip(X_test, y_test):
+        model.hidden = torch.zeros(1, 1, model.hidden_layer_size) # Reset hidden state for each sequence
+        y_pred = model(seq)
+        test_predictions.append(y_pred.item())
+
+# Invert predictions to original scale
+actual_predictions_original_scale = scaler.inverse_transform(np.array(test_predictions).reshape(-1, 1))
+actual_y_test_original_scale = scaler.inverse_transform(y_test.numpy().reshape(-1, 1))
+
+print(f"First 5 actual test values: {actual_y_test_original_scale[:5].flatten()}")
+print(f"First 5 predicted test values: {actual_predictions_original_scale[:5].flatten()}")
+
+# Plotting (conceptual)
+# train_data_plot = data[sequence_length:train_size + sequence_length].flatten()
+# test_data_plot = data[train_size + sequence_length:].flatten()
+#
+# plt.figure(figsize=(14, 7))
+# plt.plot(np.arange(len(train_data_plot)), train_data_plot, label='Training Data')
+# plt.plot(np.arange(len(train_data_plot), len(train_data_plot) + len(test_data_plot)), test_data_plot, label='Actual Test Data', color='orange')
+# plt.plot(np.arange(len(train_data_plot), len(train_data_plot) + len(test_predictions)), actual_predictions_original_scale, label='PyTorch GRU Forecast', linestyle='--', color='green')
+# plt.title('PyTorch GRU Time Series Forecast')
+# plt.xlabel('Time Step')
+# plt.ylabel('Value')
+# plt.legend()
+# plt.grid(True)
+# plt.show()
+                        </code></pre>
+                    </div>
+                </section>
+                
+                <section>
+                    <h2>Dependencies & Resources</h2>
+                    <p><strong>Dependencies:</strong> <code>numpy</code>, <code>pandas</code>, <code>scikit-learn</code> (for `MinMaxScaler`), <code>tensorflow</code>/<code>keras</code> (for TensorFlow example), <code>torch</code> (for PyTorch example), <code>matplotlib</code> (for plotting).</p>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><a href="https://www.tensorflow.org/api_docs/python/tf/keras/layers/GRU" target="_blank" rel="noopener noreferrer">TensorFlow Keras GRU Documentation ↗</a></li>
+                        <li><a href="https://pytorch.org/docs/stable/generated/torch.nn.GRU.html" target="_blank" rel="noopener noreferrer">PyTorch GRU Documentation ↗</a></li>
+                        <li><a href="https://towardsdatascience.com/understanding-gru-networks-2ad8d9549704" target="_blank" rel="noopener noreferrer">Understanding GRU Networks (Towards Data Science) ↗</a></li>
+                    </ul>
+                </section>
+            </article>
+        </div>
+    </main>
+
+    <footer class="text-center p-6 bg-slate-200 mt-12">
+        <p class="text-slate-600 text-sm">TSM Hub: An Interactive Resource for Time Series Analysis</p>
+    </footer>
+
+    <script src="main.js"></script>
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PatchTST Model - TSM Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-slate-100 text-slate-800">
+<!-- Enhanced Navigation for Model Pages -->
+<nav class="bg-white shadow-lg sticky top-0 z-50 mb-8">
+    <div class="container mx-auto px-6 py-4">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <a href="index.html" class="text-2xl font-bold text-blue-600">🏠 TS Forecasting Hub</a>
+                <div class="hidden md:flex items-center space-x-1 bg-gray-100 rounded-lg p-1">
+                    <a href="models.html" class="nav-link px-3 py-2 rounded">📚 All Models</a>
+                    <a href="comparison.html" class="nav-link px-3 py-2 rounded">📊 Compare</a>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+                <!-- AI Features Quick Access -->
+                <div class="hidden md:flex items-center space-x-2">
+                    <a href="model-selector.html" class="bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-600 text-sm flex items-center">
+                        🤖 AI Recommender
+                    </a>
+                    <a href="chat.html" class="bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-600 text-sm flex items-center">
+                        💬 AI Assistant
+                    </a>
+                    <a href="forecast-simulator.html?model={{MODEL_NAME}}" class="bg-purple-500 text-white px-3 py-2 rounded-lg hover:bg-purple-600 text-sm flex items-center">
+                        🚀 Try in Simulator
+                    </a>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <button class="md:hidden p-2" onclick="toggleMobileMenu()">☰</button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 border-t">
+            <div class="flex flex-col space-y-2">
+                <a href="models.html" class="text-gray-600 hover:text-blue-600 py-2">📚 All Models</a>
+                <a href="comparison.html" class="text-gray-600 hover:text-blue-600 py-2">📊 Compare Models</a>
+                <a href="model-selector.html" class="text-gray-600 hover:text-blue-600 py-2">🤖 AI Recommender</a>
+                <a href="chat.html" class="text-gray-600 hover:text-blue-600 py-2">💬 AI Assistant</a>
+                <a href="forecast-simulator.html" class="text-gray-600 hover:text-blue-600 py-2">🚀 Simulator</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-slate-900">TSM Hub</a>
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="concepts.html" class="nav-link">Concepts</a>
+                <a href="models.html" class="nav-link active">Models</a>
+                <a href="comparison.html" class="nav-link">Comparison</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden p-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="index.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Home</a>
+            <a href="concepts.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Concepts</a>
+            <a href="models.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Models</a>
+            <a href="comparison.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Comparison</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        <div class="bg-white p-8 rounded-lg shadow-md">
+            <header class="border-b-2 border-slate-200 pb-6 mb-8">
+                 <a href="models.html" class="text-blue-600 hover:underline mb-4 inline-block">&larr; Back to Model Library</a>
+                <h1 class="text-4xl md:text-5xl font-bold text-slate-900">PatchTST Model</h1>
+                <p class="mt-2 text-lg text-slate-600">A Time Series is Worth 64 Words: Long-term Forecasting with Transformers</p>
+            </header>
+            
+            <article class="prose max-w-none">
+                <section>
+                    <h2>Overview</h2>
+                    <p>PatchTST is a Transformer-based model that significantly enhances time series forecasting, particularly for long-term predictions. It addresses the limitations of traditional Transformer variants by introducing a novel "patching" strategy. Instead of treating each individual time step as a token, PatchTST segments input sequences into overlapping or non-overlapping fixed-length "patches" before processing them with a Transformer encoder. This approach better reflects the inherent temporal structure of time series data, aggregates multiple time steps into local units, and enables more efficient parallel processing, leading to improved scalability and generalization.</p>
+                    
+                    <h2>Architecture & Components</h2>
+                    <p>PatchTST's architecture is built upon the Transformer encoder and incorporates several key features:</p>
+                    <ul>
+                        <li><strong>Patching Strategy:</strong> The core innovation. The input time series sequence is divided into fixed-length patches. These patches become the input tokens for the Transformer. This strategy reduces the effective sequence length, which is beneficial for the quadratic complexity of self-attention, and helps the model capture local patterns more effectively. Optimal patch lengths typically range from 12 to 16.</li>
+                        <li><strong>Channel-Independent Formulation:</strong> PatchTST often employs a channel-independent formulation, meaning each time series variable (or channel) is treated separately during the embedding and encoding phases. This simplifies the model and can improve performance, especially in multivariate settings where inter-channel relationships might be less complex than temporal ones.</li>
+                        <li><strong>Transformer Encoder:</strong> The patched input sequences are fed into a standard Transformer encoder. This encoder uses self-attention mechanisms to dynamically assess the importance of various patches, allowing it to capture both local and global temporal patterns across the sequence of patches.</li>
+                        <li><strong>Learnable Temporal Representations:</strong> The "Standard" variant of PatchTST adds learnable temporal representations, which further improve its adaptability to real-world data. [4, 6]</li>
+                        <li><strong>Output Head:</strong> After processing by the Transformer encoder, a prediction head (e.g., a linear layer) is used to generate the final forecast for the desired prediction length.</li>
+                    </ul>
+                     <div class="bg-slate-100 p-4 rounded-lg my-6 text-center">
+                        <img src="https://placehold.co/600x300/e2e8f0/334155?text=Diagram+of+PatchTST+Architecture" alt="PatchTST Architecture Diagram" class="mx-auto rounded-md">
+                        <p class="text-sm text-slate-500 mt-2">Conceptual diagram of PatchTST's architecture with patching and Transformer encoder.</p>
+                    </div>
+                </section>
+                
+                <section>
+                    <h2>When to Use PatchTST</h2>
+                    <p>PatchTST is a highly robust and accurate model, particularly suitable for:</p>
+                    <ul>
+                        <li>Long-term time series forecasting tasks. [4, 6]</li>
+                        <li>Data that is complex, non-linear, and potentially noisy. [4, 6]</li>
+                        <li>Scenarios where excellent accuracy and stability are required under both clean and noisy conditions. [4, 6]</li>
+                        <li>Applications demanding scalable solutions for large datasets, as its patching strategy improves efficiency.</li>
+                        <li>When you need a Transformer-based model that effectively models local patterns and generalizes well across diverse datasets.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Pros and Cons</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2 text-green-600">Pros</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Excellent Accuracy & Stability:</strong> Consistently achieves top performance across various configurations and datasets, showing high accuracy and stability in both clean and noisy conditions. [4, 6]</li>
+                                <li><strong>Highly Robust to Noise:</strong> Its patch-based attention effectively models local patterns even when noise partially obscures signal features. [4, 6]</li>
+                                <li><strong>Scalable & Efficient:</strong> Patching reduces sequence length, enabling more efficient parallel processing and improving scalability for long time series.</li>
+                                <li><strong>Good Generalization:</strong> The patch-based approach and channel-independent learning enhance model generalization across diverse datasets.</li>
+                                <li><strong>Captures Local & Global Patterns:</strong> Effectively models both fine-grained local patterns within patches and long-range dependencies across patches.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2 text-red-600">Cons</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Computationally Intensive:</strong> Despite efficiency improvements, it can still be computationally demanding, especially for very deep models or extensive hyperparameter searches. [6, 38]</li>
+                                <li><strong>Requires Careful Hyperparameter Tuning:</strong> The selection of optimal patch lengths (typically 12-16) is crucial; very short patches can lead to underfitting, while excessively long ones may degrade performance, especially with noise. [4, 6]</li>
+                                <li><strong>Less Interpretable:</strong> Like other deep learning models, it operates as a "black box," making it challenging to understand the exact reasoning behind its predictions.</li>
+                                <li><strong>Potential for Overlooking Inter-channel Relationships:</strong> The channel-independent approach might overlook strong inter-channel dependencies in some multivariate datasets.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Example Implementation</h2>
+                    <p>PatchTST is primarily implemented in PyTorch, with the official code provided by yuqinie98/PatchTST. HuggingFace Transformers also offers an implementation. The typical usage involves running bash scripts for specific datasets or using the HuggingFace API.</p>
+
+                    <h3>PyTorch Example (using yuqinie98/PatchTST)</h3>
+                    <div class="code-block my-4">
+                        <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto"><code class="language-bash">
+# 1. Clone the official PatchTST repository [40]
+# git clone https://github.com/yuqinie98/PatchTST.git
+# cd PatchTST
+
+# 2. Install requirements [40]
+# pip install -r requirements.txt
+
+# 3. Download data [40]
+# Datasets are typically provided via a Google Drive link (same as Autoformer) in the repository's README.
+# Download them and create a separate folder named './dataset' to store all the.csv files.
+
+# 4. Run a training script for a specific dataset (e.g., Weather dataset for multivariate forecasting) [40]
+# These scripts are located in the './scripts/PatchTST' directory.
+echo "Running PatchTST training script for Weather dataset..."
+bash./scripts/PatchTST/weather.sh
+
+# This script will typically:
+# - Set up model parameters (e.g., context_length, prediction_length, patch_length, d_model)
+# - Load the Weather dataset
+# - Train the PatchTST model
+# - Evaluate its performance (RMSE, MAE) and save results to './result.txt' or similar.
+
+# Example of what the script might contain (simplified):
+# python main_long_term_forecast.py \
+#   --model PatchTST \
+#   --data weather \
+#   --features M \
+#   --seq_len 336 \
+#   --label_len 168 \
+#   --pred_len 96 \
+#   --patch_len 16 \
+#   --stride 8 \
+#   --d_model 128 \
+#   --n_heads 8 \
+#   --e_layers 3 \
+#   --dropout 0.1 \
+#   --fc_dropout 0.1 \
+#   --head_dropout 0 \
+#   --des Exp \
+#   --itr 1 \
+#   --train_epochs 10 \
+#   --batch_size 32 \
+#   --learning_rate 0.0001 \
+#   --root_path./dataset/ \
+#   --data_path weather.csv \
+#   --checkpoints./checkpoints/
+
+echo "PatchTST training script executed. Check './result.txt' or specified output directory for results."
+
+# For self-supervised pre-training and fine-tuning, refer to the `patchtst_pretrain.py` and `patchtst_finetune.py` scripts. [40]
+                        </code></pre>
+                    </div>
+
+                    <h3>TensorFlow Example (Conceptual - via HuggingFace Transformers)</h3>
+                    <p>While the original PatchTST implementation is in PyTorch, HuggingFace provides a TensorFlow version within its Transformers library. This allows for a more direct TensorFlow usage.</p>
+                    <div class="code-block my-4">
+                        <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto"><code class="language-python">
+import tensorflow as tf
+import numpy as np
+import pandas as pd
+from transformers import TFPatchTSTForPrediction, PatchTSTConfig
+import matplotlib.pyplot as plt

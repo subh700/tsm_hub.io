@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Time Series Plots & Graphs | AI Forecasting Hub</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+  <!-- Navigation -->
+  <nav class="bg-white shadow-lg sticky top-0 z-50">
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+      <div class="text-2xl font-bold text-blue-600">🤖 AI Forecasting Hub</div>
+      <div class="hidden md:flex space-x-6">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="models.html" class="nav-link">Model Library</a>
+        <a href="forecast-simulator.html" class="nav-link">Simulator</a>
+        <a href="comparison.html" class="nav-link">Compare</a>
+        <a href="Concepts.html" class="nav-link">Concepts</a>
+        <a href="time-series-plots.html" class="nav-link active">Plots & Graphs</a>
+      </div>
+    </div>
+  </nav>
+  <main class="container mx-auto px-6 py-12 max-w-4xl">
+    <h1 class="text-4xl font-bold text-center mb-10">Time Series Plots & Graphs</h1>
+    <div class="bg-yellow-100 border-l-4 border-yellow-400 text-yellow-800 p-4 mb-8 rounded flex items-center">
+      <span class="mr-3 text-2xl">ℹ️</span>
+      <span>
+        <b>Note:</b> The code examples below are for <b>Python</b> and will only display plots if you run them in your own Python environment (e.g., Jupyter Notebook, Google Colab, or a local Python script).<br>
+        This website shows the code and instructions, but does <b>not</b> render the plots directly.
+      </span>
+    </div>
+    <p class="text-center text-lg text-gray-700 mb-8">Explore the most important plots for time series analysis, with code, libraries, and references.</p>
+
+    <!-- Line Plot -->
+    <section class="bg-white rounded-lg shadow-lg p-8 mb-8">
+      <h2 class="text-2xl font-bold mb-4">Line Plot</h2>
+      <div class="flex flex-col items-center mb-4">
+        <svg width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="220" height="80" fill="#f1f5f9"/>
+          <polyline points="10,70 40,50 70,60 100,30 130,40 160,20 190,30 210,10" fill="none" stroke="#3b82f6" stroke-width="3"/>
+        </svg>
+        <span class="text-xs text-gray-500 mt-1">Illustrative Example (SVG)</span>
+      </div>
+      <div class="mb-2 p-4 bg-blue-50 rounded">
+        <b>Story for Kids:</b> Imagine drawing a line that connects the dots for your temperature every day. You can see how it goes up and down!
+        <div class="text-green-700 font-semibold">Simple Tip: Line plots show how things change over time.</div>
+      </div>
+      <p class="text-gray-700 mb-2">A line plot is the most basic way to visualize a time series, showing values over time.</p>
+      <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">import matplotlib.pyplot as plt
+plt.plot(data['date'], data['value'])
+plt.xlabel('Date')
+plt.ylabel('Value')
+plt.title('Line Plot of Time Series')
+plt.show()</pre>
+      <div class="text-sm text-gray-600 mb-2">Required library: <b>matplotlib</b></div>
+      <a href="https://matplotlib.org/stable/gallery/lines_bars_and_markers/simple_plot.html" class="text-blue-600 underline" target="_blank">Reference: Matplotlib Line Plot</a>
+    </section>
+
+    <!-- Seasonal Plot -->
+    <section class="bg-white rounded-lg shadow-lg p-8 mb-8">
+      <h2 class="text-2xl font-bold mb-4">Seasonal Plot</h2>
+      <div class="flex flex-col items-center mb-4">
+        <svg width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="220" height="80" fill="#f1f5f9"/>
+          <polyline points="10,60 40,30 70,60 100,30 130,60 160,30 190,60 210,30" fill="none" stroke="#f59e42" stroke-width="3"/>
+        </svg>
+        <span class="text-xs text-gray-500 mt-1">Illustrative Example (SVG)</span>
+      </div>
+      <div class="mb-2 p-4 bg-blue-50 rounded">
+        <b>Story for Kids:</b> If you color each month's temperature with a different color, you can see which months are hottest or coldest every year!
+        <div class="text-green-700 font-semibold">Simple Tip: Seasonal plots show repeating patterns each year or season.</div>
+      </div>
+      <p class="text-gray-700 mb-2">Seasonal plots show how a value changes for each season or period (e.g., each month across years).</p>
+      <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">import seaborn as sns
+import pandas as pd
+sns.lineplot(x='month', y='value', hue='year', data=data)
+plt.title('Seasonal Plot')
+plt.show()</pre>
+      <div class="text-sm text-gray-600 mb-2">Required libraries: <b>seaborn, pandas, matplotlib</b></div>
+      <a href="https://otexts.com/fpp2/seasonal-plots.html" class="text-blue-600 underline" target="_blank">Reference: Forecasting: Principles and Practice</a>
+    </section>
+
+    <!-- Lag Plot -->
+    <section class="bg-white rounded-lg shadow-lg p-8 mb-8">
+      <h2 class="text-2xl font-bold mb-4">Lag Plot</h2>
+      <div class="flex flex-col items-center mb-4">
+        <svg width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="220" height="80" fill="#f1f5f9"/>
+          <circle cx="30" cy="60" r="5" fill="#3b82f6"/>
+          <circle cx="60" cy="50" r="5" fill="#3b82f6"/>
+          <circle cx="90" cy="40" r="5" fill="#3b82f6"/>
+          <circle cx="120" cy="30" r="5" fill="#3b82f6"/>
+          <circle cx="150" cy="20" r="5" fill="#3b82f6"/>
+          <circle cx="180" cy="10" r="5" fill="#3b82f6"/>
+        </svg>
+        <span class="text-xs text-gray-500 mt-1">Illustrative Example (SVG)</span>
+      </div>
+      <div class="mb-2 p-4 bg-blue-50 rounded">
+        <b>Story for Kids:</b> If you plot today's temperature against yesterday's, you can see if warm days follow warm days!
+        <div class="text-green-700 font-semibold">Simple Tip: Lag plots show if today's value depends on yesterday's.</div>
+      </div>
+      <p class="text-gray-700 mb-2">Lag plots help detect autocorrelation by plotting each value against its previous value.</p>
+      <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">from pandas.plotting import lag_plot
+lag_plot(data['value'])
+plt.title('Lag Plot')
+plt.show()</pre>
+      <div class="text-sm text-gray-600 mb-2">Required libraries: <b>pandas, matplotlib</b></div>
+      <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.plotting.lag_plot.html" class="text-blue-600 underline" target="_blank">Reference: Pandas Lag Plot</a>
+    </section>
+
+    <!-- Autocorrelation Plot (ACF) -->
+    <section class="bg-white rounded-lg shadow-lg p-8 mb-8">
+      <h2 class="text-2xl font-bold mb-4">Autocorrelation Plot (ACF)</h2>
+      <div class="flex flex-col items-center mb-4">
+        <svg width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="220" height="80" fill="#f1f5f9"/>
+          <line x1="30" y1="70" x2="30" y2="30" stroke="#3b82f6" stroke-width="6"/>
+          <line x1="60" y1="70" x2="60" y2="40" stroke="#3b82f6" stroke-width="6"/>
+          <line x1="90" y1="70" x2="90" y2="50" stroke="#3b82f6" stroke-width="6"/>
+          <line x1="120" y1="70" x2="120" y2="60" stroke="#3b82f6" stroke-width="6"/>
+          <line x1="150" y1="70" x2="150" y2="65" stroke="#3b82f6" stroke-width="6"/>
+          <line x1="180" y1="70" x2="180" y2="68" stroke="#3b82f6" stroke-width="6"/>
+        </svg>
+        <span class="text-xs text-gray-500 mt-1">Illustrative Example (SVG)</span>
+      </div>
+      <div class="mb-2 p-4 bg-blue-50 rounded">
+        <b>Story for Kids:</b> It's like checking if your test scores are similar from one week to the next!
+        <div class="text-green-700 font-semibold">Simple Tip: ACF plots show how much the past affects the present.</div>
+      </div>
+      <p class="text-gray-700 mb-2">ACF plots show the correlation of a time series with its own past values at different lags.</p>
+      <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">from statsmodels.graphics.tsaplots import plot_acf
+plot_acf(data['value'])
+plt.title('Autocorrelation (ACF) Plot')
+plt.show()</pre>
+      <div class="text-sm text-gray-600 mb-2">Required library: <b>statsmodels, matplotlib</b></div>
+      <a href="https://www.statsmodels.org/stable/generated/statsmodels.graphics.tsaplots.plot_acf.html" class="text-blue-600 underline" target="_blank">Reference: Statsmodels ACF</a>
+    </section>
+
+    <!-- Partial Autocorrelation Plot (PACF) -->
+    <section class="bg-white rounded-lg shadow-lg p-8 mb-8">
+      <h2 class="text-2xl font-bold mb-4">Partial Autocorrelation Plot (PACF)</h2>
+      <div class="flex flex-col items-center mb-4">
+        <svg width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="220" height="80" fill="#f1f5f9"/>
+          <line x1="30" y1="70" x2="30" y2="30" stroke="#f59e42" stroke-width="6"/>
+          <line x1="60" y1="70" x2="60" y2="60" stroke="#f59e42" stroke-width="6"/>
+          <line x1="90" y1="70" x2="90" y2="68" stroke="#f59e42" stroke-width="6"/>
+        </svg>
+        <span class="text-xs text-gray-500 mt-1">Illustrative Example (SVG)</span>
+      </div>
+      <div class="mb-2 p-4 bg-blue-50 rounded">
+        <b>Story for Kids:</b> If you want to know if your score this week is related to two weeks ago, not just last week, use PACF!
+        <div class="text-green-700 font-semibold">Simple Tip: PACF plots show direct relationships with past values, skipping the middle steps.</div>
+      </div>
+      <p class="text-gray-700 mb-2">PACF plots show the correlation of a time series with its own past values, controlling for shorter lags.</p>
+      <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">from statsmodels.graphics.tsaplots import plot_pacf
+plot_pacf(data['value'])
+plt.title('Partial Autocorrelation (PACF) Plot')
+plt.show()</pre>
+      <div class="text-sm text-gray-600 mb-2">Required library: <b>statsmodels, matplotlib</b></div>
+      <a href="https://www.statsmodels.org/stable/generated/statsmodels.graphics.tsaplots.plot_pacf.html" class="text-blue-600 underline" target="_blank">Reference: Statsmodels PACF</a>
+    </section>
+
+    <!-- Histogram -->
+    <section class="bg-white rounded-lg shadow-lg p-8 mb-8">
+      <h2 class="text-2xl font-bold mb-4">Histogram</h2>
+      <div class="flex flex-col items-center mb-4">
+        <svg width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="220" height="80" fill="#f1f5f9"/>
+          <rect x="10" y="60" width="10" height="10" fill="#3b82f6"/>
+          <rect x="20" y="50" width="10" height="10" fill="#3b82f6"/>
+          <rect x="30" y="40" width="10" height="10" fill="#3b82f6"/>
+          <rect x="40" y="30" width="10" height="10" fill="#3b82f6"/>
+          <rect x="50" y="20" width="10" height="10" fill="#3b82f6"/>
+          <rect x="60" y="10" width="10" height="10" fill="#3b82f6"/>
+        </svg>
+        <span class="text-xs text-gray-500 mt-1">Illustrative Example (SVG)</span>
+      </div>
+      <div class="mb-2 p-4 bg-blue-50 rounded">
+        <b>Story for Kids:</b> If you count how many days were hot, warm, or cold, you get a histogram!
+        <div class="text-green-700 font-semibold">Simple Tip: Histograms show how often each value happens.</div>
+      </div>
+      <p class="text-gray-700 mb-2">A histogram shows the distribution of values in a time series.</p>
+      <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">plt.hist(data['value'], bins=20)
+plt.xlabel('Value')
+plt.ylabel('Frequency')
+plt.title('Histogram')
+plt.show()</pre>
+      <div class="text-sm text-gray-600 mb-2">Required library: <b>matplotlib</b></div>
+      <a href="https://matplotlib.org/stable/gallery/statistics/hist.html" class="text-blue-600 underline" target="_blank">Reference: Matplotlib Histogram</a>
+    </section>
+
+    <!-- Density Plot -->
+    <section class="bg-white rounded-lg shadow-lg p-8 mb-8">
+      <h2 class="text-2xl font-bold mb-4">Density Plot</h2>
+      <div class="flex flex-col items-center mb-4">
+        <svg width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="220" height="80" fill="#f1f5f9"/>
+          <polyline points="10,60 40,30 70,60 100,30 130,60 160,30 190,60 210,30" fill="none" stroke="#f59e42" stroke-width="3"/>
+        </svg>
+        <span class="text-xs text-gray-500 mt-1">Illustrative Example (SVG)</span>
+      </div>
+      <div class="mb-2 p-4 bg-blue-50 rounded">
+        <b>Story for Kids:</b> It's like a smooth version of a histogram, showing where your data is thickest!
+        <div class="text-green-700 font-semibold">Simple Tip: Density plots show where your data is most crowded.</div>
+      </div>
+      <p class="text-gray-700 mb-2">A density plot is a smoothed version of a histogram, showing the distribution of values.</p>
+      <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">import seaborn as sns
+sns.kdeplot(data['value'])
+plt.title('Density Plot')
+plt.show()</pre>
+      <div class="text-sm text-gray-600 mb-2">Required libraries: <b>seaborn, matplotlib</b></div>
+      <a href="https://seaborn.pydata.org/generated/seaborn.kdeplot.html" class="text-blue-600 underline" target="_blank">Reference: Seaborn KDE Plot</a>
+    </section>
+
+    <!-- Boxplot -->
+    <section class="bg-white rounded-lg shadow-lg p-8 mb-8">
+      <h2 class="text-2xl font-bold mb-4">Boxplot</h2>
+      <div class="flex flex-col items-center mb-4">
+        <svg width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="220" height="80" fill="#f1f5f9"/>
+          <polyline points="10,60 40,30 70,60 100,30 130,60 160,30 190,60 210,30" fill="none" stroke="#3b82f6" stroke-width="3"/>
+        </svg>
+        <span class="text-xs text-gray-500 mt-1">Illustrative Example (SVG)</span>
+      </div>
+      <div class="mb-2 p-4 bg-blue-50 rounded">
+        <b>Story for Kids:</b> A boxplot is like a treasure chest that shows where most of your data is, and where the surprises are!
+        <div class="text-green-700 font-semibold">Simple Tip: Boxplots show the middle, spread, and outliers in your data.</div>
+      </div>
+      <p class="text-gray-700 mb-2">A boxplot summarizes the distribution, median, quartiles, and outliers of a time series.</p>
+      <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">plt.boxplot(data['value'])
+plt.title('Boxplot')
+plt.show()</pre>
+      <div class="text-sm text-gray-600 mb-2">Required library: <b>matplotlib</b></div>
+      <a href="https://matplotlib.org/stable/gallery/statistics/boxplot_demo.html" class="text-blue-600 underline" target="_blank">Reference: Matplotlib Boxplot</a>
+    </section>
+
+    <!-- Heatmap -->
+    <section class="bg-white rounded-lg shadow-lg p-8 mb-8">
+      <h2 class="text-2xl font-bold mb-4">Heatmap</h2>
+      <div class="flex flex-col items-center mb-4">
+        <svg width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="220" height="80" fill="#f1f5f9"/>
+          <polyline points="10,60 40,30 70,60 100,30 130,60 160,30 190,60 210,30" fill="none" stroke="#f59e42" stroke-width="3"/>
+        </svg>
+        <span class="text-xs text-gray-500 mt-1">Illustrative Example (SVG)</span>
+      </div>
+      <div class="mb-2 p-4 bg-blue-50 rounded">
+        <b>Story for Kids:</b> A heatmap is like a colorful calendar that shows when things are hot or cold!
+        <div class="text-green-700 font-semibold">Simple Tip: Heatmaps use color to show patterns over time.</div>
+      </div>
+      <p class="text-gray-700 mb-2">A heatmap visualizes values in a matrix, often used for showing seasonality or correlations.</p>
+      <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">import seaborn as sns
+sns.heatmap(data.pivot('month', 'year', 'value'))
+plt.title('Heatmap')
+plt.show()</pre>
+      <div class="text-sm text-gray-600 mb-2">Required libraries: <b>seaborn, matplotlib, pandas</b></div>
+      <a href="https://seaborn.pydata.org/generated/seaborn.heatmap.html" class="text-blue-600 underline" target="_blank">Reference: Seaborn Heatmap</a>
+    </section>
+
+    <!-- Scatter Plot -->
+    <section class="bg-white rounded-lg shadow-lg p-8 mb-8">
+      <h2 class="text-2xl font-bold mb-4">Scatter Plot</h2>
+      <div class="flex flex-col items-center mb-4">
+        <svg width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="220" height="80" fill="#f1f5f9"/>
+          <circle cx="30" cy="60" r="5" fill="#3b82f6"/>
+          <circle cx="60" cy="50" r="5" fill="#3b82f6"/>
+          <circle cx="90" cy="40" r="5" fill="#3b82f6"/>
+          <circle cx="120" cy="30" r="5" fill="#3b82f6"/>
+          <circle cx="150" cy="20" r="5" fill="#3b82f6"/>
+          <circle cx="180" cy="10" r="5" fill="#3b82f6"/>
+        </svg>
+        <span class="text-xs text-gray-500 mt-1">Illustrative Example (SVG)</span>
+      </div>
+      <div class="mb-2 p-4 bg-blue-50 rounded">
+        <b>Story for Kids:</b> If you plot your height against your age, you get a scatter plot!
+        <div class="text-green-700 font-semibold">Simple Tip: Scatter plots show how two things are related.</div>
+      </div>
+      <p class="text-gray-700 mb-2">A scatter plot shows the relationship between two variables, often used for lag or cross-correlation analysis.</p>
+      <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">plt.scatter(data['x'], data['y'])
+plt.xlabel('X')
+plt.ylabel('Y')
+plt.title('Scatter Plot')
+plt.show()</pre>
+      <div class="text-sm text-gray-600 mb-2">Required library: <b>matplotlib</b></div>
+      <a href="https://matplotlib.org/stable/gallery/lines_bars_and_markers/scatter.html" class="text-blue-600 underline" target="_blank">Reference: Matplotlib Scatter</a>
+    </section>
+
+    <!-- Decomposition Plot -->
+    <section class="bg-white rounded-lg shadow-lg p-8 mb-8">
+      <h2 class="text-2xl font-bold mb-4">Decomposition Plot</h2>
+      <div class="flex flex-col items-center mb-4">
+        <svg width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="220" height="80" fill="#f1f5f9"/>
+          <polyline points="10,60 40,30 70,60 100,30 130,60 160,30 190,60 210,30" fill="none" stroke="#3b82f6" stroke-width="3"/>
+        </svg>
+        <span class="text-xs text-gray-500 mt-1">Illustrative Example (SVG)</span>
+      </div>
+      <div class="mb-2 p-4 bg-blue-50 rounded">
+        <b>Story for Kids:</b> It's like taking apart a toy to see all the pieces—trend, seasonality, and noise!
+        <div class="text-green-700 font-semibold">Simple Tip: Decomposition plots show the different parts of your data.</div>
+      </div>
+      <p class="text-gray-700 mb-2">A decomposition plot separates a time series into trend, seasonal, and residual components.</p>
+      <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">from statsmodels.tsa.seasonal import seasonal_decompose
+result = seasonal_decompose(data['value'], model='additive', period=12)
+result.plot()
+plt.show()</pre>
+      <div class="text-sm text-gray-600 mb-2">Required library: <b>statsmodels, matplotlib</b></div>
+      <a href="https://otexts.com/fpp2/decomposition.html" class="text-blue-600 underline" target="_blank">Reference: Forecasting: Principles and Practice</a>
+    </section>
+
+    <!-- Forecast Plot -->
+    <section class="bg-white rounded-lg shadow-lg p-8 mb-8">
+      <h2 class="text-2xl font-bold mb-4">Forecast Plot</h2>
+      <div class="flex flex-col items-center mb-4">
+        <svg width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="220" height="80" fill="#f1f5f9"/>
+          <polyline points="10,60 40,30 70,60 100,30 130,60 160,30 190,60 210,30" fill="none" stroke="#3b82f6" stroke-width="3"/>
+        </svg>
+        <span class="text-xs text-gray-500 mt-1">Illustrative Example (SVG)</span>
+      </div>
+      <div class="mb-2 p-4 bg-blue-50 rounded">
+        <b>Story for Kids:</b> If you draw your best guess for tomorrow's temperature, that's a forecast plot!
+        <div class="text-green-700 font-semibold">Simple Tip: Forecast plots show your predictions and the real data together.</div>
+      </div>
+      <p class="text-gray-700 mb-2">A forecast plot shows actual data and predicted values, often with confidence intervals.</p>
+      <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">plt.plot(data['date'], data['value'], label='Actual')
+plt.plot(data['date'], forecast, label='Forecast')
+plt.fill_between(data['date'], lower, upper, color='gray', alpha=0.2, label='Interval')
+plt.legend()
+plt.title('Forecast Plot')
+plt.show()</pre>
+      <div class="text-sm text-gray-600 mb-2">Required library: <b>matplotlib</b></div>
+      <a href="https://otexts.com/fpp2/forecast-accuracy.html" class="text-blue-600 underline" target="_blank">Reference: Forecasting: Principles and Practice</a>
+    </section>
+
+    <!-- Residual Plot -->
+    <section class="bg-white rounded-lg shadow-lg p-8 mb-8">
+      <h2 class="text-2xl font-bold mb-4">Residual Plot</h2>
+      <div class="flex flex-col items-center mb-4">
+        <svg width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="220" height="80" fill="#f1f5f9"/>
+          <polyline points="10,60 40,30 70,60 100,30 130,60 160,30 190,60 210,30" fill="none" stroke="#3b82f6" stroke-width="3"/>
+        </svg>
+        <span class="text-xs text-gray-500 mt-1">Illustrative Example (SVG)</span>
+      </div>
+      <div class="mb-2 p-4 bg-blue-50 rounded">
+        <b>Story for Kids:</b> If you check how far off your guesses were from the real answer, that's a residual plot!
+        <div class="text-green-700 font-semibold">Simple Tip: Residual plots show the mistakes your model made.</div>
+      </div>
+      <p class="text-gray-700 mb-2">A residual plot shows the difference between actual and predicted values over time.</p>
+      <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">plt.plot(data['date'], residuals)
+plt.axhline(0, color='gray', linestyle='--')
+plt.title('Residual Plot')
+plt.show()</pre>
+      <div class="text-sm text-gray-600 mb-2">Required library: <b>matplotlib</b></div>
+      <a href="https://otexts.com/fpp2/diagnostics.html" class="text-blue-600 underline" target="_blank">Reference: Forecasting: Principles and Practice</a>
+    </section>
+
+    <!-- Rolling Statistics Plot -->
+    <section class="bg-white rounded-lg shadow-lg p-8 mb-8">
+      <h2 class="text-2xl font-bold mb-4">Rolling Statistics Plot</h2>
+      <div class="flex flex-col items-center mb-4">
+        <svg width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="220" height="80" fill="#f1f5f9"/>
+          <polyline points="10,60 40,30 70,60 100,30 130,60 160,30 190,60 210,30" fill="none" stroke="#3b82f6" stroke-width="3"/>
+        </svg>
+        <span class="text-xs text-gray-500 mt-1">Illustrative Example (SVG)</span>
+      </div>
+      <div class="mb-2 p-4 bg-blue-50 rounded">
+        <b>Story for Kids:</b> If you look at your average score over the last 5 tests, and see how it changes, that's a rolling mean plot!
+        <div class="text-green-700 font-semibold">Simple Tip: Rolling plots show how averages or other stats change over time.</div>
+      </div>
+      <p class="text-gray-700 mb-2">A rolling statistics plot shows moving averages or other statistics over time.</p>
+      <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">data['rolling_mean'] = data['value'].rolling(window=12).mean()
+plt.plot(data['date'], data['value'], label='Original')
+plt.plot(data['date'], data['rolling_mean'], label='Rolling Mean')
+plt.legend()
+plt.title('Rolling Mean Plot')
+plt.show()</pre>
+      <div class="text-sm text-gray-600 mb-2">Required library: <b>pandas, matplotlib</b></div>
+      <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.rolling.html" class="text-blue-600 underline" target="_blank">Reference: Pandas Rolling</a>
+    </section>
+
+    <!-- Periodogram / Spectral Plot -->
+    <section class="bg-white rounded-lg shadow-lg p-8 mb-8">
+      <h2 class="text-2xl font-bold mb-4">Periodogram / Spectral Plot</h2>
+      <div class="flex flex-col items-center mb-4">
+        <svg width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="220" height="80" fill="#f1f5f9"/>
+          <polyline points="10,60 40,30 70,60 100,30 130,60 160,30 190,60 210,30" fill="none" stroke="#f59e42" stroke-width="3"/>
+        </svg>
+        <span class="text-xs text-gray-500 mt-1">Illustrative Example (SVG)</span>
+      </div>
+      <div class="mb-2 p-4 bg-blue-50 rounded">
+        <b>Story for Kids:</b> If you want to know which "notes" (cycles) are loudest in your data, use a periodogram!
+        <div class="text-green-700 font-semibold">Simple Tip: Periodograms show which cycles are strongest in your data.</div>
+      </div>
+      <p class="text-gray-700 mb-2">A periodogram or spectral plot shows the strength of different frequencies (cycles) in your time series.</p>
+      <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">from scipy.signal import periodogram
+freqs, psd = periodogram(data['value'])
+plt.plot(freqs, psd)
+plt.title('Periodogram / Spectral Plot')
+plt.xlabel('Frequency')
+plt.ylabel('Power')
+plt.show()</pre>
+      <div class="text-sm text-gray-600 mb-2">Required libraries: <b>scipy, matplotlib</b></div>
+      <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.periodogram.html" class="text-blue-600 underline" target="_blank">Reference: Scipy Periodogram</a>
+    </section>
+
+    <!-- QQ Plot -->
+    <section class="bg-white rounded-lg shadow-lg p-8 mb-8">
+      <h2 class="text-2xl font-bold mb-4">QQ Plot</h2>
+      <div class="flex flex-col items-center mb-4">
+        <svg width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="220" height="80" fill="#f1f5f9"/>
+          <polyline points="10,60 40,30 70,60 100,30 130,60 160,30 190,60 210,30" fill="none" stroke="#3b82f6" stroke-width="3"/>
+        </svg>
+        <span class="text-xs text-gray-500 mt-1">Illustrative Example (SVG)</span>
+      </div>
+      <div class="mb-2 p-4 bg-blue-50 rounded">
+        <b>Story for Kids:</b> If you want to see if your test scores are like everyone's, you can line them up and compare!
+        <div class="text-green-700 font-semibold">Simple Tip: QQ plots show if your data looks like a normal (bell curve) shape.</div>
+      </div>
+      <p class="text-gray-700 mb-2">A QQ plot compares the distribution of your data to a theoretical distribution (like normal).</p>
+      <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">import scipy.stats as stats
+import matplotlib.pyplot as plt
+stats.probplot(data['value'], dist="norm", plot=plt)
+plt.title('QQ Plot')
+plt.show()</pre>
+      <div class="text-sm text-gray-600 mb-2">Required libraries: <b>scipy, matplotlib</b></div>
+      <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.probplot.html" class="text-blue-600 underline" target="_blank">Reference: Scipy QQ Plot</a>
+    </section>
+
+    <!-- Violin Plot -->
+    <section class="bg-white rounded-lg shadow-lg p-8 mb-8">
+      <h2 class="text-2xl font-bold mb-4">Violin Plot</h2>
+      <div class="flex flex-col items-center mb-4">
+        <svg width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="220" height="80" fill="#f1f5f9"/>
+          <polyline points="10,60 40,30 70,60 100,30 130,60 160,30 190,60 210,30" fill="none" stroke="#3b82f6" stroke-width="3"/>
+        </svg>
+        <span class="text-xs text-gray-500 mt-1">Illustrative Example (SVG)</span>
+      </div>
+      <div class="mb-2 p-4 bg-blue-50 rounded">
+        <b>Story for Kids:</b> A violin plot looks like a squished balloon and shows where your data is thick or thin!
+        <div class="text-green-700 font-semibold">Simple Tip: Violin plots show the shape and spread of your data.</div>
+      </div>
+      <p class="text-gray-700 mb-2">A violin plot combines a boxplot and a density plot to show the distribution of your data.</p>
+      <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">import seaborn as sns
+sns.violinplot(y=data['value'])
+plt.title('Violin Plot')
+plt.show()</pre>
+      <div class="text-sm text-gray-600 mb-2">Required libraries: <b>seaborn, matplotlib</b></div>
+      <a href="https://seaborn.pydata.org/generated/seaborn.violinplot.html" class="text-blue-600 underline" target="_blank">Reference: Seaborn Violin Plot</a>
+    </section>
+
+    <!-- Pair Plot -->
+    <section class="bg-white rounded-lg shadow-lg p-8 mb-8">
+      <h2 class="text-2xl font-bold mb-4">Pair Plot</h2>
+      <div class="flex flex-col items-center mb-4">
+        <svg width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="220" height="80" fill="#f1f5f9"/>
+          <polyline points="10,60 40,30 70,60 100,30 130,60 160,30 190,60 210,30" fill="none" stroke="#3b82f6" stroke-width="3"/>
+        </svg>
+        <span class="text-xs text-gray-500 mt-1">Illustrative Example (SVG)</span>
+      </div>
+      <div class="mb-2 p-4 bg-blue-50 rounded">
+        <b>Story for Kids:</b> If you want to see how all your test scores relate to each other, you can look at every pair!
+        <div class="text-green-700 font-semibold">Simple Tip: Pair plots show all the relationships between many variables.</div>
+      </div>
+      <p class="text-gray-700 mb-2">A pair plot shows scatter plots for every pair of variables in your data.</p>
+      <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">import seaborn as sns
+sns.pairplot(data)
+plt.show()</pre>
+      <div class="text-sm text-gray-600 mb-2">Required libraries: <b>seaborn, matplotlib</b></div>
+      <a href="https://seaborn.pydata.org/generated/seaborn.pairplot.html" class="text-blue-600 underline" target="_blank">Reference: Seaborn Pair Plot</a>
+    </section>
+
+    <!-- Calendar Heatmap -->
+    <section class="bg-white rounded-lg shadow-lg p-8 mb-8">
+      <h2 class="text-2xl font-bold mb-4">Calendar Heatmap</h2>
+      <div class="flex flex-col items-center mb-4">
+        <svg width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="220" height="80" fill="#f1f5f9"/>
+          <polyline points="10,60 40,30 70,60 100,30 130,60 160,30 190,60 210,30" fill="none" stroke="#f59e42" stroke-width="3"/>
+        </svg>
+        <span class="text-xs text-gray-500 mt-1">Illustrative Example (SVG)</span>
+      </div>
+      <div class="mb-2 p-4 bg-blue-50 rounded">
+        <b>Story for Kids:</b> A calendar heatmap is like a colorful calendar that shows how busy or quiet each day was!
+        <div class="text-green-700 font-semibold">Simple Tip: Calendar heatmaps show patterns by day, week, or month.</div>
+      </div>
+      <p class="text-gray-700 mb-2">A calendar heatmap visualizes daily data over months or years, highlighting patterns.</p>
+      <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">import calmap
+import matplotlib.pyplot as plt
+calmap.calendarplot(data['value'])
+plt.title('Calendar Heatmap')
+plt.show()</pre>
+      <div class="text-sm text-gray-600 mb-2">Required libraries: <b>calmap, matplotlib</b></div>
+      <a href="https://github.com/martijnvermaat/calmap" class="text-blue-600 underline" target="_blank">Reference: Calmap</a>
+    </section>
+
+    <!-- Correlation Matrix Heatmap -->
+    <section class="bg-white rounded-lg shadow-lg p-8 mb-8">
+      <h2 class="text-2xl font-bold mb-4">Correlation Matrix Heatmap</h2>
+      <div class="flex flex-col items-center mb-4">
+        <svg width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="220" height="80" fill="#f1f5f9"/>
+          <polyline points="10,60 40,30 70,60 100,30 130,60 160,30 190,60 210,30" fill="none" stroke="#3b82f6" stroke-width="3"/>
+        </svg>
+        <span class="text-xs text-gray-500 mt-1">Illustrative Example (SVG)</span>
+      </div>
+      <div class="mb-2 p-4 bg-blue-50 rounded">
+        <b>Story for Kids:</b> If you want to see which of your friends are most alike, you can compare everyone to everyone!
+        <div class="text-green-700 font-semibold">Simple Tip: Correlation heatmaps show how much things are related.</div>
+      </div>
+      <p class="text-gray-700 mb-2">A correlation matrix heatmap shows the correlation between all pairs of variables.</p>
+      <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">import seaborn as sns
+sns.heatmap(data.corr(), annot=True, cmap='coolwarm')
+plt.title('Correlation Matrix Heatmap')
+plt.show()</pre>
+      <div class="text-sm text-gray-600 mb-2">Required libraries: <b>seaborn, matplotlib, pandas</b></div>
+      <a href="https://seaborn.pydata.org/generated/seaborn.heatmap.html" class="text-blue-600 underline" target="_blank">Reference: Seaborn Heatmap</a>
+    </section>
+
+    <!-- Andrews Curves -->
+    <section class="bg-white rounded-lg shadow-lg p-8 mb-8">
+      <h2 class="text-2xl font-bold mb-4">Andrews Curves</h2>
+      <div class="flex flex-col items-center mb-4">
+        <svg width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="220" height="80" fill="#f1f5f9"/>
+          <polyline points="10,60 40,30 70,60 100,30 130,60 160,30 190,60 210,30" fill="none" stroke="#3b82f6" stroke-width="3"/>
+        </svg>
+        <span class="text-xs text-gray-500 mt-1">Illustrative Example (SVG)</span>
+      </div>
+      <div class="mb-2 p-4 bg-blue-50 rounded">
+        <b>Story for Kids:</b> Andrews curves are like drawing a squiggly line for each friend to see who is most similar!
+        <div class="text-green-700 font-semibold">Simple Tip: Andrews curves help you see groups in your data.</div>
+      </div>
+      <p class="text-gray-700 mb-2">Andrews curves plot each row of your data as a curve, useful for visualizing clusters.</p>
+      <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">from pandas.plotting import andrews_curves
+andrews_curves(data, 'class_column')
+plt.title('Andrews Curves')
+plt.show()</pre>
+      <div class="text-sm text-gray-600 mb-2">Required libraries: <b>pandas, matplotlib</b></div>
+      <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.plotting.andrews_curves.html" class="text-blue-600 underline" target="_blank">Reference: Pandas Andrews Curves</a>
+    </section>
+
+    <!-- Parallel Coordinates Plot -->
+    <section class="bg-white rounded-lg shadow-lg p-8 mb-8">
+      <h2 class="text-2xl font-bold mb-4">Parallel Coordinates Plot</h2>
+      <div class="flex flex-col items-center mb-4">
+        <svg width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="220" height="80" fill="#f1f5f9"/>
+          <polyline points="10,60 40,30 70,60 100,30 130,60 160,30 190,60 210,30" fill="none" stroke="#3b82f6" stroke-width="3"/>
+        </svg>
+        <span class="text-xs text-gray-500 mt-1">Illustrative Example (SVG)</span>
+      </div>
+      <div class="mb-2 p-4 bg-blue-50 rounded">
+        <b>Story for Kids:</b> If you want to see how your scores in different subjects compare, you can draw a line for each subject!
+        <div class="text-green-700 font-semibold">Simple Tip: Parallel coordinates show many variables at once.</div>
+      </div>
+      <p class="text-gray-700 mb-2">Parallel coordinates plot each variable on a separate axis, showing patterns across many variables.</p>
+      <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">from pandas.plotting import parallel_coordinates
+parallel_coordinates(data, 'class_column')
+plt.title('Parallel Coordinates Plot')
+plt.show()</pre>
+      <div class="text-sm text-gray-600 mb-2">Required libraries: <b>pandas, matplotlib</b></div>
+      <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.plotting.parallel_coordinates.html" class="text-blue-600 underline" target="_blank">Reference: Pandas Parallel Coordinates</a>
+    </section>
+
+    <!-- Step Plot -->
+    <section class="bg-white rounded-lg shadow-lg p-8 mb-8">
+      <h2 class="text-2xl font-bold mb-4">Step Plot</h2>
+      <div class="flex flex-col items-center mb-4">
+        <svg width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="220" height="80" fill="#f1f5f9"/>
+          <polyline points="10,60 40,30 70,60 100,30 130,60 160,30 190,60 210,30" fill="none" stroke="#3b82f6" stroke-width="3"/>
+        </svg>
+        <span class="text-xs text-gray-500 mt-1">Illustrative Example (SVG)</span>
+      </div>
+      <div class="mb-2 p-4 bg-blue-50 rounded">
+        <b>Story for Kids:</b> If your allowance goes up in steps, a step plot shows each jump!
+        <div class="text-green-700 font-semibold">Simple Tip: Step plots show sudden changes or jumps in your data.</div>
+      </div>
+      <p class="text-gray-700 mb-2">A step plot shows data that changes in jumps, not smoothly.</p>
+      <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">plt.step(data['date'], data['value'])
+plt.title('Step Plot')
+plt.show()</pre>
+      <div class="text-sm text-gray-600 mb-2">Required library: <b>matplotlib</b></div>
+      <a href="https://matplotlib.org/stable/gallery/lines_bars_and_markers/step.html" class="text-blue-600 underline" target="_blank">Reference: Matplotlib Step Plot</a>
+    </section>
+
+    <!-- Area Plot -->
+    <section class="bg-white rounded-lg shadow-lg p-8 mb-8">
+      <h2 class="text-2xl font-bold mb-4">Area Plot</h2>
+      <div class="flex flex-col items-center mb-4">
+        <svg width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="220" height="80" fill="#f1f5f9"/>
+          <polyline points="10,60 40,30 70,60 100,30 130,60 160,30 190,60 210,30" fill="none" stroke="#3b82f6" stroke-width="3"/>
+        </svg>
+        <span class="text-xs text-gray-500 mt-1">Illustrative Example (SVG)</span>
+      </div>
+      <div class="mb-2 p-4 bg-blue-50 rounded">
+        <b>Story for Kids:</b> If you color under your line plot, you get an area plot!
+        <div class="text-green-700 font-semibold">Simple Tip: Area plots show how much there is over time.</div>
+      </div>
+      <p class="text-gray-700 mb-2">An area plot fills the space under a line plot, showing cumulative totals or stacked values.</p>
+      <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">data['value'].plot.area()
+plt.title('Area Plot')
+plt.show()</pre>
+      <div class="text-sm text-gray-600 mb-2">Required libraries: <b>pandas, matplotlib</b></div>
+      <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.plot.area.html" class="text-blue-600 underline" target="_blank">Reference: Pandas Area Plot</a>
+    </section>
+
+    <!-- Cumulative Sum Plot -->
+    <section class="bg-white rounded-lg shadow-lg p-8 mb-8">
+      <h2 class="text-2xl font-bold mb-4">Cumulative Sum Plot</h2>
+      <div class="flex flex-col items-center mb-4">
+        <svg width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="220" height="80" fill="#f1f5f9"/>
+          <polyline points="10,60 40,30 70,60 100,30 130,60 160,30 190,60 210,30" fill="none" stroke="#3b82f6" stroke-width="3"/>
+        </svg>
+        <span class="text-xs text-gray-500 mt-1">Illustrative Example (SVG)</span>
+      </div>
+      <div class="mb-2 p-4 bg-blue-50 rounded">
+        <b>Story for Kids:</b> If you keep adding your scores together, you get a cumulative sum plot!
+        <div class="text-green-700 font-semibold">Simple Tip: Cumulative plots show the total as it grows over time.</div>
+      </div>
+      <p class="text-gray-700 mb-2">A cumulative sum plot shows the running total of your data over time.</p>
+      <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">data['cumsum'] = data['value'].cumsum()
+plt.plot(data['date'], data['cumsum'])
+plt.title('Cumulative Sum Plot')
+plt.show()</pre>
+      <div class="text-sm text-gray-600 mb-2">Required libraries: <b>pandas, matplotlib</b></div>
+      <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.cumsum.html" class="text-blue-600 underline" target="_blank">Reference: Pandas Cumsum</a>
+    </section>
+
+    <!-- Waterfall Plot -->
+    <section class="bg-white rounded-lg shadow-lg p-8 mb-8">
+      <h2 class="text-2xl font-bold mb-4">Waterfall Plot</h2>
+      <div class="flex flex-col items-center mb-4">
+        <svg width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="220" height="80" fill="#f1f5f9"/>
+          <polyline points="10,60 40,30 70,60 100,30 130,60 160,30 190,60 210,30" fill="none" stroke="#3b82f6" stroke-width="3"/>
+        </svg>
+        <span class="text-xs text-gray-500 mt-1">Illustrative Example (SVG)</span>
+      </div>
+      <div class="mb-2 p-4 bg-blue-50 rounded">
+        <b>Story for Kids:</b> A waterfall plot shows how each step adds up to the total, like building a tower block by block!
+        <div class="text-green-700 font-semibold">Simple Tip: Waterfall plots show how each change adds up to the final result.</div>
+      </div>
+      <p class="text-gray-700 mb-2">A waterfall plot shows how sequential positive and negative values lead to a final total.</p>
+      <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">import waterfall_chart
+waterfall_chart.plot(data['labels'], data['values'])
+plt.title('Waterfall Plot')
+plt.show()</pre>
+      <div class="text-sm text-gray-600 mb-2">Required libraries: <b>waterfall_chart, matplotlib</b></div>
+      <a href="https://github.com/chrispaulca/waterfall_chart" class="text-blue-600 underline" target="_blank">Reference: Waterfall Chart</a>
+    </section>
+
+    <!-- Polar Plot -->
+    <section class="bg-white rounded-lg shadow-lg p-8 mb-8">
+      <h2 class="text-2xl font-bold mb-4">Polar Plot</h2>
+      <div class="flex flex-col items-center mb-4">
+        <svg width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="220" height="80" fill="#f1f5f9"/>
+          <polyline points="10,60 40,30 70,60 100,30 130,60 160,30 190,60 210,30" fill="none" stroke="#f59e42" stroke-width="3"/>
+        </svg>
+        <span class="text-xs text-gray-500 mt-1">Illustrative Example (SVG)</span>
+      </div>
+      <div class="mb-2 p-4 bg-blue-50 rounded">
+        <b>Story for Kids:</b> A polar plot is like drawing your data in a circle, like a clock!
+        <div class="text-green-700 font-semibold">Simple Tip: Polar plots show patterns that repeat in cycles.</div>
+      </div>
+      <p class="text-gray-700 mb-2">A polar plot displays data in a circular format, useful for showing cycles or directions.</p>
+      <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">plt.subplot(projection='polar')
+plt.plot(theta, r)
+plt.title('Polar Plot')
+plt.show()</pre>
+      <div class="text-sm text-gray-600 mb-2">Required library: <b>matplotlib</b></div>
+      <a href="https://matplotlib.org/stable/gallery/pie_and_polar_charts/polar_demo.html" class="text-blue-600 underline" target="_blank">Reference: Matplotlib Polar Plot</a>
+    </section>
+
+    <!-- Sunburst Plot -->
+    <section class="bg-white rounded-lg shadow-lg p-8 mb-8">
+      <h2 class="text-2xl font-bold mb-4">Sunburst Plot</h2>
+      <div class="flex flex-col items-center mb-4">
+        <svg width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="220" height="80" fill="#f1f5f9"/>
+          <polyline points="10,60 40,30 70,60 100,30 130,60 160,30 190,60 210,30" fill="none" stroke="#3b82f6" stroke-width="3"/>
+        </svg>
+        <span class="text-xs text-gray-500 mt-1">Illustrative Example (SVG)</span>
+      </div>
+      <div class="mb-2 p-4 bg-blue-50 rounded">
+        <b>Story for Kids:</b> A sunburst plot is like a colorful pie with many layers, showing how things are grouped!
+        <div class="text-green-700 font-semibold">Simple Tip: Sunburst plots show how data is split into groups and subgroups.</div>
+      </div>
+      <p class="text-gray-700 mb-2">A sunburst plot visualizes hierarchical data as concentric circles.</p>
+      <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">import plotly.express as px
+fig = px.sunburst(data, path=['group', 'subgroup'], values='value')
+fig.show()</pre>
+      <div class="text-sm text-gray-600 mb-2">Required library: <b>plotly</b></div>
+      <a href="https://plotly.com/python/sunburst-charts/" class="text-blue-600 underline" target="_blank">Reference: Plotly Sunburst</a>
+    </section>
+
+    <!-- Treemap -->
+    <section class="bg-white rounded-lg shadow-lg p-8 mb-8">
+      <h2 class="text-2xl font-bold mb-4">Treemap</h2>
+      <div class="flex flex-col items-center mb-4">
+        <svg width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="220" height="80" fill="#f1f5f9"/>
+          <polyline points="10,60 40,30 70,60 100,30 130,60 160,30 190,60 210,30" fill="none" stroke="#3b82f6" stroke-width="3"/>
+        </svg>
+        <span class="text-xs text-gray-500 mt-1">Illustrative Example (SVG)</span>
+      </div>
+      <div class="mb-2 p-4 bg-blue-50 rounded">
+        <b>Story for Kids:</b> A treemap is like a box of chocolates, where each piece shows how big or small something is!
+        <div class="text-green-700 font-semibold">Simple Tip: Treemaps show the size of groups in your data.</div>
+      </div>
+      <p class="text-gray-700 mb-2">A treemap displays hierarchical data as nested rectangles, sized by value.</p>
+      <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">import plotly.express as px
+fig = px.treemap(data, path=['group', 'subgroup'], values='value')
+fig.show()</pre>
+      <div class="text-sm text-gray-600 mb-2">Required library: <b>plotly</b></div>
+      <a href="https://plotly.com/python/treemaps/" class="text-blue-600 underline" target="_blank">Reference: Plotly Treemap</a>
+    </section>
+
+    <!-- Dendrogram -->
+    <section class="bg-white rounded-lg shadow-lg p-8 mb-8">
+      <h2 class="text-2xl font-bold mb-4">Dendrogram</h2>
+      <div class="flex flex-col items-center mb-4">
+        <svg width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="220" height="80" fill="#f1f5f9"/>
+          <polyline points="10,60 40,30 70,60 100,30 130,60 160,30 190,60 210,30" fill="none" stroke="#3b82f6" stroke-width="3"/>
+        </svg>
+        <span class="text-xs text-gray-500 mt-1">Illustrative Example (SVG)</span>
+      </div>
+      <div class="mb-2 p-4 bg-blue-50 rounded">
+        <b>Story for Kids:</b> A dendrogram is like a family tree for your data, showing how things are related!
+        <div class="text-green-700 font-semibold">Simple Tip: Dendrograms show how data can be grouped into clusters.</div>
+      </div>
+      <p class="text-gray-700 mb-2">A dendrogram is a tree diagram used to show the arrangement of clusters in hierarchical clustering.</p>
+      <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">from scipy.cluster.hierarchy import dendrogram, linkage
+Z = linkage(data, 'ward')
+dendrogram(Z)
+plt.title('Dendrogram')
+plt.show()</pre>
+      <div class="text-sm text-gray-600 mb-2">Required libraries: <b>scipy, matplotlib</b></div>
+      <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.dendrogram.html" class="text-blue-600 underline" target="_blank">Reference: Scipy Dendrogram</a>
+    </section>
+
+    <!-- Fan Chart -->
+    <section class="bg-white rounded-lg shadow-lg p-8 mb-8">
+      <h2 class="text-2xl font-bold mb-4">Fan Chart</h2>
+      <div class="flex flex-col items-center mb-4">
+        <svg width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="220" height="80" fill="#f1f5f9"/>
+          <polyline points="10,60 40,40 70,30 100,25 130,30 160,40 190,60 210,70" fill="none" stroke="#3b82f6" stroke-width="3"/>
+          <polygon points="100,25 130,30 160,40 190,60 190,70 160,50 130,40 100,35" fill="#3b82f6" fill-opacity="0.2"/>
+        </svg>
+        <span class="text-xs text-gray-500 mt-1">Illustrative Example (SVG)</span>
+      </div>
+      <div class="mb-2 p-4 bg-blue-50 rounded">
+        <b>Story for Kids:</b> A fan chart is like a weather forecast that shows a wider and wider area for where the weather might be!
+        <div class="text-green-700 font-semibold">Simple Tip: Fan charts show forecast uncertainty as a "fan" of possible futures.</div>
+      </div>
+      <p class="text-gray-700 mb-2">A fan chart shows the forecast and its uncertainty, with wider bands for more uncertain futures.</p>
+      <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">import matplotlib.pyplot as plt
+plt.plot(dates, forecast, label='Forecast')
+plt.fill_between(dates, lower, upper, color='blue', alpha=0.2, label='Uncertainty')
+plt.title('Fan Chart')
+plt.legend()
+plt.show()</pre>
+      <div class="text-sm text-gray-600 mb-2">Required library: <b>matplotlib</b></div>
+      <a href="https://www.rba.gov.au/publications/bulletin/2017/sep/pdf/bu-0917-2.pdf" class="text-blue-600 underline" target="_blank">Reference: Fan Charts</a>
+    </section>
+
+    <!-- Spaghetti Plot -->
+    <section class="bg-white rounded-lg shadow-lg p-8 mb-8">
+      <h2 class="text-2xl font-bold mb-4">Spaghetti Plot</h2>
+      <div class="flex flex-col items-center mb-4">
+        <svg width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="220" height="80" fill="#f1f5f9"/>
+          <polyline points="10,70 40,50 70,60 100,30 130,40 160,20 190,30 210,10" fill="none" stroke="#3b82f6" stroke-width="2"/>
+          <polyline points="10,60 40,40 70,50 100,20 130,30 160,10 190,20 210,20" fill="none" stroke="#f59e42" stroke-width="2"/>
+          <polyline points="10,65 40,55 70,65 100,35 130,45 160,25 190,35 210,15" fill="none" stroke="#10b981" stroke-width="2"/>
+        </svg>
+        <span class="text-xs text-gray-500 mt-1">Illustrative Example (SVG)</span>
+      </div>
+      <div class="mb-2 p-4 bg-blue-50 rounded">
+        <b>Story for Kids:</b> Imagine drawing lots of lines for different friends' predictions on the same chart. It looks like spaghetti!
+        <div class="text-green-700 font-semibold">Simple Tip: Spaghetti plots show many possible future paths or scenarios.</div>
+      </div>
+      <p class="text-gray-700 mb-2">A spaghetti plot overlays many time series or forecast paths to show variability or ensemble predictions.</p>
+      <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">for forecast in forecasts:
+    plt.plot(dates, forecast, alpha=0.3)
+plt.title('Spaghetti Plot')
+plt.show()</pre>
+      <div class="text-sm text-gray-600 mb-2">Required library: <b>matplotlib</b></div>
+      <a href="https://otexts.com/fpp3/spaghetti-plots.html" class="text-blue-600 underline" target="_blank">Reference: Spaghetti Plots</a>
+    </section>
+
+    <!-- Change Point Detection Plot -->
+    <section class="bg-white rounded-lg shadow-lg p-8 mb-8">
+      <h2 class="text-2xl font-bold mb-4">Change Point Detection Plot</h2>
+      <div class="flex flex-col items-center mb-4">
+        <svg width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="220" height="80" fill="#f1f5f9"/>
+          <polyline points="10,60 40,40 70,30 100,25 130,60 160,70 190,60 210,50" fill="none" stroke="#3b82f6" stroke-width="3"/>
+          <line x1="130" y1="10" x2="130" y2="70" stroke="#ef4444" stroke-width="3" stroke-dasharray="4 2"/>
+        </svg>
+        <span class="text-xs text-gray-500 mt-1">Illustrative Example (SVG)</span>
+      </div>
+      <div class="mb-2 p-4 bg-blue-50 rounded">
+        <b>Story for Kids:</b> Imagine your toy car suddenly changes direction. A change point plot shows where things change suddenly!
+        <div class="text-green-700 font-semibold">Simple Tip: Change point plots show where the data's pattern changes.</div>
+      </div>
+      <p class="text-gray-700 mb-2">Change point detection plots highlight where the statistical properties of a time series change.</p>
+      <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">import ruptures as rpt
+rpt.display(signal, bkps)
+plt.title('Change Point Detection')
+plt.show()</pre>
+      <div class="text-sm text-gray-600 mb-2">Required library: <b>ruptures</b></div>
+      <a href="https://centre-borelli.github.io/ruptures-docs/user-guide/quickstart/" class="text-blue-600 underline" target="_blank">Reference: Ruptures Change Point Detection</a>
+    </section>
+
+    <!-- Forecast Error Distribution Plot -->
+    <section class="bg-white rounded-lg shadow-lg p-8 mb-8">
+      <h2 class="text-2xl font-bold mb-4">Forecast Error Distribution Plot</h2>
+      <div class="flex flex-col items-center mb-4">
+        <svg width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="220" height="80" fill="#f1f5f9"/>
+          <path d="M20,70 Q60,10 110,60 Q160,110 200,30" stroke="#3b82f6" stroke-width="3" fill="none"/>
+        </svg>
+        <span class="text-xs text-gray-500 mt-1">Illustrative Example (SVG)</span>
+      </div>
+      <div class="mb-2 p-4 bg-blue-50 rounded">
+        <b>Story for Kids:</b> This plot is like checking how far your guesses were from the real answer!
+        <div class="text-green-700 font-semibold">Simple Tip: These plots show how good or bad your predictions were.</div>
+      </div>
+      <p class="text-gray-700 mb-2">Forecast error distribution plots show the spread of errors between predicted and actual values.</p>
+      <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">import matplotlib.pyplot as plt
+plt.hist(errors, bins=30)
+plt.title('Forecast Error Distribution')
+plt.xlabel('Error')
+plt.ylabel('Frequency')
+plt.show()</pre>
+      <div class="text-sm text-gray-600 mb-2">Required library: <b>matplotlib</b></div>
+      <a href="https://otexts.com/fpp2/accuracy.html" class="text-blue-600 underline" target="_blank">Reference: Forecast Accuracy</a>
+    </section>
+
+    <!-- Time Series Matrix Plot -->
+    <section class="bg-white rounded-lg shadow-lg p-8 mb-8">
+      <h2 class="text-2xl font-bold mb-4">Time Series Matrix Plot</h2>
+      <div class="flex flex-col items-center mb-4">
+        <svg width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="220" height="80" fill="#f1f5f9"/>
+          <rect x="20" y="20" width="30" height="40" fill="#3b82f6" fill-opacity="0.2"/>
+          <rect x="60" y="30" width="30" height="30" fill="#f59e42" fill-opacity="0.2"/>
+          <rect x="100" y="10" width="30" height="50" fill="#10b981" fill-opacity="0.2"/>
+          <rect x="140" y="25" width="30" height="35" fill="#6366f1" fill-opacity="0.2"/>
+        </svg>
+        <span class="text-xs text-gray-500 mt-1">Illustrative Example (SVG)</span>
+      </div>
+      <div class="mb-2 p-4 bg-blue-50 rounded">
+        <b>Story for Kids:</b> Imagine lots of little charts in a grid, each showing a different friend's story!
+        <div class="text-green-700 font-semibold">Simple Tip: Matrix plots show many time series at once.</div>
+      </div>
+      <p class="text-gray-700 mb-2">A time series matrix plot shows multiple series as small multiples, useful for panel data.</p>
+      <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">import matplotlib.pyplot as plt
+fig, axes = plt.subplots(nrows, ncols, figsize=(12,8))
+for i, ax in enumerate(axes.flat):
+    ax.plot(data[i])
+plt.tight_layout()
+plt.show()</pre>
+      <div class="text-sm text-gray-600 mb-2">Required library: <b>matplotlib</b></div>
+      <a href="https://seaborn.pydata.org/examples/many_facets.html" class="text-blue-600 underline" target="_blank">Reference: Seaborn FacetGrid</a>
+    </section>
+
+    <!-- Stacked Area Plot -->
+    <section class="bg-white rounded-lg shadow-lg p-8 mb-8">
+      <h2 class="text-2xl font-bold mb-4">Stacked Area Plot</h2>
+      <div class="flex flex-col items-center mb-4">
+        <svg width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="220" height="80" fill="#f1f5f9"/>
+          <polygon points="10,70 40,60 70,65 100,50 130,55 160,40 190,45 210,30 210,80 10,80" fill="#3b82f6" fill-opacity="0.3"/>
+          <polygon points="10,60 40,50 70,55 100,40 130,45 160,30 190,35 210,20 210,60 10,60" fill="#f59e42" fill-opacity="0.3"/>
+        </svg>
+        <span class="text-xs text-gray-500 mt-1">Illustrative Example (SVG)</span>
+      </div>
+      <div class="mb-2 p-4 bg-blue-50 rounded">
+        <b>Story for Kids:</b> It's like stacking colored sand in a bottle—each color shows a different part!
+        <div class="text-green-700 font-semibold">Simple Tip: Stacked area plots show how parts add up over time.</div>
+      </div>
+      <p class="text-gray-700 mb-2">A stacked area plot shows how multiple series contribute to a total over time.</p>
+      <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">plt.stackplot(dates, series1, series2, series3)
+plt.title('Stacked Area Plot')
+plt.show()</pre>
+      <div class="text-sm text-gray-600 mb-2">Required library: <b>matplotlib</b></div>
+      <a href="https://matplotlib.org/stable/gallery/stackplots/stackplot_demo.html" class="text-blue-600 underline" target="_blank">Reference: Matplotlib Stacked Area</a>
+    </section>
+
+    <!-- Dynamic Time Warping (DTW) Alignment Plot -->
+    <section class="bg-white rounded-lg shadow-lg p-8 mb-8">
+      <h2 class="text-2xl font-bold mb-4">Dynamic Time Warping (DTW) Alignment Plot</h2>
+      <div class="flex flex-col items-center mb-4">
+        <svg width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="220" height="80" fill="#f1f5f9"/>
+          <polyline points="20,60 60,40 100,50 140,30 180,40" fill="none" stroke="#3b82f6" stroke-width="2"/>
+          <polyline points="20,70 60,50 100,60 140,40 180,50" fill="none" stroke="#f59e42" stroke-width="2"/>
+          <line x1="60" y1="40" x2="60" y2="50" stroke="#ef4444" stroke-width="2" stroke-dasharray="2 2"/>
+          <line x1="100" y1="50" x2="100" y2="60" stroke="#ef4444" stroke-width="2" stroke-dasharray="2 2"/>
+          <line x1="140" y1="30" x2="140" y2="40" stroke="#ef4444" stroke-width="2" stroke-dasharray="2 2"/>
+        </svg>
+        <span class="text-xs text-gray-500 mt-1">Illustrative Example (SVG)</span>
+      </div>
+      <div class="mb-2 p-4 bg-blue-50 rounded">
+        <b>Story for Kids:</b> DTW is like matching two songs that go at different speeds, so they line up!
+        <div class="text-green-700 font-semibold">Simple Tip: DTW plots show how two series can be aligned even if they go at different speeds.</div>
+      </div>
+      <p class="text-gray-700 mb-2">DTW alignment plots show how two time series are matched up, even if they are stretched or compressed in time.</p>
+      <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">from dtaidistance import dtw
+alignment = dtw.warping_path(series1, series2)
+dtw.visualisation.plot_warping(series1, series2, alignment)
+plt.show()</pre>
+      <div class="text-sm text-gray-600 mb-2">Required library: <b>dtaidistance</b></div>
+      <a href="https://dtaidistance.readthedocs.io/en/latest/usage/dtw.html" class="text-blue-600 underline" target="_blank">Reference: DTW Alignment</a>
+    </section>
+
+    <!-- Time Series Clustering Plot -->
+    <section class="bg-white rounded-lg shadow-lg p-8 mb-8">
+      <h2 class="text-2xl font-bold mb-4">Time Series Clustering Plot</h2>
+      <div class="flex flex-col items-center mb-4">
+        <svg width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="220" height="80" fill="#f1f5f9"/>
+          <polyline points="20,60 60,40 100,50 140,30 180,40" fill="none" stroke="#3b82f6" stroke-width="2"/>
+          <polyline points="20,70 60,50 100,60 140,40 180,50" fill="none" stroke="#f59e42" stroke-width="2"/>
+          <polyline points="20,50 60,30 100,40 140,20 180,30" fill="none" stroke="#10b981" stroke-width="2"/>
+        </svg>
+        <span class="text-xs text-gray-500 mt-1">Illustrative Example (SVG)</span>
+      </div>
+      <div class="mb-2 p-4 bg-blue-50 rounded">
+        <b>Story for Kids:</b> Clustering is like grouping your toys by color or size!
+        <div class="text-green-700 font-semibold">Simple Tip: Clustering plots show which series are similar to each other.</div>
+      </div>
+      <p class="text-gray-700 mb-2">Time series clustering plots show groups of similar time series, often using color or position.</p>
+      <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">from tslearn.clustering import TimeSeriesKMeans
+model = TimeSeriesKMeans(n_clusters=3)
+labels = model.fit_predict(data)
+for i in range(3):
+    plt.plot(data[labels==i].T, alpha=0.3)
+plt.title('Time Series Clustering')
+plt.show()</pre>
+      <div class="text-sm text-gray-600 mb-2">Required library: <b>tslearn</b></div>
+      <a href="https://tslearn.readthedocs.io/en/stable/auto_examples/plot_kmeans.html" class="text-blue-600 underline" target="_blank">Reference: tslearn Clustering</a>
+    </section>
+
+    <!-- Autoregressive Coefficient Plot -->
+    <section class="bg-white rounded-lg shadow-lg p-8 mb-8">
+      <h2 class="text-2xl font-bold mb-4">Autoregressive Coefficient Plot</h2>
+      <div class="flex flex-col items-center mb-4">
+        <svg width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="220" height="80" fill="#f1f5f9"/>
+          <rect x="30" y="40" width="20" height="30" fill="#3b82f6"/>
+          <rect x="70" y="30" width="20" height="40" fill="#f59e42"/>
+          <rect x="110" y="20" width="20" height="50" fill="#10b981"/>
+          <rect x="150" y="35" width="20" height="35" fill="#6366f1"/>
+        </svg>
+        <span class="text-xs text-gray-500 mt-1">Illustrative Example (SVG)</span>
+      </div>
+      <div class="mb-2 p-4 bg-blue-50 rounded">
+        <b>Story for Kids:</b> This plot is like showing how much each friend helped you with your homework!
+        <div class="text-green-700 font-semibold">Simple Tip: AR coefficient plots show the importance of past values in predicting the future.</div>
+      </div>
+      <p class="text-gray-700 mb-2">Autoregressive coefficient plots show the weights of past lags in an AR model.</p>
+      <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">from statsmodels.tsa.ar_model import AutoReg
+model = AutoReg(data, lags=4).fit()
+plt.bar(range(1,5), model.params[1:])
+plt.title('AR Coefficient Plot')
+plt.show()</pre>
+      <div class="text-sm text-gray-600 mb-2">Required library: <b>statsmodels</b></div>
+      <a href="https://www.statsmodels.org/stable/generated/statsmodels.tsa.ar_model.AutoReg.html" class="text-blue-600 underline" target="_blank">Reference: Statsmodels AutoReg</a>
+    </section>
+
+    <!-- Network/Graph Plot for Causality -->
+    <section class="bg-white rounded-lg shadow-lg p-8 mb-8">
+      <h2 class="text-2xl font-bold mb-4">Network/Graph Plot for Causality</h2>
+      <div class="flex flex-col items-center mb-4">
+        <svg width="220" height="80" viewBox="0 0 220 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="220" height="80" fill="#f1f5f9"/>
+          <circle cx="60" cy="40" r="10" fill="#3b82f6"/>
+          <circle cx="160" cy="40" r="10" fill="#f59e42"/>
+          <line x1="70" y1="40" x2="150" y2="40" stroke="#ef4444" stroke-width="3" marker-end="url(#arrowhead)"/>
+          <defs>
+            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+              <polygon points="0 0, 10 3.5, 0 7" fill="#ef4444"/>
+            </marker>
+          </defs>
+        </svg>
+        <span class="text-xs text-gray-500 mt-1">Illustrative Example (SVG)</span>
+      </div>
+      <div class="mb-2 p-4 bg-blue-50 rounded">
+        <b>Story for Kids:</b> This plot is like drawing arrows to show which friend started the game!
+        <div class="text-green-700 font-semibold">Simple Tip: Network plots show which series might cause changes in others.</div>
+      </div>
+      <p class="text-gray-700 mb-2">Network/graph plots for causality show relationships (like Granger causality) between multiple time series.</p>
+      <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">import networkx as nx
+G = nx.DiGraph()
+G.add_edge('A', 'B')
+nx.draw(G, with_labels=True)
+plt.title('Causality Network')
+plt.show()</pre>
+      <div class="text-sm text-gray-600 mb-2">Required library: <b>networkx</b></div>
+      <a href="https://en.wikipedia.org/wiki/Granger_causality" class="text-blue-600 underline" target="_blank">Reference: Granger Causality</a>
+    </section>
+
+    <div class="text-center mt-8">
+      <a href="Concepts.html" class="text-blue-700 underline font-semibold">← Back to Concepts</a>
+    </div>
+  </main>
+  <footer class="bg-gray-800 text-white py-8">
+    <div class="container mx-auto px-6 text-center">
+      <p>&copy; 2025 AI-Powered Time Series Forecasting Hub. Enhanced with artificial intelligence for better learning experiences.</p>
+    </div>
+  </footer>
+</body>
+</html> 

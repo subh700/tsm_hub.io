@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Comparison - Time Series Forecasting Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="text-2xl font-bold text-blue-600">📊 Model Comparison</div>
+                <div class="flex space-x-4">
+                    <a href="models.html" class="text-blue-600 hover:text-blue-800">← Back to Library</a>
+                    <a href="model-selector.html" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">🤖 Get AI Recommendation</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-6 py-8">
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-gray-800 mb-6">Comprehensive Model Comparison</h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Compare time series forecasting models across multiple dimensions to make informed decisions for your projects.
+            </p>
+        </div>
+
+        <!-- Interactive Comparison Table -->
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden mb-12">
+            <div class="px-6 py-4 bg-gray-50 border-b">
+                <h2 class="text-2xl font-bold">📋 Detailed Model Comparison</h2>
+                <p class="text-gray-600 mt-1">Click on any cell to get detailed explanations</p>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="px-6 py-4 text-left font-semibold">Model</th>
+                            <th class="px-6 py-4 text-center font-semibold">Category</th>
+                            <th class="px-6 py-4 text-center font-semibold">Trend Accuracy</th>
+                            <th class="px-6 py-4 text-center font-semibold">Seasonality Accuracy</th>
+                            <th class="px-6 py-4 text-center font-semibold">Noise Robustness</th>
+                            <th class="px-6 py-4 text-center font-semibold">Interpretability</th>
+                            <th class="px-6 py-4 text-center font-semibold">Best For</th>
+                            <th class="px-6 py-4 text-center font-semibold">Data Size Needed</th>
+                            <th class="px-6 py-4 text-center font-semibold">Multivariate</th>
+                            <th class="px-6 py-4 text-center font-semibold">Long-Term</th>
+                            <th class="px-6 py-4 text-center font-semibold">Training Speed</th>
+                            <th class="px-6 py-4 text-center font-semibold">Inference Speed</th>
+                            <th class="px-6 py-4 text-center font-semibold">Handles Missing</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <!-- ARIMA -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 font-medium text-blue-600"><a href="ARIMA.html" class="hover:underline">ARIMA</a></td>
+                            <td class="px-6 py-4 text-center"><span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">Classical</span></td>
+                            <td class="px-6 py-4 text-center"> <div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"> <div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-yellow-500 h-2 rounded-full" style="width: 40%"></div></div></div><span class="text-xs text-gray-600">Low</span></td>
+                            <td class="px-6 py-4 text-center"> <div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-yellow-500 h-2 rounded-full" style="width: 60%"></div></div></div><span class="text-xs text-gray-600">Medium</span></td>
+                            <td class="px-6 py-4 text-center"> <div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 90%"></div></div></div><span class="text-xs text-gray-600">Very High</span></td>
+                            <td class="px-6 py-4 text-center text-sm">Linear trends, stationary data</td>
+                            <td class="px-6 py-4 text-center text-sm">50+</td>
+                            <td class="px-6 py-4 text-center text-sm">No</td>
+                            <td class="px-6 py-4 text-center text-sm">Low</td>
+                            <td class="px-6 py-4 text-center text-sm">Fast</td>
+                            <td class="px-6 py-4 text-center text-sm">Fast</td>
+                            <td class="px-6 py-4 text-center text-sm">No</td>
+                        </tr>
+                        <!-- SARIMAX -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 font-medium text-blue-600"><a href="SARIMAX.html" class="hover:underline">SARIMAX</a></td>
+                            <td class="px-6 py-4 text-center"><span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">Classical</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-yellow-500 h-2 rounded-full" style="width: 60%"></div></div></div><span class="text-xs text-gray-600">Medium</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 80%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center text-sm">Seasonal, exogenous variables</td>
+                            <td class="px-6 py-4 text-center text-sm">100+</td>
+                            <td class="px-6 py-4 text-center text-sm">Yes</td>
+                            <td class="px-6 py-4 text-center text-sm">Medium</td>
+                            <td class="px-6 py-4 text-center text-sm">Medium</td>
+                            <td class="px-6 py-4 text-center text-sm">Medium</td>
+                            <td class="px-6 py-4 text-center text-sm">No</td>
+                        </tr>
+                        <!-- Prophet -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 font-medium text-blue-600"><a href="Prophet.html" class="hover:underline">Prophet</a></td>
+                            <td class="px-6 py-4 text-center"><span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">Additive Model</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 80%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 90%"></div></div></div><span class="text-xs text-gray-600">Very High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-yellow-500 h-2 rounded-full" style="width: 60%"></div></div></div><span class="text-xs text-gray-600">Medium</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 90%"></div></div></div><span class="text-xs text-gray-600">Very High</span></td>
+                            <td class="px-6 py-4 text-center text-sm">Business, holidays, missing data</td>
+                            <td class="px-6 py-4 text-center text-sm">100+</td>
+                            <td class="px-6 py-4 text-center text-sm">Yes</td>
+                            <td class="px-6 py-4 text-center text-sm">Medium</td>
+                            <td class="px-6 py-4 text-center text-sm">Fast</td>
+                            <td class="px-6 py-4 text-center text-sm">Fast</td>
+                            <td class="px-6 py-4 text-center text-sm">Yes</td>
+                        </tr>
+                        <!-- LSTM -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 font-medium text-blue-600"><a href="LSTM.html" class="hover:underline">LSTM</a></td>
+                            <td class="px-6 py-4 text-center"><span class="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs">Deep Learning</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 90%"></div></div></div><span class="text-xs text-gray-600">Very High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-400 h-2 rounded-full" style="width: 80%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-yellow-500 h-2 rounded-full" style="width: 40%"></div></div></div><span class="text-xs text-gray-600">Medium</span></td>
+                            <td class="px-6 py-4 text-center text-sm">Complex, nonlinear, sequential data</td>
+                            <td class="px-6 py-4 text-center text-sm">500+</td>
+                            <td class="px-6 py-4 text-center text-sm">Yes</td>
+                            <td class="px-6 py-4 text-center text-sm">High</td>
+                            <td class="px-6 py-4 text-center text-sm">Slow</td>
+                            <td class="px-6 py-4 text-center text-sm">Medium</td>
+                            <td class="px-6 py-4 text-center text-sm">No</td>
+                        </tr>
+                        <!-- biLSTM -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 font-medium text-blue-600"><a href="biLSTM.html" class="hover:underline">biLSTM</a></td>
+                            <td class="px-6 py-4 text-center"><span class="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs">Deep Learning</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 90%"></div></div></div><span class="text-xs text-gray-600">Very High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-400 h-2 rounded-full" style="width: 80%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-yellow-500 h-2 rounded-full" style="width: 40%"></div></div></div><span class="text-xs text-gray-600">Medium</span></td>
+                            <td class="px-6 py-4 text-center text-sm">Complex, nonlinear, sequential data</td>
+                            <td class="px-6 py-4 text-center text-sm">500+</td>
+                            <td class="px-6 py-4 text-center text-sm">Yes</td>
+                            <td class="px-6 py-4 text-center text-sm">High</td>
+                            <td class="px-6 py-4 text-center text-sm">Slow</td>
+                            <td class="px-6 py-4 text-center text-sm">Medium</td>
+                            <td class="px-6 py-4 text-center text-sm">No</td>
+                        </tr>
+                        <!-- biGRU -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 font-medium text-blue-600"><a href="biGRU.html" class="hover:underline">biGRU</a></td>
+                            <td class="px-6 py-4 text-center"><span class="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs">Deep Learning</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 80%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-400 h-2 rounded-full" style="width: 75%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-yellow-500 h-2 rounded-full" style="width: 40%"></div></div></div><span class="text-xs text-gray-600">Medium</span></td>
+                            <td class="px-6 py-4 text-center text-sm">Complex, nonlinear, sequential data</td>
+                            <td class="px-6 py-4 text-center text-sm">500+</td>
+                            <td class="px-6 py-4 text-center text-sm">Yes</td>
+                            <td class="px-6 py-4 text-center text-sm">High</td>
+                            <td class="px-6 py-4 text-center text-sm">Medium</td>
+                            <td class="px-6 py-4 text-center text-sm">Medium</td>
+                            <td class="px-6 py-4 text-center text-sm">No</td>
+                        </tr>
+                        <!-- GRU -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 font-medium text-blue-600"><a href="gru.html" class="hover:underline">GRU</a></td>
+                            <td class="px-6 py-4 text-center"><span class="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs">Deep Learning</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 80%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 75%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-400 h-2 rounded-full" style="width: 70%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-yellow-500 h-2 rounded-full" style="width: 40%"></div></div></div><span class="text-xs text-gray-600">Medium</span></td>
+                            <td class="px-6 py-4 text-center text-sm">Complex, nonlinear, sequential data</td>
+                            <td class="px-6 py-4 text-center text-sm">500+</td>
+                            <td class="px-6 py-4 text-center text-sm">Yes</td>
+                            <td class="px-6 py-4 text-center text-sm">High</td>
+                            <td class="px-6 py-4 text-center text-sm">Medium</td>
+                            <td class="px-6 py-4 text-center text-sm">Medium</td>
+                            <td class="px-6 py-4 text-center text-sm">No</td>
+                        </tr>
+                        <!-- TCN -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 font-medium text-blue-600"><a href="tcn.html" class="hover:underline">TCN</a></td>
+                            <td class="px-6 py-4 text-center"><span class="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs">Deep Learning</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 80%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-400 h-2 rounded-full" style="width: 80%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-yellow-500 h-2 rounded-full" style="width: 40%"></div></div></div><span class="text-xs text-gray-600">Medium</span></td>
+                            <td class="px-6 py-4 text-center text-sm">Long sequences, parallelism</td>
+                            <td class="px-6 py-4 text-center text-sm">1000+</td>
+                            <td class="px-6 py-4 text-center text-sm">Yes</td>
+                            <td class="px-6 py-4 text-center text-sm">High</td>
+                            <td class="px-6 py-4 text-center text-sm">Medium</td>
+                            <td class="px-6 py-4 text-center text-sm">Medium</td>
+                            <td class="px-6 py-4 text-center text-sm">No</td>
+                        </tr>
+                        <!-- Transformer -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 font-medium text-blue-600"><a href="transformer.html" class="hover:underline">Transformer</a></td>
+                            <td class="px-6 py-4 text-center"><span class="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs">Deep Learning</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 90%"></div></div></div><span class="text-xs text-gray-600">Very High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-400 h-2 rounded-full" style="width: 80%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-yellow-500 h-2 rounded-full" style="width: 30%"></div></div></div><span class="text-xs text-gray-600">Low</span></td>
+                            <td class="px-6 py-4 text-center text-sm">Long-term dependencies, multivariate</td>
+                            <td class="px-6 py-4 text-center text-sm">2000+</td>
+                            <td class="px-6 py-4 text-center text-sm">Yes</td>
+                            <td class="px-6 py-4 text-center text-sm">Very High</td>
+                            <td class="px-6 py-4 text-center text-sm">Slow</td>
+                            <td class="px-6 py-4 text-center text-sm">Medium</td>
+                            <td class="px-6 py-4 text-center text-sm">No</td>
+                        </tr>
+                        <!-- PatchTST -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 font-medium text-blue-600"><a href="patchtst.html" class="hover:underline">PatchTST</a></td>
+                            <td class="px-6 py-4 text-center"><span class="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs">Deep Learning</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 90%"></div></div></div><span class="text-xs text-gray-600">Very High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-400 h-2 rounded-full" style="width: 80%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-yellow-500 h-2 rounded-full" style="width: 30%"></div></div></div><span class="text-xs text-gray-600">Low</span></td>
+                            <td class="px-6 py-4 text-center text-sm">Long-term, large-scale forecasting</td>
+                            <td class="px-6 py-4 text-center text-sm">2000+</td>
+                            <td class="px-6 py-4 text-center text-sm">Yes</td>
+                            <td class="px-6 py-4 text-center text-sm">Very High</td>
+                            <td class="px-6 py-4 text-center text-sm">Medium</td>
+                            <td class="px-6 py-4 text-center text-sm">Medium</td>
+                            <td class="px-6 py-4 text-center text-sm">No</td>
+                        </tr>
+                        <!-- N-BEATS -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 font-medium text-blue-600"><a href="n_beats.html" class="hover:underline">N-BEATS</a></td>
+                            <td class="px-6 py-4 text-center"><span class="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs">Deep Learning</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 80%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-400 h-2 rounded-full" style="width: 75%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-yellow-500 h-2 rounded-full" style="width: 40%"></div></div></div><span class="text-xs text-gray-600">Medium</span></td>
+                            <td class="px-6 py-4 text-center text-sm">Generic, interpretable, large-scale</td>
+                            <td class="px-6 py-4 text-center text-sm">1000+</td>
+                            <td class="px-6 py-4 text-center text-sm">Yes</td>
+                            <td class="px-6 py-4 text-center text-sm">High</td>
+                            <td class="px-6 py-4 text-center text-sm">Medium</td>
+                            <td class="px-6 py-4 text-center text-sm">Medium</td>
+                            <td class="px-6 py-4 text-center text-sm">No</td>
+                        </tr>
+                        <!-- DeepAR -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 font-medium text-blue-600"><a href="deepar.html" class="hover:underline">DeepAR</a></td>
+                            <td class="px-6 py-4 text-center"><span class="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs">Deep Learning</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 80%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-400 h-2 rounded-full" style="width: 75%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-yellow-500 h-2 rounded-full" style="width: 30%"></div></div></div><span class="text-xs text-gray-600">Low</span></td>
+                            <td class="px-6 py-4 text-center text-sm">Probabilistic, large-scale, retail</td>
+                            <td class="px-6 py-4 text-center text-sm">1000+</td>
+                            <td class="px-6 py-4 text-center text-sm">Yes</td>
+                            <td class="px-6 py-4 text-center text-sm">High</td>
+                            <td class="px-6 py-4 text-center text-sm">Medium</td>
+                            <td class="px-6 py-4 text-center text-sm">Medium</td>
+                            <td class="px-6 py-4 text-center text-sm">No</td>
+                        </tr>
+                        <!-- Wavenet -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 font-medium text-blue-600"><a href="wavenet.html" class="hover:underline">Wavenet</a></td>
+                            <td class="px-6 py-4 text-center"><span class="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs">Deep Learning</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 80%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-400 h-2 rounded-full" style="width: 75%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-yellow-500 h-2 rounded-full" style="width: 30%"></div></div></div><span class="text-xs text-gray-600">Low</span></td>
+                            <td class="px-6 py-4 text-center text-sm">Audio, long sequences</td>
+                            <td class="px-6 py-4 text-center text-sm">2000+</td>
+                            <td class="px-6 py-4 text-center text-sm">Yes</td>
+                            <td class="px-6 py-4 text-center text-sm">High</td>
+                            <td class="px-6 py-4 text-center text-sm">Medium</td>
+                            <td class="px-6 py-4 text-center text-sm">Medium</td>
+                            <td class="px-6 py-4 text-center text-sm">No</td>
+                        </tr>
+                        <!-- Random Forest -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 font-medium text-blue-600"><a href="random_forest.html" class="hover:underline">Random Forest</a></td>
+                            <td class="px-6 py-4 text-center"><span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">Ensemble</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 70%"></div></div></div><span class="text-xs text-gray-600">Medium</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-yellow-500 h-2 rounded-full" style="width: 60%"></div></div></div><span class="text-xs text-gray-600">Medium</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-400 h-2 rounded-full" style="width: 70%"></div></div></div><span class="text-xs text-gray-600">Medium</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 60%"></div></div></div><span class="text-xs text-gray-600">Medium</span></td>
+                            <td class="px-6 py-4 text-center text-sm">Tabular, feature-rich data</td>
+                            <td class="px-6 py-4 text-center text-sm">500+</td>
+                            <td class="px-6 py-4 text-center text-sm">Yes</td>
+                            <td class="px-6 py-4 text-center text-sm">Medium</td>
+                            <td class="px-6 py-4 text-center text-sm">Medium</td>
+                            <td class="px-6 py-4 text-center text-sm">Fast</td>
+                            <td class="px-6 py-4 text-center text-sm">Yes</td>
+                        </tr>
+                        <!-- LightGBM -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 font-medium text-blue-600"><a href="lightgbm.html" class="hover:underline">LightGBM</a></td>
+                            <td class="px-6 py-4 text-center"><span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">Ensemble</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 75%"></div></div></div><span class="text-xs text-gray-600">Medium</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-yellow-500 h-2 rounded-full" style="width: 60%"></div></div></div><span class="text-xs text-gray-600">Medium</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-400 h-2 rounded-full" style="width: 70%"></div></div></div><span class="text-xs text-gray-600">Medium</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 60%"></div></div></div><span class="text-xs text-gray-600">Medium</span></td>
+                            <td class="px-6 py-4 text-center text-sm">Tabular, large data, fast training</td>
+                            <td class="px-6 py-4 text-center text-sm">1000+</td>
+                            <td class="px-6 py-4 text-center text-sm">Yes</td>
+                            <td class="px-6 py-4 text-center text-sm">Medium</td>
+                            <td class="px-6 py-4 text-center text-sm">Fast</td>
+                            <td class="px-6 py-4 text-center text-sm">Fast</td>
+                            <td class="px-6 py-4 text-center text-sm">Yes</td>
+                        </tr>
+                        <!-- XGBoost -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 font-medium text-blue-600"><a href="xgboost.html" class="hover:underline">XGBoost</a></td>
+                            <td class="px-6 py-4 text-center"><span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">Ensemble</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 75%"></div></div></div><span class="text-xs text-gray-600">Medium</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-yellow-500 h-2 rounded-full" style="width: 60%"></div></div></div><span class="text-xs text-gray-600">Medium</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-400 h-2 rounded-full" style="width: 70%"></div></div></div><span class="text-xs text-gray-600">Medium</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 60%"></div></div></div><span class="text-xs text-gray-600">Medium</span></td>
+                            <td class="px-6 py-4 text-center text-sm">Tabular, large data, competitions</td>
+                            <td class="px-6 py-4 text-center text-sm">1000+</td>
+                            <td class="px-6 py-4 text-center text-sm">Yes</td>
+                            <td class="px-6 py-4 text-center text-sm">Medium</td>
+                            <td class="px-6 py-4 text-center text-sm">Fast</td>
+                            <td class="px-6 py-4 text-center text-sm">Fast</td>
+                            <td class="px-6 py-4 text-center text-sm">Yes</td>
+                        </tr>
+                        <!-- Elastic Net -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 font-medium text-blue-600"><a href="elastic_net.html" class="hover:underline">Elastic Net</a></td>
+                            <td class="px-6 py-4 text-center"><span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">Regression</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 70%"></div></div></div><span class="text-xs text-gray-600">Medium</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-yellow-500 h-2 rounded-full" style="width: 50%"></div></div></div><span class="text-xs text-gray-600">Medium</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-400 h-2 rounded-full" style="width: 60%"></div></div></div><span class="text-xs text-gray-600">Medium</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 80%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center text-sm">Linear, regularized, tabular</td>
+                            <td class="px-6 py-4 text-center text-sm">200+</td>
+                            <td class="px-6 py-4 text-center text-sm">Yes</td>
+                            <td class="px-6 py-4 text-center text-sm">Low</td>
+                            <td class="px-6 py-4 text-center text-sm">Fast</td>
+                            <td class="px-6 py-4 text-center text-sm">Fast</td>
+                            <td class="px-6 py-4 text-center text-sm">Yes</td>
+                        </tr>
+                        <!-- SVR -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 font-medium text-blue-600"><a href="svr.html" class="hover:underline">SVR</a></td>
+                            <td class="px-6 py-4 text-center"><span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">Regression</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 70%"></div></div></div><span class="text-xs text-gray-600">Medium</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-yellow-500 h-2 rounded-full" style="width: 50%"></div></div></div><span class="text-xs text-gray-600">Medium</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-400 h-2 rounded-full" style="width: 60%"></div></div></div><span class="text-xs text-gray-600">Medium</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 70%"></div></div></div><span class="text-xs text-gray-600">Medium</span></td>
+                            <td class="px-6 py-4 text-center text-sm">Nonlinear, small/medium data</td>
+                            <td class="px-6 py-4 text-center text-sm">200+</td>
+                            <td class="px-6 py-4 text-center text-sm">Yes</td>
+                            <td class="px-6 py-4 text-center text-sm">Low</td>
+                            <td class="px-6 py-4 text-center text-sm">Medium</td>
+                            <td class="px-6 py-4 text-center text-sm">Medium</td>
+                            <td class="px-6 py-4 text-center text-sm">Yes</td>
+                        </tr>
+                        <!-- Kalman Filter -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 font-medium text-blue-600"><a href="kalman_filter.html" class="hover:underline">Kalman Filter</a></td>
+                            <td class="px-6 py-4 text-center"><span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">State Space</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 80%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-yellow-500 h-2 rounded-full" style="width: 60%"></div></div></div><span class="text-xs text-gray-600">Medium</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-400 h-2 rounded-full" style="width: 70%"></div></div></div><span class="text-xs text-gray-600">Medium</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 80%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center text-sm">State estimation, noisy data</td>
+                            <td class="px-6 py-4 text-center text-sm">100+</td>
+                            <td class="px-6 py-4 text-center text-sm">Yes</td>
+                            <td class="px-6 py-4 text-center text-sm">Medium</td>
+                            <td class="px-6 py-4 text-center text-sm">Fast</td>
+                            <td class="px-6 py-4 text-center text-sm">Fast</td>
+                            <td class="px-6 py-4 text-center text-sm">Yes</td>
+                        </tr>
+                        <!-- Holt-Winters -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 font-medium text-blue-600"><a href="holt_winters.html" class="hover:underline">Holt-Winters</a></td>
+                            <td class="px-6 py-4 text-center"><span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">Classical</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-yellow-500 h-2 rounded-full" style="width: 60%"></div></div></div><span class="text-xs text-gray-600">Medium</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 80%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center text-sm">Seasonal, non-stationary data</td>
+                            <td class="px-6 py-4 text-center text-sm">100+</td>
+                            <td class="px-6 py-4 text-center text-sm">No</td>
+                            <td class="px-6 py-4 text-center text-sm">Low</td>
+                            <td class="px-6 py-4 text-center text-sm">Fast</td>
+                            <td class="px-6 py-4 text-center text-sm">Fast</td>
+                            <td class="px-6 py-4 text-center text-sm">No</td>
+                        </tr>
+                        <!-- ETS -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 font-medium text-blue-600"><a href="ets.html" class="hover:underline">ETS</a></td>
+                            <td class="px-6 py-4 text-center"><span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">Classical</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-yellow-500 h-2 rounded-full" style="width: 60%"></div></div></div><span class="text-xs text-gray-600">Medium</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 80%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center text-sm">Seasonal, non-stationary data</td>
+                            <td class="px-6 py-4 text-center text-sm">100+</td>
+                            <td class="px-6 py-4 text-center text-sm">No</td>
+                            <td class="px-6 py-4 text-center text-sm">Low</td>
+                            <td class="px-6 py-4 text-center text-sm">Fast</td>
+                            <td class="px-6 py-4 text-center text-sm">Fast</td>
+                            <td class="px-6 py-4 text-center text-sm">No</td>
+                        </tr>
+                        <!-- MA -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 font-medium text-blue-600"><a href="ma.html" class="hover:underline">MA</a></td>
+                            <td class="px-6 py-4 text-center"><span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">Classical</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-yellow-500 h-2 rounded-full" style="width: 60%"></div></div></div><span class="text-xs text-gray-600">Medium</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 80%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center text-sm">Moving average, stationary data</td>
+                            <td class="px-6 py-4 text-center text-sm">50+</td>
+                            <td class="px-6 py-4 text-center text-sm">No</td>
+                            <td class="px-6 py-4 text-center text-sm">Low</td>
+                            <td class="px-6 py-4 text-center text-sm">Fast</td>
+                            <td class="px-6 py-4 text-center text-sm">Fast</td>
+                            <td class="px-6 py-4 text-center text-sm">No</td>
+                        </tr>
+                        <!-- VAR -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 font-medium text-blue-600"><a href="var.html" class="hover:underline">VAR</a></td>
+                            <td class="px-6 py-4 text-center"><span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">Classical</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-yellow-500 h-2 rounded-full" style="width: 60%"></div></div></div><span class="text-xs text-gray-600">Medium</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 80%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center text-sm">Vector autoregression, multivariate</td>
+                            <td class="px-6 py-4 text-center text-sm">100+</td>
+                            <td class="px-6 py-4 text-center text-sm">Yes</td>
+                            <td class="px-6 py-4 text-center text-sm">Medium</td>
+                            <td class="px-6 py-4 text-center text-sm">Medium</td>
+                            <td class="px-6 py-4 text-center text-sm">Medium</td>
+                            <td class="px-6 py-4 text-center text-sm">No</td>
+                        </tr>
+                        <!-- Fedformer -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 font-medium text-blue-600"><a href="fedformer.html" class="hover:underline">Fedformer</a></td>
+                            <td class="px-6 py-4 text-center"><span class="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs">Deep Learning</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-400 h-2 rounded-full" style="width: 80%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 80%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center text-sm">Long-term, large-scale, multivariate</td>
+                            <td class="px-6 py-4 text-center text-sm">2000+</td>
+                            <td class="px-6 py-4 text-center text-sm">Yes</td>
+                            <td class="px-6 py-4 text-center text-sm">Very High</td>
+                            <td class="px-6 py-4 text-center text-sm">Slow</td>
+                            <td class="px-6 py-4 text-center text-sm">Medium</td>
+                            <td class="px-6 py-4 text-center text-sm">No</td>
+                        </tr>
+                        <!-- Autoformer -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 font-medium text-blue-600"><a href="autoformer.html" class="hover:underline">Autoformer</a></td>
+                            <td class="px-6 py-4 text-center"><span class="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs">Deep Learning</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-400 h-2 rounded-full" style="width: 80%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 80%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center text-sm">Long-term, large-scale, multivariate</td>
+                            <td class="px-6 py-4 text-center text-sm">2000+</td>
+                            <td class="px-6 py-4 text-center text-sm">Yes</td>
+                            <td class="px-6 py-4 text-center text-sm">Very High</td>
+                            <td class="px-6 py-4 text-center text-sm">Slow</td>
+                            <td class="px-6 py-4 text-center text-sm">Medium</td>
+                            <td class="px-6 py-4 text-center text-sm">No</td>
+                        </tr>
+                        <!-- Stacking Ensemble -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 font-medium text-blue-600"><a href="stacking_ensemble.html" class="hover:underline">Stacking Ensemble</a></td>
+                            <td class="px-6 py-4 text-center"><span class="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs">Ensemble</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-400 h-2 rounded-full" style="width: 80%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 80%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center text-sm">Long-term, large-scale, multivariate</td>
+                            <td class="px-6 py-4 text-center text-sm">2000+</td>
+                            <td class="px-6 py-4 text-center text-sm">Yes</td>
+                            <td class="px-6 py-4 text-center text-sm">Very High</td>
+                            <td class="px-6 py-4 text-center text-sm">Slow</td>
+                            <td class="px-6 py-4 text-center text-sm">Medium</td>
+                            <td class="px-6 py-4 text-center text-sm">No</td>
+                        </tr>
+                        <!-- ARIMA-GARCH -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 font-medium text-blue-600"><a href="arima_garch.html" class="hover:underline">ARIMA-GARCH</a></td>
+                            <td class="px-6 py-4 text-center"><span class="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs">Deep Learning</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-400 h-2 rounded-full" style="width: 80%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 80%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center text-sm">Long-term, large-scale, multivariate</td>
+                            <td class="px-6 py-4 text-center text-sm">2000+</td>
+                            <td class="px-6 py-4 text-center text-sm">Yes</td>
+                            <td class="px-6 py-4 text-center text-sm">Very High</td>
+                            <td class="px-6 py-4 text-center text-sm">Slow</td>
+                            <td class="px-6 py-4 text-center text-sm">Medium</td>
+                            <td class="px-6 py-4 text-center text-sm">No</td>
+                        </tr>
+                        <!-- AR -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 font-medium text-blue-600"><a href="ar.html" class="hover:underline">AR</a></td>
+                            <td class="px-6 py-4 text-center"><span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">Classical</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-yellow-500 h-2 rounded-full" style="width: 60%"></div></div></div><span class="text-xs text-gray-600">Medium</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 80%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center text-sm">Linear, stationary data</td>
+                            <td class="px-6 py-4 text-center text-sm">50+</td>
+                            <td class="px-6 py-4 text-center text-sm">No</td>
+                            <td class="px-6 py-4 text-center text-sm">Low</td>
+                            <td class="px-6 py-4 text-center text-sm">Fast</td>
+                            <td class="px-6 py-4 text-center text-sm">Fast</td>
+                            <td class="px-6 py-4 text-center text-sm">No</td>
+                        </tr>
+                        <!-- DSSM -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 font-medium text-blue-600"><a href="dssm.html" class="hover:underline">DSSM</a></td>
+                            <td class="px-6 py-4 text-center"><span class="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs">Deep Learning</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-400 h-2 rounded-full" style="width: 80%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 80%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center text-sm">Long-term, large-scale, multivariate</td>
+                            <td class="px-6 py-4 text-center text-sm">2000+</td>
+                            <td class="px-6 py-4 text-center text-sm">Yes</td>
+                            <td class="px-6 py-4 text-center text-sm">Very High</td>
+                            <td class="px-6 py-4 text-center text-sm">Slow</td>
+                            <td class="px-6 py-4 text-center text-sm">Medium</td>
+                            <td class="px-6 py-4 text-center text-sm">No</td>
+                        </tr>
+                        <!-- NeuralProphet -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 font-medium text-blue-600"><a href="neural_prophet.html" class="hover:underline">NeuralProphet</a></td>
+                            <td class="px-6 py-4 text-center"><span class="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs">Deep Learning</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-400 h-2 rounded-full" style="width: 80%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 80%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center text-sm">Long-term, large-scale, multivariate</td>
+                            <td class="px-6 py-4 text-center text-sm">2000+</td>
+                            <td class="px-6 py-4 text-center text-sm">Yes</td>
+                            <td class="px-6 py-4 text-center text-sm">Very High</td>
+                            <td class="px-6 py-4 text-center text-sm">Slow</td>
+                            <td class="px-6 py-4 text-center text-sm">Medium</td>
+                            <td class="px-6 py-4 text-center text-sm">No</td>
+                        </tr>
+                        <!-- Prophet-LSTM -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 font-medium text-blue-600"><a href="prophet_lstm.html" class="hover:underline">Prophet-LSTM</a></td>
+                            <td class="px-6 py-4 text-center"><span class="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs">Deep Learning</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-400 h-2 rounded-full" style="width: 80%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 80%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center text-sm">Long-term, large-scale, multivariate</td>
+                            <td class="px-6 py-4 text-center text-sm">2000+</td>
+                            <td class="px-6 py-4 text-center text-sm">Yes</td>
+                            <td class="px-6 py-4 text-center text-sm">Very High</td>
+                            <td class="px-6 py-4 text-center text-sm">Slow</td>
+                            <td class="px-6 py-4 text-center text-sm">Medium</td>
+                            <td class="px-6 py-4 text-center text-sm">No</td>
+                        </tr>
+                        <!-- Prophet-XGBoost -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 font-medium text-blue-600"><a href="prophet_xgboost.html" class="hover:underline">Prophet-XGBoost</a></td>
+                            <td class="px-6 py-4 text-center"><span class="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs">Deep Learning</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-400 h-2 rounded-full" style="width: 80%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 80%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center text-sm">Long-term, large-scale, multivariate</td>
+                            <td class="px-6 py-4 text-center text-sm">2000+</td>
+                            <td class="px-6 py-4 text-center text-sm">Yes</td>
+                            <td class="px-6 py-4 text-center text-sm">Very High</td>
+                            <td class="px-6 py-4 text-center text-sm">Slow</td>
+                            <td class="px-6 py-4 text-center text-sm">Medium</td>
+                            <td class="px-6 py-4 text-center text-sm">No</td>
+                        </tr>
+                        <!-- ARIMA-LSTM -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 font-medium text-blue-600"><a href="arima_lstm.html" class="hover:underline">ARIMA-LSTM</a></td>
+                            <td class="px-6 py-4 text-center"><span class="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs">Deep Learning</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-400 h-2 rounded-full" style="width: 80%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 80%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center text-sm">Long-term, large-scale, multivariate</td>
+                            <td class="px-6 py-4 text-center text-sm">2000+</td>
+                            <td class="px-6 py-4 text-center text-sm">Yes</td>
+                            <td class="px-6 py-4 text-center text-sm">Very High</td>
+                            <td class="px-6 py-4 text-center text-sm">Slow</td>
+                            <td class="px-6 py-4 text-center text-sm">Medium</td>
+                            <td class="px-6 py-4 text-center text-sm">No</td>
+                        </tr>
+                        <!-- ARIMA-Transformer -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 font-medium text-blue-600"><a href="arima_transformer.html" class="hover:underline">ARIMA-Transformer</a></td>
+                            <td class="px-6 py-4 text-center"><span class="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs">Deep Learning</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-400 h-2 rounded-full" style="width: 80%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 80%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center text-sm">Long-term, large-scale, multivariate</td>
+                            <td class="px-6 py-4 text-center text-sm">2000+</td>
+                            <td class="px-6 py-4 text-center text-sm">Yes</td>
+                            <td class="px-6 py-4 text-center text-sm">Very High</td>
+                            <td class="px-6 py-4 text-center text-sm">Slow</td>
+                            <td class="px-6 py-4 text-center text-sm">Medium</td>
+                            <td class="px-6 py-4 text-center text-sm">No</td>
+                        </tr>
+                        <!-- wavenet_rnn_hybrid -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 font-medium text-blue-600"><a href="wavenet_rnn_hybrid.html" class="hover:underline">wavenet_rnn_hybrid</a></td>
+                            <td class="px-6 py-4 text-center"><span class="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs">Deep Learning</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-400 h-2 rounded-full" style="width: 80%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 80%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center text-sm">Long-term, large-scale, multivariate</td>
+                            <td class="px-6 py-4 text-center text-sm">2000+</td>
+                            <td class="px-6 py-4 text-center text-sm">Yes</td>
+                            <td class="px-6 py-4 text-center text-sm">Very High</td>
+                            <td class="px-6 py-4 text-center text-sm">Slow</td>
+                            <td class="px-6 py-4 text-center text-sm">Medium</td>
+                            <td class="px-6 py-4 text-center text-sm">No</td>
+                        </tr>
+                        <!-- stacking_ensemble -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 font-medium text-blue-600"><a href="stacking_ensemble.html" class="hover:underline">stacking_ensemble</a></td>
+                            <td class="px-6 py-4 text-center"><span class="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs">Ensemble</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-400 h-2 rounded-full" style="width: 80%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 80%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center text-sm">Long-term, large-scale, multivariate</td>
+                            <td class="px-6 py-4 text-center text-sm">2000+</td>
+                            <td class="px-6 py-4 text-center text-sm">Yes</td>
+                            <td class="px-6 py-4 text-center text-sm">Very High</td>
+                            <td class="px-6 py-4 text-center text-sm">Slow</td>
+                            <td class="px-6 py-4 text-center text-sm">Medium</td>
+                            <td class="px-6 py-4 text-center text-sm">No</td>
+                        </tr>
+                        <!-- arima_garch -->
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 font-medium text-blue-600"><a href="arima_garch.html" class="hover:underline">arima_garch</a></td>
+                            <td class="px-6 py-4 text-center"><span class="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs">Deep Learning</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-400 h-2 rounded-full" style="width: 80%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center"><div class="flex justify-center"><div class="w-20 bg-gray-200 rounded-full h-2 mt-1"><div class="bg-green-500 h-2 rounded-full" style="width: 80%"></div></div></div><span class="text-xs text-gray-600">High</span></td>
+                            <td class="px-6 py-4 text-center text-sm">Long-term, large-scale, multivariate</td>
+                            <td class="px-6 py-4 text-center text-sm">2000+</td>
+                            <td class="px-6 py-4 text-center text-sm">Yes</td>
+                            <td class="px-6 py-4 text-center text-sm">Very High</td>
+                            <td class="px-6 py-4 text-center text-sm">Slow</td>
+                            <td class="px-6 py-4 text-center text-sm">Medium</td>
+                            <td class="px-6 py-4 text-center text-sm">No</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Performance Comparison Chart -->
+        <div class="grid md:grid-cols-2 gap-8 mb-12">
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h3 class="text-xl font-bold mb-4">📊 Accuracy vs Complexity</h3>
+                <div class="h-64">
+                    <canvas id="accuracy-complexity-chart"></canvas>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h3 class="text-xl font-bold mb-4">⚡ Speed vs Accuracy</h3>
+                <div class="h-64">
+                    <canvas id="speed-accuracy-chart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Decision Matrix -->
+        <div class="bg-white rounded-lg shadow-lg p-8">
+            <h2 class="text-3xl font-bold text-center mb-8">🎯 Decision Matrix</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <h3 class="text-xl font-semibold mb-4 text-blue-600">📈 Linear Patterns</h3>
+                    <div class="space-y-3">
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <div class="font-semibold">✅ Best Choice: ARIMA</div>
+                            <p class="text-sm text-gray-600">Excellent for stationary data with clear linear trends</p>
+                        </div>
+                        <div class="bg-yellow-50 p-4 rounded-lg">
+                            <div class="font-semibold">⚠️ Alternative: ETS</div>
+                            <p class="text-sm text-gray-600">Good if some seasonality is present</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <h3 class="text-xl font-semibold mb-4 text-green-600">🌊 Seasonal Patterns</h3>
+                    <div class="space-y-3">
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <div class="font-semibold">✅ Best Choice: Prophet</div>
+                            <p class="text-sm text-gray-600">Handles multiple seasonalities and holidays</p>
+                        </div>
+                        <div class="bg-yellow-50 p-4 rounded-lg">
+                            <div class="font-semibold">⚠️ Alternative: SARIMAX</div>
+                            <p class="text-sm text-gray-600">More control but requires expertise</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <h3 class="text-xl font-semibold mb-4 text-purple-600">🧠 Complex Non-Linear</h3>
+                    <div class="space-y-3">
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <div class="font-semibold">✅ Best Choice: LSTM</div>
+                            <p class="text-sm text-gray-600">Handles complex patterns with sufficient data</p>
+                        </div>
+                        <div class="bg-yellow-50 p-4 rounded-lg">
+                            <div class="font-semibold">⚠️ Alternative: Prophet</div>
+                            <p class="text-sm text-gray-600">If interpretability is needed</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Datasets Section -->
+        <div class="mt-16 bg-white rounded-lg shadow-lg p-8">
+          <h2 class="text-2xl font-bold mb-4">🔗 Useful Time Series Datasets</h2>
+          <p class="mb-4 text-gray-700">Explore these public datasets for benchmarking, learning, and experimentation. For a massive list (1000+), use the links and download below.</p>
+          <div class="mb-4">
+            <a href="https://github.com/awesomedata/awesome-public-datasets#time-series-data" class="inline-block bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 mr-2 mb-2" target="_blank">Awesome Public Datasets (1000+)</a>
+            <a href="https://www.kaggle.com/datasets?search=time+series" class="inline-block bg-green-600 text-white px-4 py-2 rounded shadow hover:bg-green-700 mr-2 mb-2" target="_blank">Kaggle Time Series Datasets</a>
+            <a href="https://archive.ics.uci.edu/ml/datasets.php?format=&task=ts&att=&area=&numAtt=&numIns=&type=&sort=nameUp&view=table" class="inline-block bg-yellow-500 text-white px-4 py-2 rounded shadow hover:bg-yellow-600 mr-2 mb-2" target="_blank">UCI Time Series Datasets</a>
+            <a href="datasets-1000.csv" download class="inline-block bg-purple-600 text-white px-4 py-2 rounded shadow hover:bg-purple-700 mb-2">Download 1000+ Datasets (CSV)</a>
+          </div>
+          <div class="mb-2 text-sm text-gray-600">For best results, use the links above to search, filter, and download datasets. The sample table below shows a few popular examples.</div>
+          <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200 mb-2">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Dataset</th>
+                  <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Domain</th>
+                  <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                  <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Link</th>
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200 text-sm">
+                <tr>
+                  <td class="px-4 py-2 font-semibold">Pollution-Data-17-indian-cites</td>
+                  <td class="px-4 py-2">Environment / Air Quality</td>
+                  <td class="px-4 py-2">PM2.5 pollution data for 17 Indian cities, including preprocessed and raw datasets. Used in research on urban air quality prediction. <a href='https://doi.org/10.1016/j.jclepro.2024.141259' class='text-blue-600 underline' target='_blank'>[Research Paper]</a></td>
+                  <td class="px-4 py-2"><a href="https://github.com/subh700/Pollution-Data-17-indian-cites" class="text-blue-600 underline" target="_blank">GitHub</a></td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-2 font-semibold">Air Passengers</td>
+                  <td class="px-4 py-2">Transport</td>
+                  <td class="px-4 py-2">Monthly totals of international airline passengers (1949-1960).</td>
+                  <td class="px-4 py-2"><a href="https://raw.githubusercontent.com/jbrownlee/Datasets/master/airline-passengers.csv" class="text-blue-600 underline" target="_blank">Download</a></td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-2 font-semibold">Sunspots</td>
+                  <td class="px-4 py-2">Astronomy</td>
+                  <td class="px-4 py-2">Monthly mean sunspot numbers (1749-present).</td>
+                  <td class="px-4 py-2"><a href="https://raw.githubusercontent.com/jbrownlee/Datasets/master/monthly-sunspots.csv" class="text-blue-600 underline" target="_blank">Download</a></td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-2 font-semibold">Electricity Load Diagrams</td>
+                  <td class="px-4 py-2">Energy</td>
+                  <td class="px-4 py-2">15-min electricity consumption of 370 customers (2011-2014).</td>
+                  <td class="px-4 py-2"><a href="https://archive.ics.uci.edu/ml/datasets/ElectricityLoadDiagrams20112014" class="text-blue-600 underline" target="_blank">UCI</a></td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-2 font-semibold">Beijing PM2.5</td>
+                  <td class="px-4 py-2">Environment</td>
+                  <td class="px-4 py-2">Hourly PM2.5 data with weather covariates (2010-2014).</td>
+                  <td class="px-4 py-2"><a href="https://archive.ics.uci.edu/ml/datasets/Beijing+PM2.5+Data" class="text-blue-600 underline" target="_blank">UCI</a></td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-2 font-semibold">Rossmann Store Sales</td>
+                  <td class="px-4 py-2">Retail</td>
+                  <td class="px-4 py-2">Daily sales data for 1,115 stores with promotions, holidays, etc.</td>
+                  <td class="px-4 py-2"><a href="https://www.kaggle.com/c/rossmann-store-sales/data" class="text-blue-600 underline" target="_blank">Kaggle</a></td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-2 font-semibold">M4 Competition</td>
+                  <td class="px-4 py-2">Various</td>
+                  <td class="px-4 py-2">100,000+ time series from finance, economics, demographics, etc.</td>
+                  <td class="px-4 py-2"><a href="https://www.mcompetitions.unic.ac.cy/the-datasets/" class="text-blue-600 underline" target="_blank">Official</a></td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-2 font-semibold">Exchange Rate</td>
+                  <td class="px-4 py-2">Finance</td>
+                  <td class="px-4 py-2">Daily exchange rates for major currencies (1990-2016).</td>
+                  <td class="px-4 py-2"><a href="https://raw.githubusercontent.com/jbrownlee/Datasets/master/daily-min-temperatures.csv" class="text-blue-600 underline" target="_blank">Download</a></td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-2 font-semibold">Household Power Consumption</td>
+                  <td class="px-4 py-2">Energy</td>
+                  <td class="px-4 py-2">Minute-averaged measurements of electric power usage (2006-2010).</td>
+                  <td class="px-4 py-2"><a href="https://archive.ics.uci.edu/ml/datasets/individual+household+electric+power+consumption" class="text-blue-600 underline" target="_blank">UCI</a></td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-2 font-semibold">COVID-19 Global Cases</td>
+                  <td class="px-4 py-2">Health</td>
+                  <td class="px-4 py-2">Daily confirmed, deaths, and recovered cases by country.</td>
+                  <td class="px-4 py-2"><a href="https://github.com/CSSEGISandData/COVID-19" class="text-blue-600 underline" target="_blank">GitHub</a></td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-2 font-semibold">Retail Sales</td>
+                  <td class="px-4 py-2">Retail</td>
+                  <td class="px-4 py-2">Monthly US retail sales (1992-present).</td>
+                  <td class="px-4 py-2"><a href="https://fred.stlouisfed.org/series/RSXFS" class="text-blue-600 underline" target="_blank">FRED</a></td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+    <script>
+        // Initialize comparison charts
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeCharts();
+        });
+
+        function initializeCharts() {
+            // Accuracy vs Complexity Chart
+            const ctx1 = document.getElementById('accuracy-complexity-chart');
+            new Chart(ctx1, {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: 'Models',
+                        data: [
+                            {x: 2, y: 85, label: 'ARIMA'},
+                            {x: 5, y: 95, label: 'LSTM'},
+                            {x: 3, y: 88, label: 'Prophet'},
+                            {x: 3, y: 82, label: 'ETS'},
+                            {x: 4, y: 90, label: 'SARIMAX'},
+                            {x: 3, y: 80, label: 'Holt-Winters'},
+                            {x: 1, y: 70, label: 'AR'}
+                        ],
+                        backgroundColor: 'rgba(59, 130, 246, 0.7)',
+                        borderColor: 'rgb(59, 130, 246)',
+                        pointRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Complexity (1-5)'
+                            },
+                            min: 0,
+                            max: 6
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Accuracy (%)'
+                            },
+                            min: 60,
+                            max: 100
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                title: function(context) {
+                                    return context[0].raw.label;
+                                },
+                                label: function(context) {
+                                    return `Complexity: ${context.parsed.x}, Accuracy: ${context.parsed.y}%`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Speed vs Accuracy Chart
+            const ctx2 = document.getElementById('speed-accuracy-chart');
+            new Chart(ctx2, {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: 'Models',
+                        data: [
+                            {x: 8, y: 85, label: 'ARIMA'},
+                            {x: 2, y: 95, label: 'LSTM'},
+                            {x: 7, y: 88, label: 'Prophet'},
+                            {x: 9, y: 82, label: 'ETS'},
+                            {x: 6, y: 90, label: 'SARIMAX'},
+                            {x: 9, y: 80, label: 'Holt-Winters'},
+                            {x: 10, y: 70, label: 'AR'}
+                        ],
+                        backgroundColor: 'rgba(34, 197, 94, 0.7)',
+                        borderColor: 'rgb(34, 197, 94)',
+                        pointRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Training Speed (1-10)'
+                            },
+                            min: 0,
+                            max: 11
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Accuracy (%)'
+                            },
+                            min: 60,
+                            max: 100
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                title: function(context) {
+                                    return context[0].raw.label;
+                                },
+                                label: function(context) {
+                                    return `Speed: ${context.parsed.x}, Accuracy: ${context.parsed.y}%`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

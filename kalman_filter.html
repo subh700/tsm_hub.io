@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalman Filter Model - TSM Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-slate-100 text-slate-800">
+<!-- Enhanced Navigation for Model Pages -->
+<nav class="bg-white shadow-lg sticky top-0 z-50 mb-8">
+    <div class="container mx-auto px-6 py-4">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <a href="index.html" class="text-2xl font-bold text-blue-600">🏠 TS Forecasting Hub</a>
+                <div class="hidden md:flex items-center space-x-1 bg-gray-100 rounded-lg p-1">
+                    <a href="models.html" class="nav-link px-3 py-2 rounded">📚 All Models</a>
+                    <a href="comparison.html" class="nav-link px-3 py-2 rounded">📊 Compare</a>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+                <!-- AI Features Quick Access -->
+                <div class="hidden md:flex items-center space-x-2">
+                    <a href="model-selector.html" class="bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-600 text-sm flex items-center">
+                        🤖 AI Recommender
+                    </a>
+                    <a href="chat.html" class="bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-600 text-sm flex items-center">
+                        💬 AI Assistant
+                    </a>
+                    <a href="forecast-simulator.html?model={{MODEL_NAME}}" class="bg-purple-500 text-white px-3 py-2 rounded-lg hover:bg-purple-600 text-sm flex items-center">
+                        🚀 Try in Simulator
+                    </a>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <button class="md:hidden p-2" onclick="toggleMobileMenu()">☰</button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 border-t">
+            <div class="flex flex-col space-y-2">
+                <a href="models.html" class="text-gray-600 hover:text-blue-600 py-2">📚 All Models</a>
+                <a href="comparison.html" class="text-gray-600 hover:text-blue-600 py-2">📊 Compare Models</a>
+                <a href="model-selector.html" class="text-gray-600 hover:text-blue-600 py-2">🤖 AI Recommender</a>
+                <a href="chat.html" class="text-gray-600 hover:text-blue-600 py-2">💬 AI Assistant</a>
+                <a href="forecast-simulator.html" class="text-gray-600 hover:text-blue-600 py-2">🚀 Simulator</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-slate-900">TSM Hub</a>
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="concepts.html" class="nav-link">Concepts</a>
+                <a href="models.html" class="nav-link active">Models</a>
+                <a href="comparison.html" class="nav-link">Comparison</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden p-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="index.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Home</a>
+            <a href="concepts.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Concepts</a>
+            <a href="models.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Models</a>
+            <a href="comparison.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Comparison</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        <div class="bg-white p-8 rounded-lg shadow-md">
+            <header class="border-b-2 border-slate-200 pb-6 mb-8">
+                 <a href="models.html" class="text-blue-600 hover:underline mb-4 inline-block">&larr; Back to Model Library</a>
+                <h1 class="text-4xl md:text-5xl font-bold text-slate-900">Kalman Filter Model</h1>
+                <p class="mt-2 text-lg text-slate-600">Optimal Estimation for Dynamic Systems</p>
+            </header>
+            
+            <article class="prose max-w-none">
+                <section>
+                    <h2>Overview</h2>
+                    <p>The Kalman Filter is an optimal recursive estimation algorithm that uses a series of noisy measurements observed over time to produce estimates of unknown variables. It is particularly powerful for dynamic systems where the true state cannot be directly observed but can be inferred from noisy measurements. The Kalman Filter operates in a two-step process: prediction and update, making it highly suitable for real-time applications like navigation, control systems, and, importantly, time series forecasting where data is often noisy and incomplete.</p>
+                    
+                    <h2>Architecture & Components</h2>
+                    <p>The Kalman Filter is based on a **state-space model**, which describes a system in terms of its internal state variables. It assumes that the system's state at time $t$ can be derived from its state at $t-1$ and that observations are noisy measurements of this state. The filter operates in two phases:</p>
+                    <ol>
+                        <li><strong>Prediction (Time Update):</strong>
+                            <p>In this phase, the filter estimates the current state and its uncertainty based on the previous state estimate and a model of the system's dynamics. It projects the state forward in time.</p>
+                            <p class="font-mono text-center bg-slate-100 p-2 rounded-md mathjax-process">
+                                $ \hat{x}_t^- = F_t \hat{x}_{t-1} + B_t u_t $ <br>
+                                $ P_t^- = F_t P_{t-1} F_t^T + Q_t $
+                            </p>
+                            Where:
+                            <ul>
+                                <li>$\hat{x}_t^-$: Predicted state estimate at time $t$.</li>
+                                <li>$F_t$: State transition model (matrix) applied to the previous state.</li>
+                                <li>$\hat{x}_{t-1}$: Previous state estimate.</li>
+                                <li>$B_t$: Control-input model (matrix) applied to control vector $u_t$.</li>
+                                <li>$u_t$: Control vector (optional external input).</li>
+                                <li>$P_t^-$: Predicted (a priori) estimate covariance.</li>
+                                <li>$Q_t$: Covariance of the process noise (uncertainty in the system model).</li>
+                            </ul>
+                        </li>
+                        <li><strong>Update (Measurement Update):</strong>
+                            <p>In this phase, the filter refines its state estimate using the current noisy measurement. It calculates a "Kalman Gain" that determines how much weight to give to the new measurement versus the prediction.</p>
+                            <p class="font-mono text-center bg-slate-100 p-2 rounded-md mathjax-process">
+                                $ K_t = P_t^- H_t^T (H_t P_t^- H_t^T + R_t)^{-1} $ <br>
+                                $ \hat{x}_t = \hat{x}_t^- + K_t (z_t - H_t \hat{x}_t^-) $ <br>
+                                $ P_t = (I - K_t H_t) P_t^- $
+                            </p>
+                            Where:
+                            <ul>
+                                <li>$K_t$: Kalman Gain.</li>
+                                <li>$H_t$: Observation model (matrix) relating state to measurement.</li>
+                                <li>$R_t$: Covariance of the observation noise (uncertainty in the measurement).</li>
+                                <li>$z_t$: Actual measurement at time $t$.</li>
+                                <li>$\hat{x}_t$: Updated (a posteriori) state estimate.</li>
+                                <li>$P_t$: Updated (a posteriori) estimate covariance.</li>
+                                <li>$I$: Identity matrix.</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    <p>The filter assumes linear system dynamics and Gaussian noise. Extensions like the Extended Kalman Filter (EKF) and Unscented Kalman Filter (UKF) handle non-linear systems.</p>
+                     <div class="bg-slate-100 p-4 rounded-lg my-6 text-center">
+                        <img src="https://placehold.co/600x300/e2e8f0/334155?text=Conceptual+Kalman+Filter+Cycle" alt="Kalman Filter Architecture Diagram" class="mx-auto rounded-md">
+                        <p class="text-sm text-slate-500 mt-2">Conceptual diagram of the Kalman Filter's prediction and update cycle.</p>
+                    </div>
+                </section>
+                
+                <section>
+                    <h2>When to Use Kalman Filter</h2>
+                    <p>The Kalman Filter is particularly useful for time series forecasting and state estimation when:</p>
+                    <ul>
+                        <li><strong>Data is noisy or incomplete:</strong> It can provide optimal estimates by fusing noisy measurements with a system model, and it can handle missing data points.</li>
+                        <li><strong>The system's underlying state is unobservable:</strong> It infers the true state from indirect measurements.</li>
+                        <li><strong>Real-time estimation and prediction are required:</strong> Its recursive nature makes it efficient for online processing.</li>
+                        <li><strong>The system dynamics can be approximated as linear (or linearized for EKF/UKF):</strong> It performs optimally under these conditions.</li>
+                        <li><strong>You need uncertainty quantification:</strong> It provides a covariance matrix for the state estimate, quantifying its uncertainty.</li>
+                        <li><strong>Applications involve tracking, navigation, control, or signal processing.</strong></li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Pros and Cons</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2 text-green-600">Pros</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Optimal Estimator:</strong> Provides the minimum mean squared error estimate for linear Gaussian systems.</li>
+                                <li><strong>Handles Noise & Missing Data:</strong> Effectively filters noise and can estimate states even with missing observations.</li>
+                                <li><strong>Adaptive:</strong> Can adapt to changing system dynamics over time.</li>
+                                <li><strong>Real-time Capability:</strong> Recursive nature makes it suitable for online processing and sequential data.</li>
+                                <li><strong>Uncertainty Quantification:</strong> Provides covariance of the state estimate, offering a measure of confidence.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2 text-red-600">Cons</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Assumes Linearity & Gaussian Noise:</strong> Standard Kalman Filter is limited to linear systems with Gaussian noise. EKF/UKF extend this but add complexity.</li>
+                                <li><strong>Requires System Model:</strong> Needs accurate knowledge of the state transition and observation models (matrices $F, H, Q, R$). Mis-specification can lead to poor performance.</li>
+                                <li><strong>Computational Cost:</strong> Can be high for systems with many state variables (large state vector).</li>
+                                <li><strong>Parameter Tuning:</strong> Process noise ($Q$) and observation noise ($R$) covariances often need careful tuning.</li>
+                                <li><strong>Less Flexible for Complex Non-Linearities:</strong> While EKF/UKF exist, highly non-linear systems might still be challenging.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Example Implementation</h2>
+                    <p>Here's an example of implementing a Kalman Filter in Python using the `pykalman` library. We'll simulate a simple system with a hidden state (e.g., true value) and noisy observations, then use the Kalman Filter to estimate the true state and predict future values.</p>
+
+                    <h3>Python Example (using `pykalman` library)</h3>
+                    <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">
+                        <code class="language-python">
+import numpy as np
+import pandas as pd
+from pykalman import KalmanFilter
+import matplotlib.pyplot as plt
+
+# 1. Generate synthetic data: A true underlying state with noisy observations
+np.random.seed(42)
+n_timesteps = 100
+
+# True state (e.g., position and velocity)
+true_states = np.zeros((n_timesteps, 2)) # [position, velocity]
+true_states =  # Initial position 0, initial velocity 1
+
+# Simulate state evolution: position += velocity, velocity is constant with noise
+# x_t = F * x_{t-1} + process_noise
+F = np.array([[1, 1], ]) # State transition matrix
+Q = np.array([[0.1, 0], [0, 0.01]]) # Process noise covariance
+
+for t in range(1, n_timesteps):
+    process_noise = np.random.multivariate_normal(, Q)
+    true_states[t] = np.dot(F, true_states[t-1]) + process_noise
+
+# Simulate noisy observations (only observe position)
+# z_t = H * x_t + observation_noise
+H = np.array([]) # Observation matrix (observe only position)
+R = np.array([[0.5]]) # Observation noise covariance (scalar for univariate observation)
+
+observations = np.zeros((n_timesteps, 1))
+for t in range(n_timesteps):
+    observation_noise = np.random.normal(0, np.sqrt(R))
+    observations[t] = np.dot(H, true_states[t]) + observation_noise
+
+# Introduce some missing values for demonstration
+# observations[10:20] = np.nan
+# observations[50:60] = np.nan
+
+# 2. Initialize Kalman Filter
+kf = KalmanFilter(
+    transition_matrices=F,
+    observation_matrices=H,
+    initial_state_mean=true_states, # Initial guess for state
+    initial_state_covariance=np.eye(2), # Initial uncertainty
+    transition_covariance=Q, # Process noise covariance
+    observation_covariance=R, # Observation noise covariance
+    em_vars=['transition_covariance', 'observation_covariance', 'initial_state_mean', 'initial_state_covariance'] # Variables to estimate using EM
+)
+
+# 3. Fit the Kalman Filter (using EM algorithm to estimate parameters from data)
+# This step is optional if F, H, Q, R are already known accurately
+kf = kf.em(observations, n_iter=10)
+
+# 4. Apply the Kalman Filter to estimate states
+# filter_update returns filtered state means and covariances
+state_means, state_covariances = kf.filter(observations)
+
+# 5. Make predictions (forecasts)
+# predict_update predicts future states given the last filtered state
+forecast_horizon = 20
+last_state_mean = state_means[-1]
+last_state_covariance = state_covariances[-1]
+
+# Predict future states
+predicted_state_means, predicted_state_covariances = kf.predict(
+    last_state_mean, last_state_covariance, n_timesteps=forecast_horizon
+)
+
+# Extract forecasted observations (position) from predicted states
+forecasted_observations = np.dot(predicted_state_means, H.T)
+
+# 6. Plotting Results
+plt.figure(figsize=(14, 7))
+
+# Plot true state (position)
+plt.plot(np.arange(n_timesteps), true_states[:, 0], 'k-', label='True State (Position)')
+
+# Plot noisy observations
+plt.plot(np.arange(n_timesteps), observations[:, 0], 'rx', label='Noisy Observations', alpha=0.6)
+
+# Plot filtered state (estimated position)
+plt.plot(np.arange(n_timesteps), state_means[:, 0], 'b-', label='Filtered State (Estimated Position)')
+plt.fill_between(np.arange(n_timesteps),
+                 state_means[:, 0] - np.sqrt(state_covariances[:, 0, 0]),
+                 state_means[:, 0] + np.sqrt(state_covariances[:, 0, 0]),
+                 color='blue', alpha=0.2, label='Filtered 1-sigma CI')
+
+# Plot forecasted observations
+forecast_time_idx = np.arange(n_timesteps, n_timesteps + forecast_horizon)
+plt.plot(forecast_time_idx, forecasted_observations[:, 0], 'g--', label='Forecasted Observations')
+plt.fill_between(forecast_time_idx,
+                 forecasted_observations[:, 0] - np.sqrt(predicted_state_covariances[:, 0, 0]),
+                 forecasted_observations[:, 0] + np.sqrt(predicted_state_covariances[:, 0, 0]),
+                 color='green', alpha=0.2, label='Forecasted 1-sigma CI')
+
+plt.title('Kalman Filter: State Estimation and Forecasting')
+plt.xlabel('Time Step')
+plt.ylabel('Value')
+plt.legend()
+plt.grid(True)
+plt.show()
+                        </code></pre>
+                    </div>
+                </section>
+                
+                <section>
+                    <h2>Dependencies & Resources</h2>
+                    <p><strong>Dependencies:</strong> <code>numpy</code>, <code>pandas</code>, <code>pykalman</code>, <code>matplotlib</code> (for plotting).</p>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><a href="https://pykalman.github.io/" target="_blank" rel="noopener noreferrer">PyKalman Official Documentation ↗</a></li>
+                        <li><a href="https://www.bzarg.com/p/how-a-kalman-filter-works-in-pictures/" target="_blank" rel="noopener noreferrer">How a Kalman Filter Works, in Pictures (Intuitive Explanation) ↗</a></li>
+                        <li><a href="https://www.cs.unc.edu/~welch/media/pdf/kalman_intro.pdf" target="_blank" rel="noopener noreferrer">An Introduction to the Kalman Filter (Classic Paper) ↗</a></li>
+                        <li><a href="https://www.researchgate.net/publication/383466402_Fredformer_Frequency_Debiased_Transformer_for_Time_Series_Forecasting" target="_blank" rel="noopener noreferrer">Fredformer: Frequency Debiased Transformer (ResearchGate) ↗</a></li>
+                        <li><a href="https://arxiv.org/html/2507.07652v1" target="_blank" rel="noopener noreferrer">A Novel Hybrid Approach for Time Series Forecasting: Period (ArXiv) ↗</a> </li>
+                    </ul>
+                </section>
+            </article>
+        </div>
+    </main>
+
+    <footer class="text-center p-6 bg-slate-200 mt-12">
+        <p class="text-slate-600 text-sm">TSM Hub: An Interactive Resource for Time Series Analysis</p>
+    </footer>
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [['$','$'], ['\\(','\\)']],
+                displayMath: [['$$','$$'], ['\\[','\\]']],
+                processEscapes: true,
+                ignoreHtmlClass: ".*",
+                processHtmlClass: "mathjax-process"
+            },
+            skipStartupTypeset: true
+        });
+    </script>
+    <script src="main.js"></script>
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof MathJax!== 'undefined') {
+                MathJax.Hub.Queue();
+            }
+        });
+    </script>
+</body>
+</html>

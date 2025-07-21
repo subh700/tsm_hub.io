@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSSM Model - TSM Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-slate-100 text-slate-800">
+<!-- Enhanced Navigation for Model Pages -->
+<nav class="bg-white shadow-lg sticky top-0 z-50 mb-8">
+    <div class="container mx-auto px-6 py-4">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <a href="index.html" class="text-2xl font-bold text-blue-600">🏠 TS Forecasting Hub</a>
+                <div class="hidden md:flex items-center space-x-1 bg-gray-100 rounded-lg p-1">
+                    <a href="models.html" class="nav-link px-3 py-2 rounded">📚 All Models</a>
+                    <a href="comparison.html" class="nav-link px-3 py-2 rounded">📊 Compare</a>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+                <!-- AI Features Quick Access -->
+                <div class="hidden md:flex items-center space-x-2">
+                    <a href="model-selector.html" class="bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-600 text-sm flex items-center">
+                        🤖 AI Recommender
+                    </a>
+                    <a href="chat.html" class="bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-600 text-sm flex items-center">
+                        💬 AI Assistant
+                    </a>
+                    <a href="forecast-simulator.html?model={{MODEL_NAME}}" class="bg-purple-500 text-white px-3 py-2 rounded-lg hover:bg-purple-600 text-sm flex items-center">
+                        🚀 Try in Simulator
+                    </a>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <button class="md:hidden p-2" onclick="toggleMobileMenu()">☰</button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 border-t">
+            <div class="flex flex-col space-y-2">
+                <a href="models.html" class="text-gray-600 hover:text-blue-600 py-2">📚 All Models</a>
+                <a href="comparison.html" class="text-gray-600 hover:text-blue-600 py-2">📊 Compare Models</a>
+                <a href="model-selector.html" class="text-gray-600 hover:text-blue-600 py-2">🤖 AI Recommender</a>
+                <a href="chat.html" class="text-gray-600 hover:text-blue-600 py-2">💬 AI Assistant</a>
+                <a href="forecast-simulator.html" class="text-gray-600 hover:text-blue-600 py-2">🚀 Simulator</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-slate-900">TSM Hub</a>
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="concepts.html" class="nav-link">Concepts</a>
+                <a href="models.html" class="nav-link active">Models</a>
+                <a href="comparison.html" class="nav-link">Comparison</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden p-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="index.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Home</a>
+            <a href="concepts.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Concepts</a>
+            <a href="models.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Models</a>
+            <a href="comparison.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Comparison</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        <div class="bg-white p-8 rounded-lg shadow-md">
+            <header class="border-b-2 border-slate-200 pb-6 mb-8">
+                 <a href="models.html" class="text-blue-600 hover:underline mb-4 inline-block">&larr; Back to Model Library</a>
+                <h1 class="text-4xl md:text-5xl font-bold text-slate-900">Deep State Space Models (DSSM)</h1>
+                <p class="mt-2 text-lg text-slate-600">Combining State-Space Models with Deep Learning</p>
+            </header>
+            
+            <article class="prose max-w-none">
+                <section>
+                    <h2>Overview</h2>
+                    <p>Deep State Space Models (DSSMs) represent a powerful class of probabilistic time series models that combine the interpretability and robustness of traditional state-space models with the flexibility and feature learning capabilities of deep neural networks. Traditional state-space models (like Kalman filters or structural time series models) explicitly define hidden states that evolve over time and generate observations. DSSMs extend this by using deep learning components (e.g., RNNs, LSTMs, or even Transformers) to model the non-linear dynamics of these hidden states or the observation process, enabling them to capture more complex patterns and produce rich probabilistic forecasts.</p>
+                    
+                    <h2>Architecture & Components</h2>
+                    <p>DSSMs typically involve two main equations, similar to traditional state-space models, but with deep learning components:</p>
+                    <ul>
+                        <li><strong>State Transition Equation:</strong> Describes how the hidden state evolves over time. In DSSMs, this evolution can be modeled by a neural network, allowing for complex, non-linear transitions.
+                            <p class="font-mono text-center bg-slate-100 p-2 rounded-md mathjax-process">
+                                $ z_t = f(z_{t-1}, u_t; \theta_f) + \epsilon_t $
+                            </p>
+                            Where $z_t$ is the hidden state at time $t$, $u_t$ are control inputs or covariates, $f$ is a neural network (e.g., RNN) parameterized by $\theta_f$, and $\epsilon_t$ is state noise.
+                        </li>
+                        <li><strong>Observation Equation:</strong> Describes how the observed data is generated from the hidden state. This mapping can also be non-linear and modeled by a neural network.
+                            <p class="font-mono text-center bg-slate-100 p-2 rounded-md mathjax-process">
+                                $ y_t = g(z_t, v_t; \theta_g) + \delta_t $
+                            </p>
+                            Where $y_t$ is the observed value, $v_t$ are observation-specific covariates, $g$ is a neural network parameterized by $\theta_g$, and $\delta_t$ is observation noise.
+                        </li>
+                        <li><strong>Probabilistic Nature:</strong> Like DeepAR, DSSMs are inherently probabilistic. They learn to predict the parameters of a probability distribution (e.g., mean and variance for Gaussian, or parameters for other distributions) for the observations, allowing for the quantification of uncertainty and the generation of prediction intervals. This is often achieved by maximizing the log-likelihood of the observed data.</li>
+                        <li><strong>Inference and Learning:</strong> Training DSSMs often involves techniques like variational inference or sequential Monte Carlo methods (e.g., particle filters) to approximate the posterior distribution of the hidden states, as exact inference can be intractable due to the non-linearities introduced by deep networks.</li>
+                    </ul>
+                     <div class="bg-slate-100 p-4 rounded-lg my-6 text-center">
+                        <img src="https://placehold.co/600x300/e2e8f0/334155?text=Conceptual+DSSM+Architecture" alt="DSSM Architecture Diagram" class="mx-auto rounded-md">
+                        <p class="text-sm text-slate-500 mt-2">Conceptual diagram of a Deep State Space Model, showing neural networks modeling state transitions and observations.</p>
+                    </div>
+                </section>
+                
+                <section>
+                    <h2>When to Use DSSM</h2>
+                    <p>DSSMs are particularly powerful for time series forecasting when:</p>
+                    <ul>
+                        <li><strong>Probabilistic forecasts with uncertainty quantification are crucial:</strong> They naturally provide full predictive distributions.</li>
+                        <li><strong>The underlying system dynamics are complex and non-linear:</strong> Deep learning components can capture intricate state transitions and observation mappings.</li>
+                        <li><strong>You need to model latent (unobserved) states:</strong> DSSMs explicitly define and learn these hidden states, which can be interpretable.</li>
+                        <li><strong>You have noisy or partially observed data:</strong> State-space models are robust to noise and can handle missing observations.</li>
+                        <li><strong>You are working with multiple related time series:</strong> DSSMs can be extended to model common latent dynamics across a collection of series.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Pros and Cons</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2 text-green-600">Pros</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Probabilistic Forecasts:</strong> Provides full predictive distributions and uncertainty quantification.</li>
+                                <li><strong>Handles Non-Linear Dynamics:</strong> Deep learning components allow for modeling complex, non-linear relationships.</li>
+                                <li><strong>Latent State Modeling:</strong> Explicitly models hidden states, which can be interpretable and provide insights into system behavior.</li>
+                                <li><strong>Robust to Noise & Missing Data:</strong> Inherently designed to handle uncertainty in observations and states.</li>
+                                <li><strong>Flexible:</strong> Can be adapted to various data types and dynamics by choosing appropriate neural network architectures and observation distributions.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2 text-red-600">Cons</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>High Computational Cost:</strong> Training, especially with variational inference or Monte Carlo methods, can be very demanding.</li>
+                                <li><strong>Complexity:</strong> Architecturally and mathematically complex, making implementation and debugging challenging.</li>
+                                <li><strong>Inference Challenges:</strong> Exact inference is often intractable, requiring approximation methods that can be slow or complex.</li>
+                                <li><strong>Hyperparameter Tuning:</strong> Many parameters related to both the deep learning components and the state-space model require careful tuning.</li>
+                                <li><strong>Data Requirements:</strong> Generally requires substantial data to learn complex non-linear dynamics effectively.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Example Implementation</h2>
+                    <p>Implementing a full Deep State Space Model is highly complex and typically involves specialized probabilistic programming libraries. Here, we provide a very simplified conceptual PyTorch example focusing on the core idea of an RNN-based state transition and a linear observation model. For practical applications, libraries like Pyro or Edward (for TensorFlow Probability) are often used.</p>
+
+                    <h3>PyTorch Example (Conceptual)</h3>
+                    <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">
+import torch
+import torch.nn as nn
+import torch.distributions as dist
+import numpy as np
+import matplotlib.pyplot as plt
+
+# 1. Generate synthetic data: A simple non-linear time series
+np.random.seed(42)
+n_timesteps = 200
+hidden_state_true = np.zeros(n_timesteps)
+observed_data = np.zeros(n_timesteps)
+
+# Simulate a simple non-linear state evolution
+hidden_state_true[0] = 0.5
+for t in range(1, n_timesteps):
+    hidden_state_true[t] = 0.8 * hidden_state_true[t-1] + np.sin(t / 10) * 0.1 + np.random.normal(0, 0.1)
+    observed_data[t] = 2.0 * hidden_state_true[t] + np.random.normal(0, 0.2)
+
+# Convert to tensors
+observed_data_tensor = torch.tensor(observed_data, dtype=torch.float32).unsqueeze(1) # (timesteps, 1)
+
+# 2. Define a simplified Deep State Space Model
+class SimpleDSSM(nn.Module):
+    def __init__(self, obs_dim, hidden_dim):
+        super(SimpleDSSM, self).__init__()
+        self.hidden_dim = hidden_dim
+        
+        # State transition function (RNN/LSTM)
+        # Models f(z_{t-1}, u_t) -> z_t
+        self.rnn = nn.GRU(input_size=obs_dim, hidden_size=hidden_dim, batch_first=True)
+        
+        # Observation function (Linear layer to predict mean and std dev of observation)
+        # Models g(z_t) -> parameters_t
+        self.obs_mean_layer = nn.Linear(hidden_dim, obs_dim)
+        self.obs_std_layer = nn.Linear(hidden_dim, obs_dim) # Predict std dev for probabilistic output
+
+    def forward(self, observations, num_samples=10):
+        # observations shape: (batch_size, seq_len, obs_dim)
+        batch_size, seq_len, obs_dim = observations.shape
+        
+        # Initialize hidden state
+        h_t = torch.zeros(1, batch_size, self.hidden_dim).to(observations.device) # (num_layers * num_directions, batch_size, hidden_size)
+
+        predicted_means = []
+        predicted_stds = []
+        
+        # Autoregressive loop for training and forecasting
+        for t in range(seq_len):
+            # Pass current observation to RNN to update hidden state
+            # In a true DSSM, the state transition would be more complex, potentially involving only previous state
+            # For simplicity, we use observation as input to drive state evolution
+            rnn_output, h_t = self.rnn(observations[:, t:t+1, :], h_t)
+            
+            # Predict observation parameters from hidden state
+            mean_t = self.obs_mean_layer(h_t.squeeze(0))
+            std_t = F.softplus(self.obs_std_layer(h_t.squeeze(0))) + 1e-6 # Ensure std > 0
+            
+            predicted_means.append(mean_t)
+            predicted_stds.append(std_t)
+        
+        predicted_means = torch.stack(predicted_means, dim=1) # (batch_size, seq_len, obs_dim)
+        predicted_stds = torch.stack(predicted_stds, dim=1)   # (batch_size, seq_len, obs_dim)
+        
+        return predicted_means, predicted_stds
+
+# 3. Instantiate model, loss, optimizer
+obs_dim = 1
+hidden_dim = 32
+model = SimpleDSSM(obs_dim, hidden_dim)
+optimizer = torch.optim.Adam(model.parameters(), lr=0.005)
+
+# Negative Log Likelihood Loss for Gaussian distribution
+def gaussian_nll_loss(y_true, mu, sigma):
+    # Ensure sigma is not zero or negative
+    sigma = torch.clamp(sigma, min=1e-6)
+    loss = 0.5 * torch.log(2 * torch.pi * sigma**2) + (y_true - mu)**2 / (2 * sigma**2)
+    return torch.mean(loss)
+
+# 4. Train the model
+epochs = 50
+print("Starting PyTorch DSSM-like model training...")
+for epoch in range(epochs):
+    optimizer.zero_grad()
+    
+    # Pass the entire sequence as a batch of 1
+    predicted_means, predicted_stds = model(observed_data_tensor.unsqueeze(0))
+    
+    # Calculate loss only for observed data
+    loss = gaussian_nll_loss(observed_data_tensor.unsqueeze(0), predicted_means, predicted_stds)
+    
+    loss.backward()
+    optimizer.step()
+    
+    if epoch % 10 == 0:
+        print(f'Epoch {epoch}/{epochs}, Loss: {loss.item():.4f}')
+
+print("PyTorch DSSM-like model training complete.")
+
+# 5. Make predictions (conceptual - autoregressive forecasting)
+model.eval()
+with torch.no_grad():
+    # Start with the last known observation
+    forecast_input = observed_data_tensor[-1:].unsqueeze(0) # (1, 1, obs_dim)
+    forecasted_means = []
+    forecasted_stds = []
+    
+    # Initialize hidden state for forecasting
+    # This should ideally be the hidden state from the end of the training data
+    # For simplicity, we'll re-run RNN on last part of observed data to get a good h_t
+    _, initial_h_t = model.rnn(observed_data_tensor[:-1].unsqueeze(0))
+
+    current_h_t = initial_h_t # Use the hidden state after processing history
+    current_obs = observed_data_tensor[-1:].unsqueeze(0) # Last actual observation
+
+    forecast_horizon = 50
+    for t in range(forecast_horizon):
+        # Use the current observation (or previous prediction) to evolve state
+        # In a true DSSM, state evolves independently, then observation is generated
+        # Here, we feed the previous predicted mean as input for the next state transition (autoregressive)
+        rnn_output, current_h_t = model.rnn(current_obs, current_h_t)
+        
+        mean_t = model.obs_mean_layer(current_h_t.squeeze(0))
+        std_t = F.softplus(model.obs_std_layer(current_h_t.squeeze(0))) + 1e-6
+        
+        forecasted_means.append(mean_t)
+        forecasted_stds.append(std_t)
+        
+        # For next step, use the predicted mean as the 'observation' input
+        current_obs = mean_t.unsqueeze(0).unsqueeze(0) # (1, 1, obs_dim)
+
+    forecasted_means = torch.cat(forecasted_means, dim=0).squeeze().numpy()
+    forecasted_stds = torch.cat(forecasted_stds, dim=0).squeeze().numpy()
+
+print(f"\nForecasted means (first 5 steps): {forecasted_means[:5].flatten()}")
+print(f"Forecasted stds (first 5 steps): {forecasted_stds[:5].flatten()}")
+
+# Plotting (conceptual)
+# plt.figure(figsize=(14, 7))
+# plt.plot(np.arange(n_timesteps), observed_data, label='Observed Data', color='blue')
+#
+# # Plot true hidden state (if available)
+# # plt.plot(np.arange(n_timesteps), hidden_state_true, label='True Hidden State', color='purple', linestyle=':')
+#
+# # Plot forecasted means
+# forecast_time_idx = np.arange(n_timesteps, n_timesteps + forecast_horizon)
+# plt.plot(forecast_time_idx, forecasted_means, label='Forecasted Mean', color='red', linestyle='--')
+#
+# # Plot prediction intervals (e.g., +/- 2 standard deviations)
+# plt.fill_between(forecast_time_idx, 
+#                  forecasted_means - 2 * forecasted_stds, 
+#                  forecasted_means + 2 * forecasted_stds, 
+#                  color='red', alpha=0.2, label='95% Prediction Interval')
+#
+# plt.title('Deep State Space Model Forecast (Conceptual)')
+# plt.xlabel('Time Step')
+# plt.ylabel('Value')
+# plt.legend()
+# plt.grid(True)
+# plt.show()
+                    </pre>
+                </section>
+                
+                <section>
+                    <h2>Dependencies & Resources</h2>
+                    <p><strong>Dependencies:</strong> <code>numpy</code>, <code>torch</code>, <code>matplotlib</code> (for plotting).</p>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><a href="https://arxiv.org/abs/1805.08906" target="_blank" rel="noopener noreferrer">Deep State Space Models for Time Series Forecasting (Related Paper) ↗</a></li>
+                        <li><a href="https://pyro.ai/examples/dssm.html" target="_blank" rel="noopener noreferrer">Pyro (Probabilistic Programming for PyTorch) DSSM Example ↗</a></li>
+                        <li><a href="https://www.tensorflow.org/probability/api_docs/python/tfp/sts" target="_blank" rel="noopener noreferrer">TensorFlow Probability Structural Time Series (STS) ↗</a></li>
+                    </ul>
+                </section>
+            </article>
+        </div>
+    </main>
+
+    <footer class="text-center p-6 bg-slate-200 mt-12">
+        <p class="text-slate-600 text-sm">TSM Hub: An Interactive Resource for Time Series Analysis</p>
+    </footer>
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [['$','$'], ['\\(','\\)']],
+                displayMath: [['$$','$$'], ['\\[','\\]']],
+                processEscapes: true,
+                ignoreHtmlClass: ".*",
+                processHtmlClass: "mathjax-process"
+            },
+            skipStartupTypeset: true
+        });
+    </script>
+    <script src="main.js"></script>
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof MathJax !== 'undefined') {
+                MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+            }
+        });
+    </script>
+</body>
+</html>

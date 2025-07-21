@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARIMA-LSTM Hybrid Model - TSM Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-slate-100 text-slate-800">
+<!-- Enhanced Navigation for Model Pages -->
+<nav class="bg-white shadow-lg sticky top-0 z-50 mb-8">
+    <div class="container mx-auto px-6 py-4">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <a href="index.html" class="text-2xl font-bold text-blue-600">🏠 TS Forecasting Hub</a>
+                <div class="hidden md:flex items-center space-x-1 bg-gray-100 rounded-lg p-1">
+                    <a href="models.html" class="nav-link px-3 py-2 rounded">📚 All Models</a>
+                    <a href="comparison.html" class="nav-link px-3 py-2 rounded">📊 Compare</a>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+                <!-- AI Features Quick Access -->
+                <div class="hidden md:flex items-center space-x-2">
+                    <a href="model-selector.html" class="bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-600 text-sm flex items-center">
+                        🤖 AI Recommender
+                    </a>
+                    <a href="chat.html" class="bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-600 text-sm flex items-center">
+                        💬 AI Assistant
+                    </a>
+                    <a href="forecast-simulator.html?model={{MODEL_NAME}}" class="bg-purple-500 text-white px-3 py-2 rounded-lg hover:bg-purple-600 text-sm flex items-center">
+                        🚀 Try in Simulator
+                    </a>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <button class="md:hidden p-2" onclick="toggleMobileMenu()">☰</button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 border-t">
+            <div class="flex flex-col space-y-2">
+                <a href="models.html" class="text-gray-600 hover:text-blue-600 py-2">📚 All Models</a>
+                <a href="comparison.html" class="text-gray-600 hover:text-blue-600 py-2">📊 Compare Models</a>
+                <a href="model-selector.html" class="text-gray-600 hover:text-blue-600 py-2">🤖 AI Recommender</a>
+                <a href="chat.html" class="text-gray-600 hover:text-blue-600 py-2">💬 AI Assistant</a>
+                <a href="forecast-simulator.html" class="text-gray-600 hover:text-blue-600 py-2">🚀 Simulator</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-slate-900">TSM Hub</a>
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="concepts.html" class="nav-link">Concepts</a>
+                <a href="models.html" class="nav-link active">Models</a>
+                <a href="comparison.html" class="nav-link">Comparison</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden p-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="index.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Home</a>
+            <a href="concepts.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Concepts</a>
+            <a href="models.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Models</a>
+            <a href="comparison.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Comparison</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        <div class="bg-white p-8 rounded-lg shadow-md">
+            <header class="border-b-2 border-slate-200 pb-6 mb-8">
+                 <a href="models.html" class="text-blue-600 hover:underline mb-4 inline-block">&larr; Back to Model Library</a>
+                <h1 class="text-4xl md:text-5xl font-bold text-slate-900">ARIMA-LSTM Hybrid Model</h1>
+                <p class="mt-2 text-lg text-slate-600">Combining Linear and Non-linear Forecasting</p>
+            </header>
+            
+            <article class="prose max-w-none">
+                <section>
+                    <h2>Overview</h2>
+                    <p>The ARIMA-LSTM hybrid model combines the strengths of traditional statistical time series methods with the advanced capabilities of deep learning. This dual-stage forecasting process leverages ARIMA (AutoRegressive Integrated Moving Average) to capture the linear patterns (trend and seasonality) in a time series, and then uses a Long Short-Term Memory (LSTM) neural network to model the complex non-linear relationships found in the residuals (errors) of the ARIMA model. This hybridization aims to achieve superior forecasting performance by addressing both linear and non-linear components that often coexist in real-world time series data.</p>
+                    
+                    <h2>Architecture & Components</h2>
+                    <p>The ARIMA-LSTM hybrid model typically follows a two-stage sequential process:</p>
+                    <ol>
+                        <li><strong>Stage 1: ARIMA Modeling (Linear Component)</strong>
+                            <p>A classical ARIMA model is first applied to the raw time series data. The ARIMA component is responsible for capturing and forecasting the transparent linear trends and seasonal patterns. It identifies the autoregressive (AR), integrated (I), and moving average (MA) orders (p, d, q) that best describe the linear dependencies in the data. After fitting, the ARIMA model generates in-sample predictions, and the **residuals** (the differences between the actual values and the ARIMA's fitted values) are calculated. These residuals are assumed to primarily contain the non-linear patterns that the ARIMA model could not capture.</p>
+                            <p class="font-mono text-center bg-slate-100 p-2 rounded-md mathjax-process">
+                                $ R_t = Y_t - \hat{Y}_t^{\text{ARIMA}} $
+                            </p>
+                            Where $R_t$ are the residuals, $Y_t$ is the actual value, and $\hat{Y}_t^{\text{ARIMA}}$ is the ARIMA's fitted value.
+                        </li>
+                        <li><strong>Stage 2: LSTM Modeling (Non-linear Residuals)</strong>
+                            <p>An LSTM neural network is then trained on these residuals. The LSTM's ability to learn complex non-linear relationships and long-term dependencies makes it ideal for modeling the intricate patterns that remain after the linear component has been accounted for. The LSTM takes past residuals as input and learns a function to forecast the future deviation of the linear predictions.</p>
+                            <p class="font-mono text-center bg-slate-100 p-2 rounded-md mathjax-process">
+                                $ \hat{R}_t^{\text{LSTM}} = \text{LSTM}(R_{t-1}, R_{t-2}, \dots, R_{t-w}) $
+                            </p>
+                            Where $\hat{R}_t^{\text{LSTM}}$ is the LSTM's forecast of the residual, and $w$ is the look-back window for the LSTM.
+                        </li>
+                        <li><strong>Final Forecast Combination:</strong>
+                            <p>The final forecast is obtained by summing the forecasts from both components: the linear forecast from ARIMA and the non-linear residual forecast from LSTM.</p>
+                            <p class="font-mono text-center bg-slate-100 p-2 rounded-md mathjax-process">
+                                $ \hat{Y}_t^{\text{Hybrid}} = \hat{Y}_t^{\text{ARIMA}} + \hat{R}_t^{\text{LSTM}} $
+                            </p>
+                        </li>
+                    </ol>
+                     <div class="bg-slate-100 p-4 rounded-lg my-6 text-center">
+                        <img src="https://placehold.co/600x300/e2e8f0/334155?text=Conceptual+ARIMA-LSTM+Hybrid+Architecture" alt="ARIMA-LSTM Hybrid Architecture Diagram" class="mx-auto rounded-md">
+                        <p class="text-sm text-slate-500 mt-2">Conceptual diagram of the ARIMA-LSTM hybrid model, showing sequential processing.</p>
+                    </div>
+                </section>
+                
+                <section>
+                    <h2>When to Use ARIMA-LSTM Hybrid</h2>
+                    <p>The ARIMA-LSTM hybrid model is particularly effective for:</p>
+                    <ul>
+                        <li><strong>Time series with both linear and non-linear patterns:</strong> This is common in real-world data where underlying processes might have both predictable linear trends/seasonalities and complex, non-linear dynamics.</li>
+                        <li><strong>Achieving high forecasting accuracy:</strong> By combining complementary strengths, it often outperforms standalone ARIMA or LSTM models.</li>
+                        <li><strong>Short-horizon and long-horizon forecasts:</strong> Hybrid methods have shown consistent outperformance across various forecasting horizons.</li>
+                        <li><strong>When interpretability of the linear component is desired:</strong> The ARIMA part provides a transparent baseline.</li>
+                        <li><strong>As a robust solution for challenging time series data.</strong></li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Pros and Cons</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2 text-green-600">Pros</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Enhanced Accuracy:</strong> Leverages the strengths of both statistical (linear patterns) and deep learning (non-linear residuals) models, leading to superior performance.</li>
+                                <li><strong>Improved Robustness:</strong> Can handle a wider range of time series characteristics than individual models.</li>
+                                <li><strong>Interpretability:</strong> The ARIMA component provides a clear, interpretable baseline for the linear part of the forecast.</li>
+                                <li><strong>Addresses Limitations:</strong> Overcomes ARIMA's linearity assumption and LSTM's difficulty in capturing simple linear trends.</li>
+                                <li><strong>Versatile:</strong> Applicable to various time series data across different domains.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2 text-red-600">Cons</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Increased Complexity:</strong> More challenging to implement and manage due to the need to train and integrate two separate models.</li>
+                                <li><strong>Higher Computational Cost:</strong> Involves training two models sequentially, which can be time-consuming.</li>
+                                <li><strong>Error Propagation:</strong> Errors from the ARIMA model can propagate to the LSTM model, potentially affecting overall performance.</li>
+                                <li><strong>Data Requirements:</strong> LSTMs generally require a substantial amount of data, which might be a limitation for very short series.</li>
+                                <li><strong>Hyperparameter Tuning:</strong> Requires tuning parameters for both ARIMA and LSTM components.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Example Implementation</h2>
+                    <p>Implementing an ARIMA-LSTM hybrid model involves several steps: fitting ARIMA, extracting residuals, preparing residuals for LSTM, training LSTM, and combining forecasts. Here's a conceptual Python example demonstrating this process.</p>
+
+                    <h3>Python Example (Conceptual)</h3>
+                    <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">
+                        <code class="language-python">
+import pandas as pd
+import numpy as np
+from statsmodels.tsa.arima.model import ARIMA
+from sklearn.preprocessing import MinMaxScaler
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import LSTM, Dense
+from sklearn.metrics import mean_absolute_error, mean_squared_error
+import matplotlib.pyplot as plt
+
+# 1. Generate sample data with both linear trend/seasonality and some non-linearity
+np.random.seed(42)
+n_samples = 200
+time_idx = np.arange(n_samples)
+# Linear trend + seasonality
+linear_component = 50 + 0.5 * time_idx + 10 * np.sin(time_idx * 2 * np.pi / 30)
+# Add some non-linear, autoregressive-like noise
+non_linear_noise = np.zeros(n_samples)
+for i in range(1, n_samples):
+    non_linear_noise[i] = 0.3 * non_linear_noise[i-1] + np.random.normal(0, 1) * (1 + np.sin(i/50))
+
+original_series = linear_component + non_linear_noise
+series = pd.Series(original_series, index=pd.date_range(start='2020-01-01', periods=n_samples, freq='D'))
+
+# 2. Split data into train and test sets (chronological)
+train_size = 150
+train_series, test_series = series[0:train_size], series[train_size:n_samples]
+
+# --- Stage 1: ARIMA Modeling ---
+# 3. Fit ARIMA model to capture linear patterns
+# (p,d,q) orders need to be determined via ACF/PACF or auto_arima
+# For demonstration, let's assume (5,1,0) for non-seasonal data
+arima_order = (5,1,0)
+arima_model = ARIMA(train_series, order=arima_order)
+arima_model_fit = arima_model.fit()
+
+# 4. Get ARIMA in-sample predictions and residuals
+arima_train_pred = arima_model_fit.predict(start=0, end=len(train_series)-1)
+arima_residuals = train_series - arima_train_pred
+
+print("ARIMA Model Summary:")
+print(arima_model_fit.summary())
+print(f"\nARIMA Residuals (first 5): {arima_residuals.head().values}")
+
+# --- Stage 2: LSTM Modeling on Residuals ---
+# 5. Prepare residuals for LSTM (supervised learning format)
+# LSTM needs sequences as input, so we create lagged features from residuals
+look_back = 10 # Number of past residuals to use as input for LSTM
+scaler = MinMaxScaler(feature_range=(0, 1))
+scaled_residuals = scaler.fit_transform(arima_residuals.values.reshape(-1, 1))
+
+def create_lstm_dataset(dataset, look_back=1):
+    X, Y =,
+    for i in range(len(dataset) - look_back):
+        X.append(dataset[i:(i + look_back), 0])
+        Y.append(dataset[i + look_back, 0])
+    return np.array(X), np.array(Y)
+
+X_residuals, y_residuals = create_lstm_dataset(scaled_residuals, look_back)
+
+# Reshape input to be [samples, time steps, features] for LSTM
+X_residuals = np.reshape(X_residuals, (X_residuals.shape, X_residuals.shape[1], 1))
+
+# 6. Build and train LSTM model on residuals
+lstm_model = Sequential()
+lstm_model.add(LSTM(50, activation='relu', input_shape=(look_back, 1)))
+lstm_model.add(Dense(1))
+lstm_model.compile(optimizer='adam', loss='mean_squared_error')
+
+print("\nStarting LSTM training on ARIMA residuals...")
+lstm_model.fit(X_residuals, y_residuals, epochs=50, batch_size=1, verbose=0) # Reduced epochs for demo
+print("LSTM training complete.")
+
+# --- Forecasting and Combination ---
+# 7. Make multi-step forecasts
+forecast_steps = len(test_series)
+
+# ARIMA forecast for the future
+arima_forecast_future = arima_model_fit.forecast(steps=forecast_steps)
+
+# LSTM forecast for future residuals (recursive prediction)
+# Start with the last 'look_back' residuals from training
+last_residuals_sequence = scaled_residuals[-look_back:]
+lstm_future_residuals_scaled =
+current_lstm_input = last_residuals_sequence.reshape(1, look_back, 1)
+
+for _ in range(forecast_steps):
+    next_residual_pred_scaled = lstm_model.predict(current_lstm_input, verbose=0)
+    lstm_future_residuals_scaled.append(next_residual_pred_scaled)
+    # Update input sequence: remove oldest, add new prediction
+    current_lstm_input = np.append(current_lstm_input[:, 1:, :], [[[next_residual_pred_scaled]]], axis=1)
+
+lstm_future_residuals = scaler.inverse_transform(np.array(lstm_future_residuals_scaled).reshape(-1, 1)).flatten()
+
+# 8. Combine forecasts
+hybrid_forecast = arima_forecast_future.values + lstm_future_residuals
+
+# 9. Evaluate Hybrid Model
+mae = mean_absolute_error(test_series, hybrid_forecast)
+rmse = np.sqrt(mean_squared_error(test_series, hybrid_forecast))
+print(f"\nHybrid Model MAE: {mae:.3f}")
+print(f"Hybrid Model RMSE: {rmse:.3f}")
+
+# 10. Plotting Results
+plt.figure(figsize=(14, 7))
+plt.plot(train_series.index, train_series, label='Training Data', color='blue')
+plt.plot(test_series.index, test_series, label='Actual Test Data', color='orange')
+plt.plot(test_series.index, hybrid_forecast, label='ARIMA-LSTM Hybrid Forecast', color='green', linestyle='--')
+plt.title('ARIMA-LSTM Hybrid Time Series Forecasting')
+plt.xlabel('Date')
+plt.ylabel('Value')
+plt.legend()
+plt.grid(True)
+plt.show()
+                        </code></pre>
+                    </div>
+                </section>
+                
+                <section>
+                    <h2>Dependencies & Resources</h2>
+                    <p><strong>Dependencies:</strong> <code>pandas</code>, <code>numpy</code>, <code>statsmodels</code>, <code>tensorflow</code>/<code>keras</code>, <code>scikit-learn</code>, <code>matplotlib</code> (for plotting).</p>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><a href="https://www.mdpi.com/1099-4300/27/7/695" target="_blank" rel="noopener noreferrer">A Hybrid Framework Integrating Traditional Models and Deep Learning for Multi-Scale Time Series Forecasting (MDPI Paper) ↗</a></li>
+                        <li><a href="https://github.com/huytjuh/Hybrid-Time-Series-Modeling" target="_blank" rel="noopener noreferrer">Hybrid-Time-Series-Modeling GitHub Repository (includes conceptual hybrid frameworks) ↗</a></li>
+                        <li><a href="https://github.com/Hupperich-Manuel/LSTM-XGBoost-Hybrid-Forecasting" target="_blank" rel="noopener noreferrer">LSTM-XGBoost-Hybrid-Forecasting GitHub Repository (demonstrates hybrid concepts) ↗</a></li>
+                    </ul>
+                </section>
+            </article>
+        </div>
+    </main>
+
+    <footer class="text-center p-6 bg-slate-200 mt-12">
+        <p class="text-slate-600 text-sm">TSM Hub: An Interactive Resource for Time Series Analysis</p>
+    </footer>
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [['$','$'], ['\\(','\\)']],
+                displayMath: [['$$','$$'], ['\\[','\\]']],
+                processEscapes: true,
+                ignoreHtmlClass: ".*",
+                processHtmlClass: "mathjax-process"
+            },
+            skipStartupTypeset: true
+        });
+    </script>
+    <script src="main.js"></script>
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof MathJax!== 'undefined') {
+                MathJax.Hub.Queue();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TFT Model - TSM Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-slate-100 text-slate-800">
+<!-- Enhanced Navigation for Model Pages -->
+<nav class="bg-white shadow-lg sticky top-0 z-50 mb-8">
+    <div class="container mx-auto px-6 py-4">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <a href="index.html" class="text-2xl font-bold text-blue-600">🏠 TS Forecasting Hub</a>
+                <div class="hidden md:flex items-center space-x-1 bg-gray-100 rounded-lg p-1">
+                    <a href="models.html" class="nav-link px-3 py-2 rounded">📚 All Models</a>
+                    <a href="comparison.html" class="nav-link px-3 py-2 rounded">📊 Compare</a>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+                <!-- AI Features Quick Access -->
+                <div class="hidden md:flex items-center space-x-2">
+                    <a href="model-selector.html" class="bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-600 text-sm flex items-center">
+                        🤖 AI Recommender
+                    </a>
+                    <a href="chat.html" class="bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-600 text-sm flex items-center">
+                        💬 AI Assistant
+                    </a>
+                    <a href="forecast-simulator.html?model={{MODEL_NAME}}" class="bg-purple-500 text-white px-3 py-2 rounded-lg hover:bg-purple-600 text-sm flex items-center">
+                        🚀 Try in Simulator
+                    </a>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <button class="md:hidden p-2" onclick="toggleMobileMenu()">☰</button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 border-t">
+            <div class="flex flex-col space-y-2">
+                <a href="models.html" class="text-gray-600 hover:text-blue-600 py-2">📚 All Models</a>
+                <a href="comparison.html" class="text-gray-600 hover:text-blue-600 py-2">📊 Compare Models</a>
+                <a href="model-selector.html" class="text-gray-600 hover:text-blue-600 py-2">🤖 AI Recommender</a>
+                <a href="chat.html" class="text-gray-600 hover:text-blue-600 py-2">💬 AI Assistant</a>
+                <a href="forecast-simulator.html" class="text-gray-600 hover:text-blue-600 py-2">🚀 Simulator</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-slate-900">TSM Hub</a>
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="concepts.html" class="nav-link">Concepts</a>
+                <a href="models.html" class="nav-link active">Models</a>
+                <a href="comparison.html" class="nav-link">Comparison</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden p-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="index.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Home</a>
+            <a href="concepts.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Concepts</a>
+            <a href="models.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Models</a>
+            <a href="comparison.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Comparison</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        <div class="bg-white p-8 rounded-lg shadow-md">
+            <header class="border-b-2 border-slate-200 pb-6 mb-8">
+                 <a href="models.html" class="text-blue-600 hover:underline mb-4 inline-block">&larr; Back to Model Library</a>
+                <h1 class="text-4xl md:text-5xl font-bold text-slate-900">Temporal Fusion Transformer (TFT) Model</h1>
+                <p class="mt-2 text-lg text-slate-600">Interpretable Multi-Horizon Time Series Forecasting</p>
+            </header>
+            
+            <article class="prose max-w-none">
+                <section>
+                    <h2>Overview</h2>
+                    <p>The Temporal Fusion Transformer (TFT) is a powerful attention-based deep learning model designed for interpretable multi-horizon time series forecasting. Developed by Google, TFT excels at handling complex time series data, including those with multiple related series and various types of exogenous variables. Its key strengths lie in its ability to selectively learn relevant temporal dependencies, handle static and dynamic features, and provide **quantile forecasts**, which offer a crucial measure of uncertainty. TFT also offers a degree of **interpretability** by highlighting the importance of different input features and time steps through its attention mechanisms.</p>
+                    
+                    <h2>Architecture & Components</h2>
+                    <p>TFT's architecture is sophisticated, combining several neural network components to achieve its capabilities:</p>
+                    <ul>
+                        <li><strong>Gating Mechanisms (Gated Residual Networks - GRN):</strong> TFT extensively uses Gated Residual Networks, which are a type of residual block with a gating layer. These gates allow the network to skip over parts of the architecture that are not relevant, enabling adaptive processing of inputs and improving robustness.
+                            <p class="font-mono text-center bg-slate-100 p-2 rounded-md mathjax-process">
+                                $ \text{GRN}(x, c) = \text{LayerNorm}(x + \text{Dropout}(\text{Linear}_2(\text{ReLU}(\text{Linear}_1(x) + \text{Linear}_3(c)))) \odot \sigma(\text{Linear}_4(x) + \text{Linear}_5(c))) $
+                            </p>
+                            Where $x$ is the input, $c$ is an optional context, and $\odot$ is element-wise multiplication.
+                        </li>
+                        <li><strong>Variable Selection Network:</strong> This component allows TFT to learn the importance of different input features (static, known time-varying, unknown time-varying) at each time step. It uses GRNs to produce weights that determine how much each feature contributes to the model's output, enhancing interpretability.</li>
+                        <li><strong>Static Covariate Encoders:</strong> Static (time-invariant) features are processed and passed as context to various parts of the network, allowing the model to condition its predictions on characteristics of each individual time series.</li>
+                        <li><strong>Temporal Processing (LSTM/GRU and Gated Multi-Head Attention):</strong>
+                            <ul>
+                                <li><strong>LSTMs/GRUs:</strong> Used to encode the temporal context of both known and unknown time-varying inputs.</li>
+                                <li><strong>Gated Multi-Head Attention:</strong> A key innovation. It allows the model to attend to relevant historical time steps while preventing information leakage from the future. The "gated" aspect helps filter out irrelevant information. This mechanism is crucial for capturing long-range dependencies and identifying important historical events.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Quantile Outputs:</strong> Instead of a single point forecast, TFT predicts multiple quantiles (e.g., 10th, 50th, 90th percentiles) for each future time step. This provides a full probabilistic forecast, quantifying the uncertainty of the predictions.</li>
+                    </ul>
+                     <div class="bg-slate-100 p-4 rounded-lg my-6 text-center">
+                        <img src="https://placehold.co/600x300/e2e8f0/334155?text=Conceptual+TFT+Architecture" alt="TFT Architecture Diagram" class="mx-auto rounded-md">
+                        <p class="text-sm text-slate-500 mt-2">Conceptual diagram of TFT's architecture, highlighting key components like variable selection and gated attention.</p>
+                    </div>
+                </section>
+                
+                <section>
+                    <h2>When to Use TFT</h2>
+                    <p>TFT is an excellent choice for time series forecasting when:</p>
+                    <ul>
+                        <li><strong>Multi-horizon forecasts are needed:</strong> It is designed to predict multiple future time steps simultaneously.</li>
+                        <li><strong>Probabilistic forecasts (quantiles) are important:</strong> When quantifying uncertainty and understanding the range of possible outcomes is critical for decision-making.</li>
+                        <li><strong>Interpretability is desired:</strong> Its variable selection and attention mechanisms provide insights into feature importance and relevant historical periods.</li>
+                        <li><strong>You have multiple related time series:</strong> It can effectively leverage cross-series information.</li>
+                        <li><strong>You have a rich set of static and time-varying covariates:</strong> TFT is highly adept at incorporating and learning from diverse external features.</li>
+                        <li><strong>The data exhibits complex, non-linear patterns and long-range dependencies.</strong></li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Pros and Cons</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2 text-green-600">Pros</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Interpretable:</strong> Provides insights into feature importance and temporal dependencies.</li>
+                                <li><strong>Probabilistic Forecasts:</strong> Outputs quantiles, offering uncertainty estimates.</li>
+                                <li><strong>Multi-Horizon Forecasting:</strong> Designed for predicting multiple future steps simultaneously.</li>
+                                <li><strong>Handles Diverse Inputs:</strong> Effectively integrates static, known time-varying, and unknown time-varying covariates.</li>
+                                <li><strong>Captures Long-Range Dependencies:</strong> Gated multi-head attention mechanism excels at this.</li>
+                                <li><strong>State-of-the-Art Performance:</strong> Achieves high accuracy on various benchmarks.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2 text-red-600">Cons</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Complexity:</strong> Architecturally complex, making it challenging to implement from scratch.</li>
+                                <li><strong>Computationally Intensive:</strong> Training can be slow due to its intricate structure and attention mechanisms.</li>
+                                <li><strong>Data Requirements:</strong> Requires substantial amounts of data for optimal performance, especially for learning complex interactions.</li>
+                                <li><strong>Hyperparameter Tuning:</strong> Many parameters require careful tuning for best results.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Example Implementation</h2>
+                    <p>Implementing TFT from scratch is very complex. The most common and recommended way to use TFT is through high-level libraries like `pytorch-forecasting` in PyTorch or `tft` in TensorFlow. Here, we provide a conceptual example using `pytorch-forecasting`.</p>
+
+                    <h3>PyTorch Example (Conceptual using `pytorch-forecasting`)</h3>
+                    <div class="code-block my-4">
+                        <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto"><code class="language-python">
+import pandas as pd
+import numpy as np
+import pytorch_lightning as pl
+from pytorch_forecasting import TimeSeriesDataSet, TemporalFusionTransformer
+from pytorch_forecasting.data import GroupNormalizer
+from pytorch_forecasting.metrics import QuantileLoss
+import matplotlib.pyplot as plt
+import torch
+
+# 1. Generate synthetic data for demonstration (multiple related time series)
+# Simulate 5 different series, each with a trend, seasonality, and static/time-varying features
+n_series = 5
+n_timesteps = 200
+data = []
+for i in range(n_series):
+    time = np.arange(n_timesteps)
+    trend_val = 50 + i * 5 + time * (0.1 + i * 0.005)
+    seasonality_val = 10 * np.sin(time * 2 * np.pi / 24) + 5 * np.cos(time * 2 * np.pi / 168)
+    noise_val = np.random.normal(0, 2, n_timesteps)
+    
+    series_data = pd.DataFrame({
+        "time_idx": time,
+        "value": trend_val + seasonality_val + noise_val,
+        "series": str(i), # Identifier for each series
+        "static_feature_A": f"cat_{i%2}", # Example static categorical
+        "static_feature_B": f"group_{i%3}", # Another static categorical
+        "known_time_varying_A": np.sin(time / 10) + 0.5 * np.random.rand(n_timesteps), # Known in future
+        "known_time_varying_B": np.cos(time / 5) + 0.3 * np.random.rand(n_timesteps), # Known in future
+        "unknown_time_varying_A": np.random.rand(n_timesteps) * 5, # Unknown in future (target is one)
+    })
+    data.append(series_data)
+
+data = pd.concat(data, ignore_index=True)
+
+# 2. Define TimeSeriesDataSet
+max_prediction_length = 24
+max_encoder_length = 168 # Look back 1 week for hourly data
+
+training_cutoff = data["time_idx"].max() - max_prediction_length
+
+training = TimeSeriesDataSet(
+    data[lambda x: x.time_idx <= training_cutoff],
+    time_idx="time_idx",
+    target="value",
+    group_ids=["series"],
+    min_encoder_length=max_encoder_length // 2,
+    max_encoder_length=max_encoder_length,
+    min_prediction_length=1,
+    max_prediction_length=max_prediction_length,
+    static_categoricals=["series", "static_feature_A", "static_feature_B"],
+    time_varying_known_categoricals=[], # No time-varying categoricals in this example
+    time_varying_known_reals=["time_idx", "known_time_varying_A", "known_time_varying_B"],
+    time_varying_unknown_reals=["value", "unknown_time_varying_A"],
+    target_normalizer=GroupNormalizer(
+        groups=["series"], transformation_method="softplus"
+    ),
+    add_relative_time_idx=True,
+    add_target_scales=True,
+    add_encoder_length=True,
+    # For TFT, you might also add `categorical_encoders` and `real_encoders`
+)
+
+# Create validation and test sets
+validation = TimeSeriesDataSet.from_dataset(training, data, predict=True, stop_index=training_cutoff)
+
+# Create DataLoaders
+batch_size = 64
+train_dataloader = training.to_dataloader(train=True, batch_size=batch_size, num_workers=0)
+val_dataloader = validation.to_dataloader(train=False, batch_size=batch_size, num_workers=0)
+
+# 3. Define the TemporalFusionTransformer model
+tft_model = TemporalFusionTransformer(
+    hidden_size=64,
+    lstm_layers=2, # Number of LSTM layers in the encoder
+    dropout=0.1,
+    attention_head_size=4, # Number of attention heads
+    hidden_continuous_size=32, # Size of hidden layer for continuous variables
+    output_size=7, # Number of quantiles to predict (e.g., 0.02, 0.1, 0.25, 0.5, 0.75, 0.9, 0.98)
+    loss=QuantileLoss(), # For quantile forecasting
+    log_interval=10,
+    # Pass dataset parameters directly
+    **training.get_parameters()
+)
+
+# 4. Train the model
+trainer = pl.Trainer(
+    accelerator='cpu', # Use 'gpu' or 'auto' if GPU is available
+    max_epochs=5, # Reduced for quick demonstration
+    enable_model_summary=False,
+)
+print("Starting PyTorch Temporal Fusion Transformer model training...")
+trainer.fit(tft_model, train_dataloader, val_dataloader)
+print("PyTorch Temporal Fusion Transformer model training complete.")
+
+# 5. Make predictions (conceptual)
+raw_predictions = tft_model.predict(val_dataloader, mode="raw", return_index=True, return_y=True)
+
+# Accessing predictions and true values
+predictions = raw_predictions.output
+actuals = raw_predictions.y
+
+# Example: Plotting a single series forecast with uncertainty
+sample_series_idx = 0
+sample_series_id = validation.group_ids[sample_series_idx]
+
+history_data = data[(data["series"] == sample_series_id) & (data["time_idx"] <= training_cutoff)]
+future_data = data[(data["series"] == sample_series_id) & (data["time_idx"] > training_cutoff)]
+
+# Get the predictions for this specific series
+forecast_mean = predictions["prediction"][sample_series_idx, :, 3].numpy() # 50th percentile (median)
+forecast_lower = predictions["prediction"][sample_series_idx, :, 1].numpy() # e.g., 10th percentile
+forecast_upper = predictions["prediction"][sample_series_idx, :, 5].numpy() # e.g., 90th percentile
+
+print(f"\nForecast mean for series {sample_series_id} (first 5 steps): {forecast_mean[:5].flatten()}")
+print(f"Actual values for series {sample_series_id} (first 5 steps): {future_data['value'].values[:5].flatten()}")
+
+# Plotting (conceptual)
+# plt.figure(figsize=(14, 7))
+# plt.plot(history_data["time_idx"], history_data["value"], label="Historical Data", color='blue')
+# plt.plot(future_data["time_idx"], future_data["value"], label="Actual Future", color='orange')
+# plt.plot(future_data["time_idx"], forecast_mean, label="TFT Mean Forecast", linestyle='--', color='red')
+# plt.fill_between(future_data["time_idx"], forecast_lower, forecast_upper, alpha=0.2, color='red', label="80% Prediction Interval")
+# plt.title(f'TFT Forecast for Series {sample_series_id}')
+# plt.xlabel('Time Index')
+# plt.ylabel('Value')
+# plt.legend()
+# plt.grid(True)
+# plt.show()
+                        </code></pre>
+                    </div>
+
+                    <h3>TensorFlow Example (Conceptual using `tft` library)</h3>
+                    <div class="code-block my-4">
+                        <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto"><code class="language-python">
+import pandas as pd
+import numpy as np
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers
+import matplotlib.pyplot as plt
+
+# This is a highly simplified conceptual example as a full TFT implementation in raw TF/Keras is extensive.
+# For practical use, consider libraries like `tft` (TensorFlow Transform) or `pytorch-forecasting`.
+
+# 1. Generate synthetic data (univariate for simplicity, but conceptualizes multiple series)
+n_series = 5
+n_timesteps = 200
+data = []
+for i in range(n_series):
+    time = np.arange(n_timesteps)
+    value = 50 + i * 5 + time * 0.1 + 10 * np.sin(time / 24) + np.random.normal(0, 2, n_timesteps)
+    df_series = pd.DataFrame({
+        "time_idx": time,
+        "value": value,
+        "series_id": str(i),
+        "static_feature_A": f"cat_{i%2}",
+        "known_time_varying_A": np.sin(time / 10),
+    })
+    data.append(df_series)
+full_data = pd.concat(data, ignore_index=True)
+
+# 2. Data preparation for a conceptual TFT-like model
+# This would involve creating sequences, handling static/time-varying features, and encoding them.
+# For simplicity, we'll create a generic sequence input.
+def create_sequences(df, seq_len, pred_len, target_col, time_idx_col, group_id_col):
+    X, Y = [], []
+    # Simplified: assuming a single series for sequence creation for this conceptual example
+    # In reality, you'd iterate per group_id
+    series_data = df[df[group_id_col] == df[group_id_col].iloc[0]][target_col].values
+    for i in range(len(series_data) - seq_len - pred_len + 1):
+        X.append(series_data[i : i + seq_len])
+        Y.append(series_data[i + seq_len : i + seq_len + pred_len])
+    return np.array(X), np.array(Y)
+
+seq_len = 96
+pred_len = 24
+X_input, y_output = create_sequences(full_data, seq_len, pred_len, "value", "time_idx", "series_id")
+
+# Reshape for Keras (batch_size, seq_len, features)
+X_input = X_input.reshape(X_input.shape[0], X_input.shape[1], 1)
+y_output = y_output.reshape(y_output.shape[0], y_output.shape[1]) # For multi-step output
+
+# 3. Conceptual TFT-like Keras Model
+# This is NOT a full TFT, but demonstrates a Transformer Encoder with multi-step output.
+# A full TFT would involve Variable Selection Networks, Gated Residual Networks,
+# and specialized attention for static/time-varying inputs.
+
+class MultiHeadSelfAttention(layers.Layer):
+    def __init__(self, embed_dim, num_heads=8):
+        super(MultiHeadSelfAttention, self).__init__()
+        self.embed_dim = embed_dim
+        self.num_heads = num_heads
+        self.proj_dim = embed_dim // num_heads
+        self.q_proj = layers.Dense(embed_dim)
+        self.k_proj = layers.Dense(embed_dim)
+        self.v_proj = layers.Dense(embed_dim)
+        self.combine_heads = layers.Dense(embed_dim)
+
+    def call(self, inputs):
+        batch_size = tf.shape(inputs)[0]
+        q = self.q_proj(inputs)
+        k = self.k_proj(inputs)
+        v = self.v_proj(inputs)
+
+        q = tf.reshape(q, (batch_size, -1, self.num_heads, self.proj_dim))
+        k = tf.reshape(k, (batch_size, -1, self.num_heads, self.proj_dim))
+        v = tf.reshape(v, (batch_size, -1, self.num_heads, self.proj_dim))
+
+        q = tf.transpose(q, perm=[0, 2, 1, 3])
+        k = tf.transpose(k, perm=[0, 2, 1, 3])
+        v = tf.transpose(v, perm=[0, 2, 1, 3])
+
+        attention_scores = tf.matmul(q, k, transpose_b=True)
+        attention_scores = attention_scores / tf.math.sqrt(tf.cast(self.proj_dim, tf.float32))
+        attention_weights = tf.nn.softmax(attention_scores, axis=-1)
+        output = tf.matmul(attention_weights, v)
+
+        output = tf.transpose(output, perm=[0, 2, 1, 3])
+        output = tf.reshape(output, (batch_size, -1, self.embed_dim))
+        return self.combine_heads(output)
+
+class TransformerBlock(layers.Layer):
+    def __init__(self, embed_dim, num_heads, ff_dim, rate=0.1):
+        super(TransformerBlock, self).__init__()
+        self.att = MultiHeadSelfAttention(embed_dim, num_heads)
+        self.ffn = keras.Sequential([layers.Dense(ff_dim, activation="relu"), layers.Dense(embed_dim)])
+        self.layernorm1 = layers.LayerNormalization(epsilon=1e-6)
+        self.layernorm2 = layers.LayerNormalization(epsilon=1e-6)
+        self.dropout1 = layers.Dropout(rate)
+        self.dropout2 = layers.Dropout(rate)
+
+    def call(self, inputs, training):
+        attn_output = self.att(inputs)
+        attn_output = self.dropout1(attn_output, training=training)
+        out1 = self.layernorm1(inputs + attn_output)
+        ffn_output = self.ffn(out1)
+        ffn_output = self.dropout2(ffn_output, training=training)
+        return self.layernorm2(out1 + ffn_output)
+
+class PositionalEmbedding(layers.Layer):
+    def __init__(self, sequence_length, embed_dim):
+        super(PositionalEmbedding, self).__init__()
+        self.embed_dim = embed_dim
+        self.position_embedding = layers.Embedding(input_dim=sequence_length, output_dim=embed_dim)
+        self.sequence_length = sequence_length
+        self.input_projection = layers.Dense(embed_dim) # Project input features to embed_dim
+
+    def call(self, inputs):
+        # inputs shape: (batch_size, sequence_length, num_features)
+        length = tf.shape(inputs)[-2]
+        positions = tf.range(start=0, limit=length, delta=1)
+        embedded_positions = self.position_embedding(positions)
+        embedded_inputs = self.input_projection(inputs)
+        return embedded_inputs + embedded_positions
+
+# Model Definition
+embed_dim = 64
+num_heads = 4
+ff_dim = 128
+num_transformer_blocks = 2
+
+inputs = keras.Input(shape=(seq_len, 1)) # Univariate input
+x = PositionalEmbedding(seq_len, embed_dim)(inputs)
+
+for _ in range(num_transformer_blocks):
+    x = TransformerBlock(embed_dim, num_heads, ff_dim)(x)
+
+# Output head for multi-step forecasting
+# Take the output of the entire sequence from the Transformer and project
+# This is a common approach for sequence-to-sequence forecasting
+x = layers.Flatten()(x) # Flatten the sequence output
+outputs = layers.Dense(pred_len)(x) # Predict all 'pred_len' steps
+
+tft_like_model = keras.Model(inputs=inputs, outputs=outputs)
+
+# 4. Compile and Train
+tft_like_model.compile(optimizer=keras.optimizers.Adam(learning_rate=0.001), loss='mse')
+
+print("Starting TensorFlow TFT-like model training...")
+tft_like_model.fit(X_input, y_output, epochs=10, batch_size=32, verbose=0) # Reduced epochs for demo
+print("TensorFlow TFT-like model training complete.")
+
+# 5. Make predictions (conceptual)
+sample_input = X_input[0:1] # Take the first sequence for demonstration
+forecast_scaled = tft_like_model.predict(sample_input)
+
+# For plotting, we'd need to inverse transform if data was scaled
+# (Assuming no scaling was done for simplicity in this conceptual example)
+forecast_np = forecast_scaled.flatten()
+actual_np = y_output[0].flatten()
+
+print(f"\nFirst sequence actual values (first {pred_len} steps): {actual_np[:5].flatten()}")
+print(f"First sequence predicted values (first {pred_len} steps): {forecast_np[:5].flatten()}")
+
+# Plotting (conceptual)
+# plt.figure(figsize=(14, 7))
+# plt.plot(np.arange(seq_len), X_input[0, :, 0], label='Input Sequence', color='blue')
+# plt.plot(np.arange(seq_len, seq_len + pred_len), actual_np, label='Actual Future', color='orange')
+# plt.plot(np.arange(seq_len, seq_len + pred_len), forecast_np, label='TFT-like Forecast', linestyle='--', color='red')
+# plt.title('TensorFlow TFT-like Time Series Forecast (Conceptual)')
+# plt.xlabel('Time Step')
+# plt.ylabel('Value')
+# plt.legend()
+# plt.grid(True)
+# plt.show()
+                        </code></pre>
+                    </div>
+                </section>
+                
+                <section>
+                    <h2>Dependencies & Resources</h2>
+                    <p><strong>Dependencies:</strong> <code>numpy</code>, <code>pandas</code>, <code>pytorch</code>/`pytorch-lightning`/`pytorch-forecasting` (for PyTorch example), <code>tensorflow</code>/<code>keras</code> (for TensorFlow example), <code>matplotlib</code> (for plotting).</p>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><a href="https://arxiv.org/abs/1912.09363" target="_blank" rel="noopener noreferrer">Temporal Fusion Transformers for Interpretable Multi-horizon Time Series Forecasting (Original Paper) ↗</a></li>
+                        <li><a href="https://pytorch-forecasting.readthedocs.io/en/latest/api/pytorch_forecasting.models.temporal_fusion_transformer.html" target="_blank" rel="noopener noreferrer">PyTorch Forecasting TFT Documentation ↗</a></li>
+                        <li><a href="https://github.com/google-research/google-research/tree/master/tft" target="_blank" rel="noopener noreferrer">Google Research TFT (TensorFlow) ↗</a></li>
+                    </ul>
+                </section>
+            </article>
+        </div>
+    </main>
+
+    <footer class="text-center p-6 bg-slate-200 mt-12">
+        <p class="text-slate-600 text-sm">TSM Hub: An Interactive Resource for Time Series Analysis</p>
+    </footer>
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [['$','$'], ['\\(','\\)']],
+                displayMath: [['$$','$$'], ['\\[','\\]']],
+                processEscapes: true,
+                ignoreHtmlClass: ".*",
+                processHtmlClass: "mathjax-process"
+            },
+            skipStartupTypeset: true
+        });
+    </script>
+    <script src="main.js"></script>
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof MathJax !== 'undefined') {
+                MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+            }
+        });
+    </script>
+</body>
+</html>

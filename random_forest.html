@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Forest Model - TSM Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-slate-100 text-slate-800">
+<!-- Enhanced Navigation for Model Pages -->
+<nav class="bg-white shadow-lg sticky top-0 z-50 mb-8">
+    <div class="container mx-auto px-6 py-4">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <a href="index.html" class="text-2xl font-bold text-blue-600">🏠 TS Forecasting Hub</a>
+                <div class="hidden md:flex items-center space-x-1 bg-gray-100 rounded-lg p-1">
+                    <a href="models.html" class="nav-link px-3 py-2 rounded">📚 All Models</a>
+                    <a href="comparison.html" class="nav-link px-3 py-2 rounded">📊 Compare</a>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+                <!-- AI Features Quick Access -->
+                <div class="hidden md:flex items-center space-x-2">
+                    <a href="model-selector.html" class="bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-600 text-sm flex items-center">
+                        🤖 AI Recommender
+                    </a>
+                    <a href="chat.html" class="bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-600 text-sm flex items-center">
+                        💬 AI Assistant
+                    </a>
+                    <a href="forecast-simulator.html?model={{MODEL_NAME}}" class="bg-purple-500 text-white px-3 py-2 rounded-lg hover:bg-purple-600 text-sm flex items-center">
+                        🚀 Try in Simulator
+                    </a>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <button class="md:hidden p-2" onclick="toggleMobileMenu()">☰</button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 border-t">
+            <div class="flex flex-col space-y-2">
+                <a href="models.html" class="text-gray-600 hover:text-blue-600 py-2">📚 All Models</a>
+                <a href="comparison.html" class="text-gray-600 hover:text-blue-600 py-2">📊 Compare Models</a>
+                <a href="model-selector.html" class="text-gray-600 hover:text-blue-600 py-2">🤖 AI Recommender</a>
+                <a href="chat.html" class="text-gray-600 hover:text-blue-600 py-2">💬 AI Assistant</a>
+                <a href="forecast-simulator.html" class="text-gray-600 hover:text-blue-600 py-2">🚀 Simulator</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-slate-900">TSM Hub</a>
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="concepts.html" class="nav-link">Concepts</a>
+                <a href="models.html" class="nav-link active">Models</a>
+                <a href="comparison.html" class="nav-link">Comparison</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden p-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="index.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Home</a>
+            <a href="concepts.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Concepts</a>
+            <a href="models.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Models</a>
+            <a href="comparison.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Comparison</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        <div class="bg-white p-8 rounded-lg shadow-md">
+            <header class="border-b-2 border-slate-200 pb-6 mb-8">
+                 <a href="models.html" class="text-blue-600 hover:underline mb-4 inline-block">&larr; Back to Model Library</a>
+                <h1 class="text-4xl md:text-5xl font-bold text-slate-900">Random Forest Model</h1>
+                <p class="mt-2 text-lg text-slate-600">Ensemble Learning for Regression</p>
+            </header>
+            
+            <article class="prose max-w-none">
+                <section>
+                    <h2>Overview</h2>
+                    <p>Random Forest is a popular ensemble learning method that can be used for both classification and regression tasks. For time series forecasting, it operates by constructing a multitude of decision trees at training time and outputting the mean (for regression) or mode (for classification) prediction of the individual trees. While Random Forests are not inherently designed for time series data (as they assume independent observations), they can be effectively adapted by transforming the time series problem into a supervised learning problem through **feature engineering**.</p>
+                    
+                    <h2>Architecture & Components</h2>
+                    <p>Random Forest builds upon two main concepts: decision trees and bagging (bootstrap aggregating):</p>
+                    <ul>
+                        <li><strong>Decision Trees:</strong> These are the weak learners in the ensemble. A decision tree recursively partitions the input space based on features to make predictions.</li>
+                        <li><strong>Bagging (Bootstrap Aggregating):</strong> This technique involves training multiple decision trees on different bootstrap samples (random subsets with replacement) of the training data. This reduces variance and helps prevent overfitting.</li>
+                        <li><strong>Random Feature Subspace:</strong> During the construction of each tree, only a random subset of features is considered for splitting at each node. This further decorrelates the trees, improving the ensemble's robustness.</li>
+                        <li><strong>Aggregation:</strong> For regression, the predictions from all individual trees are averaged to produce the final forecast.</li>
+                        <li><strong>Feature Engineering:</strong> For time series forecasting, Random Forest relies on manually engineered features to capture temporal patterns. These typically include:
+                            <ul>
+                                <li><strong>Lagged Features:</strong> Past values of the time series itself (e.g., sales from previous days). [13, 14]</li>
+                                <li><strong>Rolling Window Statistics:</strong> Mean, standard deviation, min, max over a defined past window.</li>
+                                <li><strong>Time-Based Features:</strong> Day of week, month, year, hour, quarter, and holiday indicators. [15]</li>
+                                <li><strong>Seasonal Variables:</strong> Creating variables that have different values for different months or weeks to add a seasonal component. [15]</li>
+                                <li><strong>Decomposition:</strong> Explicitly decomposing the time series into trend, seasonality, and residuals, and then using these components as features. [16]</li>
+                            </ul>
+                        </li>
+                    </ul>
+                     <div class="bg-slate-100 p-4 rounded-lg my-6 text-center">
+                        <img src="https://placehold.co/600x300/e2e8f0/334155?text=Conceptual+Random+Forest+for+Time+Series" alt="Random Forest Architecture Diagram" class="mx-auto rounded-md">
+                        <p class="text-sm text-slate-500 mt-2">Conceptual diagram of Random Forest's ensemble approach for time series.</p>
+                    </div>
+                </section>
+                
+                <section>
+                    <h2>When to Use Random Forest</h2>
+                    <p>Random Forest can be a good choice for time series forecasting when:</p>
+                    <ul>
+                        <li><strong>You are comfortable with feature engineering:</strong> Its effectiveness in time series relies on creating relevant temporal features.</li>
+                        <li><strong>The time series exhibits non-linear relationships:</strong> Tree-based models can capture complex interactions between features.</li>
+                        <li><strong>Robustness to outliers and noise is important:</strong> The ensemble nature makes it less sensitive to extreme values.</li>
+                        <li><strong>You need feature importance scores:</strong> Random Forest can provide insights into which features are most influential.</li>
+                        <li><strong>You are dealing with intermittent data:</strong> It can perform well for data with many zero values. [15]</li>
+                        <li><strong>You need a model that is less prone to overfitting than single decision trees.</strong></li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Pros and Cons</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2 text-green-600">Pros</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Robust to Outliers & Noise:</strong> Ensemble averaging reduces the impact of individual noisy data points.</li>
+                                <li><strong>Handles Non-Linear Relationships:</strong> Can model complex interactions between features.</li>
+                                <li><strong>Provides Feature Importance:</strong> Offers insights into which features are most predictive.</li>
+                                <li><strong>Less Prone to Overfitting:</strong> Bagging and random feature selection help prevent overfitting compared to single decision trees.</li>
+                                <li><strong>Versatile:</strong> Can be used for both univariate and multivariate time series.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2 text-red-600">Cons</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Requires Feature Engineering:</strong> Not a native time series model; requires manual creation of lagged, rolling, and time-based features. [15]</li>
+                                <li><strong>Struggles with Extrapolation:</strong> As a tree-based model, it cannot predict values outside the range seen in the training data, making it unsuitable for strong trends that extend beyond observed data. [16]</li>
+                                <li><strong>Less Interpretable:</strong> Ensemble of many trees makes it harder to interpret than a single decision tree.</li>
+                                <li><strong>Computationally Intensive:</strong> Can be expensive for very large datasets due to building many trees.</li>
+                                <li><strong>Does Not Explicitly Handle Temporal Dependencies:</strong> Assumes observations are independent, requiring careful feature engineering to capture time-dependent structures. [17]</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Example Implementation</h2>
+                    <p>Here's an example of implementing Random Forest for time series forecasting in Python. The key steps involve transforming the time series into a supervised learning problem with lagged features, splitting data chronologically, and then training and predicting with `RandomForestRegressor`.</p>
+
+                    <h3>Python Example (using `scikit-learn` library)</h3>
+                    <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">
+                        <code class="language-python">
+import pandas as pd
+import numpy as np
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import mean_absolute_error, mean_squared_error
+import matplotlib.pyplot as plt
+
+# 1. Create sample time series data
+date_range = pd.date_range(start='2020-01-01', periods=300, freq='D')
+# Simulate data with trend, seasonality, and noise
+values = (100 + np.arange(300) * 0.5 + # Trend
+          20 * np.sin(np.arange(300) * 2 * np.pi / 30) + # Monthly seasonality
+          np.random.randn(300) * 5) # Noise
+df = pd.DataFrame({'date': date_range, 'value': values})
+
+# 2. Feature Engineering (Transform time series into supervised learning problem) [13, 14]
+# Create lagged features
+def create_lagged_features(df, lag_steps):
+    for i in range(1, lag_steps + 1):
+        df[f'lag_{i}'] = df['value'].shift(i)
+    return df
+
+df = create_lagged_features(df.copy(), 7) # Use last 7 days as features
+
+# Add time-based features
+df['day_of_week'] = df['date'].dt.dayofweek
+df['month'] = df['date'].dt.month
+df['year'] = df['date'].dt.year
+
+# Drop rows with NaN values created by lagging
+df = df.dropna()
+
+# 3. Splitting Data (Chronological Split)
+split_date = '2020-09-01'
+train = df[df['date'] < split_date]
+test = df[df['date'] >= split_date]
+
+features = [col for col in df.columns if col not in ['date', 'value']]
+target = 'value'
+
+X_train, y_train = train[features], train[target]
+X_test, y_test = test[features], test[target]
+
+# 4. Create and Train Random Forest Model [13]
+# n_estimators: number of trees in the forest
+reg = RandomForestRegressor(n_estimators=100, random_state=42, max_depth=10, min_samples_leaf=5)
+reg.fit(X_train, y_train)
+
+# 5. Make Predictions
+predictions = reg.predict(X_test)
+
+# 6. Evaluate Model Performance
+mae = mean_absolute_error(y_test, predictions)
+rmse = np.sqrt(mean_squared_error(y_test, predictions))
+print(f"MAE: {mae:.3f}")
+print(f"RMSE: {rmse:.3f}")
+
+# 7. Plotting Results
+plt.figure(figsize=(14, 7))
+plt.plot(train['date'], train['value'], label='Training Data', color='blue')
+plt.plot(test['date'], y_test, label='Actual Test Data', color='orange')
+plt.plot(test['date'], predictions, label='Random Forest Predictions', color='green', linestyle='--')
+plt.title('Random Forest Time Series Forecasting')
+plt.xlabel('Date')
+plt.ylabel('Value')
+plt.legend()
+plt.grid(True)
+plt.show()
+                        </code></pre>
+                    </div>
+                </section>
+                
+                <section>
+                    <h2>Dependencies & Resources</h2>
+                    <p><strong>Dependencies:</strong> <code>pandas</code>, <code>numpy</code>, <code>scikit-learn</code>, <code>matplotlib</code> (for plotting).</p>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestRegressor.html" target="_blank" rel="noopener noreferrer">Scikit-learn RandomForestRegressor Documentation ↗</a></li>
+                        <li><a href="https://www.analyticsvidhya.com/blog/2021/06/random-forest-for-time-series-forecasting/" target="_blank" rel="noopener noreferrer">Random Forest for Time Series Forecasting (Analytics Vidhya) ↗</a> [15]</li>
+                        <li><a href="https://www.kaggle.com/code/jamieleech/random-forest-time-series-forecasting" target="_blank" rel="noopener noreferrer">Random Forest Time Series Forecasting (Kaggle Notebook) ↗</a> [13]</li>
+                        <li><a href="https://www.kaggle.com/code/pbizil/random-forest-regression-for-time-series-predict" target="_blank" rel="noopener noreferrer">Random Forest Regression for Time Series Predict (Kaggle Notebook) ↗</a> [14]</li>
+                        <li><a href="https://www.statworx.com/en/content-hub/blog/time-series-forecasting-with-random-forest" target="_blank" rel="noopener noreferrer">Time Series Forecasting with Random Forest (Statworx Blog) ↗</a></li>
+                        <li><a href="https://www.tigerdata.com/blog/what-is-time-series-forecasting" target="_blank" rel="noopener noreferrer">What is Time Series Forecasting (TigerData Blog) ↗</a> [16]</li>
+                    </ul>
+                </section>
+            </article>
+        </div>
+    </main>
+
+    <footer class="text-center p-6 bg-slate-200 mt-12">
+        <p class="text-slate-600 text-sm">TSM Hub: An Interactive Resource for Time Series Analysis</p>
+    </footer>
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [['$','$'], ['\\(','\\)']],
+                displayMath: [['$$','$$'], ['\\[','\\]']],
+                processEscapes: true,
+                ignoreHtmlClass: ".*",
+                processHtmlClass: "mathjax-process"
+            },
+            skipStartupTypeset: true
+        });
+    </script>
+    <script src="main.js"></script>
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof MathJax!== 'undefined') {
+                MathJax.Hub.Queue();
+            }
+        });
+    </script>
+</body>
+</html>

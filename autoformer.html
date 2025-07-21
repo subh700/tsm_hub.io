@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autoformer Model - TSM Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-slate-100 text-slate-800">
+<!-- Enhanced Navigation for Model Pages -->
+<nav class="bg-white shadow-lg sticky top-0 z-50 mb-8">
+    <div class="container mx-auto px-6 py-4">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <a href="index.html" class="text-2xl font-bold text-blue-600">🏠 TS Forecasting Hub</a>
+                <div class="hidden md:flex items-center space-x-1 bg-gray-100 rounded-lg p-1">
+                    <a href="models.html" class="nav-link px-3 py-2 rounded">📚 All Models</a>
+                    <a href="comparison.html" class="nav-link px-3 py-2 rounded">📊 Compare</a>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+                <!-- AI Features Quick Access -->
+                <div class="hidden md:flex items-center space-x-2">
+                    <a href="model-selector.html" class="bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-600 text-sm flex items-center">
+                        🤖 AI Recommender
+                    </a>
+                    <a href="chat.html" class="bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-600 text-sm flex items-center">
+                        💬 AI Assistant
+                    </a>
+                    <a href="forecast-simulator.html?model={{MODEL_NAME}}" class="bg-purple-500 text-white px-3 py-2 rounded-lg hover:bg-purple-600 text-sm flex items-center">
+                        🚀 Try in Simulator
+                    </a>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <button class="md:hidden p-2" onclick="toggleMobileMenu()">☰</button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 border-t">
+            <div class="flex flex-col space-y-2">
+                <a href="models.html" class="text-gray-600 hover:text-blue-600 py-2">📚 All Models</a>
+                <a href="comparison.html" class="text-gray-600 hover:text-blue-600 py-2">📊 Compare Models</a>
+                <a href="model-selector.html" class="text-gray-600 hover:text-blue-600 py-2">🤖 AI Recommender</a>
+                <a href="chat.html" class="text-gray-600 hover:text-blue-600 py-2">💬 AI Assistant</a>
+                <a href="forecast-simulator.html" class="text-gray-600 hover:text-blue-600 py-2">🚀 Simulator</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-slate-900">TSM Hub</a>
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="concepts.html" class="nav-link">Concepts</a>
+                <a href="models.html" class="nav-link active">Models</a>
+                <a href="comparison.html" class="nav-link">Comparison</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden p-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="index.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Home</a>
+            <a href="concepts.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Concepts</a>
+            <a href="models.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Models</a>
+            <a href="comparison.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Comparison</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        <div class="bg-white p-8 rounded-lg shadow-md">
+            <header class="border-b-2 border-slate-200 pb-6 mb-8">
+                 <a href="models.html" class="text-blue-600 hover:underline mb-4 inline-block">&larr; Back to Model Library</a>
+                <h1 class="text-4xl md:text-5xl font-bold text-slate-900">Autoformer Model</h1>
+                <p class="mt-2 text-lg text-slate-600">Decomposition Transformers with Auto-Correlation for Long-Term Series Forecasting</p>
+            </header>
+            
+            <article class="prose max-w-none">
+                <section>
+                    <h2>Overview</h2>
+                    <p>Autoformer is a Transformer-based model designed for long-term time series forecasting. It addresses the limitations of prior Transformer models, which struggled with intricate temporal patterns and efficiency for long sequences. Autoformer introduces a novel decomposition architecture and an Auto-Correlation mechanism, allowing it to progressively decompose trend and seasonal components during the forecasting process. This approach significantly enhances its ability to capture complex temporal patterns and achieves state-of-the-art accuracy, particularly in long-horizon forecasting.</p>
+                    
+                    <h2>Architecture & Components</h2>
+                    <p>Autoformer's architecture builds upon the Transformer framework with two primary innovations:</p>
+                    <ul>
+                        <li><strong>Deep Decomposition Architecture:</strong> Autoformer renovates the Transformer into a deep decomposition architecture. Unlike models that perform decomposition as a separate preprocessing step, Autoformer adaptively separates the raw time series signal into its trend and seasonal components *within* the model during both training and inference. The trend component ($x_{trend}$) is typically extracted by applying a moving average (MA) filter with a specified kernel size ($k$). This inductive bias improves forecasting by allowing the model to learn each component more effectively.</li>
+                        <li><strong>Series-wise Auto-Correlation Mechanism:</strong> Inspired by stochastic process theory, Autoformer replaces the conventional self-attention mechanism with an Auto-Correlation mechanism. This mechanism discovers period-based dependencies by comparing similar sub-sequences (e.g., aligning Mondays with other Mondays) rather than every time step with each other. This not only reduces computational complexity from quadratic to log-linear ($O(L \log L)$) but also aligns better with the periodic nature of many real-world time series. This series-wise connection inherently keeps sequential information, meaning Autoformer does not need explicit position embeddings like other Transformers.</li>
+                        <li><strong>Encoder-Decoder Structure:</strong> Autoformer retains the standard Transformer encoder-decoder structure. The encoder processes the input sequence, and the decoder generates the forecast, leveraging the decomposed components and the Auto-Correlation mechanism.</li>
+                    </ul>
+                    <p>Autoformer is a deterministic model, providing a single point forecast rather than a distribution of possible future values.</p>
+                     <div class="bg-slate-100 p-4 rounded-lg my-6 text-center">
+                        <img src="https://placehold.co/600x300/e2e8f0/334155?text=Diagram+of+Autoformer+Architecture" alt="Autoformer Architecture Diagram" class="mx-auto rounded-md">
+                        <p class="text-sm text-slate-500 mt-2">Conceptual diagram of Autoformer's architecture with decomposition and Auto-Correlation.</p>
+                    </div>
+                </section>
+                
+                <section>
+                    <h2>When to Use Autoformer</h2>
+                    <p>Autoformer is an excellent choice for:</p>
+                    <ul>
+                        <li>Long-horizon time series forecasting problems where trends and seasonality unfold over extended periods.</li>
+                        <li>Structured and periodic data, where its Auto-Correlation mechanism can effectively identify recurring patterns.</li>
+                        <li>Scenarios requiring robust performance in both clean and noisy environments, as its decomposition mechanism helps filter high-frequency noise.</li>
+                        <li>When interpretability of trend and seasonal components is desired, as it explicitly models them.</li>
+                        <li>As a state-of-the-art model for various practical applications including energy, traffic, economics, weather, and disease forecasting.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Pros and Cons</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2 text-green-600">Pros</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>State-of-the-Art for Long-Term Forecasting:</strong> Achieves significant relative improvements on various benchmarks.</li>
+                                <li><strong>Superior Noise Resilience:</strong> Its built-in decomposition mechanism effectively filters high-frequency noise, maintaining predictive stability even in perturbed environments.</li>
+                                <li><strong>Interpretable Decomposition:</strong> Explicitly separates and models trend and seasonal components, offering insights into the forecast.</li>
+                                <li><strong>Efficient:</strong> The Auto-Correlation mechanism reduces computational complexity to log-linear ($O(L \log L)$), making it efficient for long sequences.</li>
+                                <li><strong>No Positional Embedding Needed:</strong> Inherently preserves sequential information, simplifying the architecture.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2 text-red-600">Cons</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Deterministic Output:</strong> Provides only a single point forecast, limiting its ability to quantify forecast uncertainty (no probability distribution).</li>
+                                <li><strong>Requires PyTorch:</strong> Official and most common implementations are in PyTorch, limiting direct TensorFlow usage without adaptations.</li>
+                                <li><strong>Data Requirements:</strong> Like most deep learning models, it generally requires sufficient historical data for optimal performance.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Example Implementation</h2>
+                    <p>Autoformer is primarily implemented in PyTorch, with the official code provided by THUML. HuggingFace Transformers and NeuralForecast also offer implementations. Here's a conceptual example using the THUML repository's approach, which typically involves running bash scripts for specific datasets.</p>
+
+                    <h3>PyTorch Example (using THUML/Autoformer)</h3>
+                    <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">
+                        <code class="language-bash">
+# 1. Clone the official Autoformer repository
+# git clone https://github.com/thuml/Autoformer.git
+# cd Autoformer
+
+# 2. Install Python 3.6 and PyTorch 1.9.0 (or compatible versions)
+# pip install -r requirements.txt # (assuming a requirements.txt exists or install manually)
+
+# 3. Download datasets
+# The datasets are typically provided via a Google Drive link in the repository's README.
+# Download them and place them in a './dataset' folder in the root of the cloned repository.
+# Example: make get_dataset (if using their Makefile)
+
+# 4. Run a training script for a specific dataset (e.g., ETTm1)
+# These scripts are located in the './scripts' directory.
+echo "Running Autoformer training script for ETTm1 dataset..."
+bash./scripts/ETT_script/Autoformer_ETTm1.sh
+
+# This script will typically:
+# - Set up model parameters (e.g., sequence length, prediction length, number of encoder/decoder layers)
+# - Load the ETTm1 dataset
+# - Train the Autoformer model
+# - Evaluate its performance (RMSE, MAE) and save results to './result.txt' or similar.
+
+# Example of what the script might contain (simplified):
+# python main_long_term_forecast.py \
+#   --model Autoformer \
+#   --data ETTm1 \
+#   --features M \
+#   --seq_len 96 \
+#   --label_len 48 \
+#   --pred_len 24 \
+#   --e_layers 2 \
+#   --d_layers 1 \
+#   --factor 3 \
+#   --enc_in 7 \
+#   --dec_in 7 \
+#   --c_out 7 \
+#   --des Exp \
+#   --itr 1 \
+#   --train_epochs 10 \
+#   --batch_size 32 \
+#   --learning_rate 0.0001 \
+#   --root_path./dataset/ETT-small/ \
+#   --data_path ETTm1.csv \
+#   --checkpoints./checkpoints/
+
+echo "Autoformer training script executed. Check './result.txt' or specified output directory for results."
+
+# For inference, you would typically load a trained model checkpoint and use its predict method.
+# The repository's 'predict.ipynb' (in Chinese) provides a workflow example.
+                        </code></pre>
+                    </div>
+
+                    <h3>TensorFlow Example (Conceptual - via HuggingFace Transformers)</h3>
+                    <p>While the original Autoformer implementation is in PyTorch, HuggingFace provides a TensorFlow version within its Transformers library. This allows for a more direct TensorFlow usage.</p>
+                    <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">
+                        <code class="language-python">
+import tensorflow as tf
+import numpy as np
+import pandas as pd
+from transformers import TFAutoformerForPrediction, AutoformerConfig
+import matplotlib.pyplot as plt
+
+# 1. Generate sample data (similar to PyTorch example)
+n_samples = 200
+context_length = 96 # Length of input sequence for encoder
+prediction_length = 24 # Length of sequence to predict
+num_input_channels = 1 # Univariate time series
+
+# Simulate past_values (e.g., a sine wave with noise and trend)
+past_values_np = (np.sin(np.arange(context_length + prediction_length) / 10) * 10 +
+                  np.arange(context_length + prediction_length) * 0.1 +
+                  np.random.randn(context_length + prediction_length) * 2)
+past_values_np = past_values_np.reshape(1, -1, num_input_channels) # (batch_size, seq_len, num_channels)
+past_values = tf.constant(past_values_np[:, :context_length, :], dtype=tf.float32)
+
+# Simulate future_values (for training/evaluation, not needed for inference)
+future_values = tf.constant(past_values_np[:, context_length:, :], dtype=tf.float32)
+
+# Simulate past_time_features (e.g., simple linear time index)
+past_time_features = tf.constant(np.arange(context_length).reshape(1, -1, 1), dtype=tf.float32)
+future_time_features = tf.constant(np.arange(context_length, context_length + prediction_length).reshape(1, -1, 1), dtype=tf.float32)
+
+# 2. Load a pre-trained Autoformer model (or initialize from scratch)
+# For a real application, you might fine-tune on your data or train from scratch
+# model = TFAutoformerForPrediction.from_pretrained("huggingface/autoformer-tourism-monthly") # Example pre-trained model
+# Or initialize from config:
+config = AutoformerConfig(
+    context_length=context_length,
+    prediction_length=prediction_length,
+    num_input_channels=num_input_channels,
+    lags_sequence=[1, 2, 3, 4, 5, 6, 7], # Default lags
+    num_encoder_layers=2,
+    num_decoder_layers=1,
+    d_model=128,
+    num_attention_heads=4,
+    activation_function="gelu",
+    dropout=0.1,
+    attention_dropout=0.0,
+    ffn_dim=512,
+    scaling="mean", # or "std", "none"
+    loss="mse", # or "nll" for probabilistic
+    num_time_features=1, # For the time feature we created
+)
+model = TFAutoformerForPrediction(config)
+
+# 3. Perform a forward pass (inference example)
+outputs = model(
+    past_values=past_values,
+    past_time_features=past_time_features,
+    future_time_features=future_time_features,
+    # past_observed_mask=tf.ones_like(past_values, dtype=tf.bool)
+)
+
+forecast = outputs.predictions.numpy().squeeze()
+
+# 4. Display the forecast (conceptual)
+print("Autoformer TensorFlow (HuggingFace) model inference complete.")
+print(f"Forecast shape: {forecast.shape}")
+print(f"First 5 forecasted values: {forecast[:5]}")
+
+# Plotting (conceptual)
+# plt.figure(figsize=(14, 7))
+# plt.plot(np.arange(context_length), past_values.numpy().squeeze(), label='Past Values')
+# plt.plot(np.arange(context_length, context_length + prediction_length), future_values.numpy().squeeze(), label='Actual Future Values', color='orange')
+# plt.plot(np.arange(context_length, context_length + prediction_length), forecast, label='Autoformer Forecast', linestyle='--', color='green')
+# plt.title('Autoformer Time Series Forecast (TensorFlow)')
+# plt.xlabel('Time Step')
+# plt.ylabel('Value')
+# plt.legend()
+# plt.grid(True)
+# plt.show()
+                        </code></pre>
+                    </div>
+                </section>
+                
+                <section>
+                    <h2>Dependencies & Resources</h2>
+                    <p><strong>Dependencies:</strong> <code>pandas</code>, <code>numpy</code>, <code>torch</code> (for PyTorch examples), <code>tensorflow</code> (for TensorFlow examples), <code>transformers</code> (HuggingFace library), <code>matplotlib</code> (for plotting).</p>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><a href="https://arxiv.org/abs/2106.13008" target="_blank" rel="noopener noreferrer">Autoformer: Decomposition Transformers with Auto-Correlation for Long-Term Series Forecasting (Original Paper) ↗</a></li>
+                        <li><a href="https://github.com/thuml/Autoformer" target="_blank" rel="noopener noreferrer">THUML/Autoformer GitHub Repository (Official PyTorch) ↗</a></li>
+                        <li><a href="https://huggingface.co/docs/transformers/model_doc/autoformer" target="_blank" rel="noopener noreferrer">HuggingFace Transformers - Autoformer Documentation ↗</a></li>
+                        <li><a href="https://nixtlaverse.nixtla.io/neuralforecast/models.autoformer.html" target="_blank" rel="noopener noreferrer">NeuralForecast - Autoformer Documentation ↗</a></li>
+                    </ul>
+                </section>
+            </article>
+        </div>
+    </main>
+
+    <footer class="text-center p-6 bg-slate-200 mt-12">
+        <p class="text-slate-600 text-sm">TSM Hub: An Interactive Resource for Time Series Analysis</p>
+    </footer>
+
+    <script src="main.js"></script>
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</body>
+</html>

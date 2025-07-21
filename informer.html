@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informer Model - TSM Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-slate-100 text-slate-800">
+<!-- Enhanced Navigation for Model Pages -->
+<nav class="bg-white shadow-lg sticky top-0 z-50 mb-8">
+    <div class="container mx-auto px-6 py-4">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <a href="index.html" class="text-2xl font-bold text-blue-600">🏠 TS Forecasting Hub</a>
+                <div class="hidden md:flex items-center space-x-1 bg-gray-100 rounded-lg p-1">
+                    <a href="models.html" class="nav-link px-3 py-2 rounded">📚 All Models</a>
+                    <a href="comparison.html" class="nav-link px-3 py-2 rounded">📊 Compare</a>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+                <!-- AI Features Quick Access -->
+                <div class="hidden md:flex items-center space-x-2">
+                    <a href="model-selector.html" class="bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-600 text-sm flex items-center">
+                        🤖 AI Recommender
+                    </a>
+                    <a href="chat.html" class="bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-600 text-sm flex items-center">
+                        💬 AI Assistant
+                    </a>
+                    <a href="forecast-simulator.html?model={{MODEL_NAME}}" class="bg-purple-500 text-white px-3 py-2 rounded-lg hover:bg-purple-600 text-sm flex items-center">
+                        🚀 Try in Simulator
+                    </a>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <button class="md:hidden p-2" onclick="toggleMobileMenu()">☰</button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 border-t">
+            <div class="flex flex-col space-y-2">
+                <a href="models.html" class="text-gray-600 hover:text-blue-600 py-2">📚 All Models</a>
+                <a href="comparison.html" class="text-gray-600 hover:text-blue-600 py-2">📊 Compare Models</a>
+                <a href="model-selector.html" class="text-gray-600 hover:text-blue-600 py-2">🤖 AI Recommender</a>
+                <a href="chat.html" class="text-gray-600 hover:text-blue-600 py-2">💬 AI Assistant</a>
+                <a href="forecast-simulator.html" class="text-gray-600 hover:text-blue-600 py-2">🚀 Simulator</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-slate-900">TSM Hub</a>
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="concepts.html" class="nav-link">Concepts</a>
+                <a href="models.html" class="nav-link active">Models</a>
+                <a href="comparison.html" class="nav-link">Comparison</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden p-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="index.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Home</a>
+            <a href="concepts.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Concepts</a>
+            <a href="models.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Models</a>
+            <a href="comparison.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Comparison</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        <div class="bg-white p-8 rounded-lg shadow-md">
+            <header class="border-b-2 border-slate-200 pb-6 mb-8">
+                 <a href="models.html" class="text-blue-600 hover:underline mb-4 inline-block">&larr; Back to Model Library</a>
+                <h1 class="text-4xl md:text-5xl font-bold text-slate-900">Informer Model</h1>
+                <p class="mt-2 text-lg text-slate-600">Beyond Efficient Transformer for Long Sequence Time-Series Forecasting</p>
+            </header>
+            
+            <article class="prose max-w-none">
+                <section>
+                    <h2>Overview</h2>
+                    <p>Informer is a Transformer-based model specifically designed for long-term time series forecasting (LSTF). While standard Transformer models excel in sequence modeling, their quadratic computational complexity with respect to input length makes them inefficient for very long time series. Informer addresses this bottleneck by introducing several innovations to significantly improve efficiency and reduce memory usage, making it suitable for applications like electricity consumption planning and traffic trend forecasting.</p>
+                    
+                    <h2>Architecture & Components</h2>
+                    <p>Informer's architecture is built upon the encoder-decoder structure of the Transformer but incorporates three distinctive characteristics to handle long sequences efficiently:</p>
+                    <ul>
+                        <li><strong>ProbSparse Self-Attention Mechanism:</strong> This is Informer's primary innovation for efficiency. Instead of computing attention scores for every query-key pair (which leads to quadratic complexity), ProbSparse attention intelligently selects only a subset of "active" queries that are most likely to contribute significantly to the attention mechanism. This reduces the computational overhead from $O(L^2)$ to $O(L \log L)$ in both time complexity and memory usage, where $L$ is the sequence length.</li>
+                        <li><strong>Self-Attention Distillation:</strong> This technique further enhances efficiency and memory management. It progressively halves the sequence length at each cascading layer by applying a convolutional downsampling operation. This process distills the most salient temporal information while discarding redundant parts, allowing the model to handle extremely long input sequences effectively.</li>
+                        <li><strong>Generative Style Decoder:</strong> Unlike traditional decoders that predict one step at a time in an autoregressive manner (which is slow for long sequences), Informer's decoder predicts the entire long time-series sequence in a single forward operation. This drastically improves the inference speed for long-sequence predictions. The decoder takes the start token of the target sequence and the output of the encoder to generate the full forecast.</li>
+                        <li><strong>Input Embeddings and Positional Encoding:</strong> Informer encodes time series data using input embeddings and positional encoding (often external time features like 'month of year', 'day of month') to capture temporal and sequential information, allowing the model to perceive the order of time and local/global temporal dependencies.</li>
+                    </ul>
+                     <div class="bg-slate-100 p-4 rounded-lg my-6 text-center">
+                        <img src="https://placehold.co/600x300/e2e8f0/334155?text=Diagram+of+Informer+Architecture" alt="Informer Architecture Diagram" class="mx-auto rounded-md">
+                        <p class="text-sm text-slate-500 mt-2">Conceptual diagram of Informer's architecture with ProbSparse Self-Attention and Self-Attention Distillation.</p>
+                    </div>
+                </section>
+                
+                <section>
+                    <h2>When to Use Informer</h2>
+                    <p>Informer is well-suited for:</p>
+                    <ul>
+                        <li>Long-sequence time series forecasting (LSTF) problems where computational efficiency is a major concern.</li>
+                        <li>Datasets with repeating patterns and large volumes of historical data.</li>
+                        <li>Real-time forecasting applications due to its single-pass generative decoder.</li>
+                        <li>As a baseline for Transformer-based time series models, especially when comparing efficiency.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Pros and Cons</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2 text-green-600">Pros</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>High Efficiency for Long Sequences:</strong> ProbSparse Self-Attention and Self-Attention Distillation significantly reduce computational complexity and memory usage to $O(L \log L)$.</li>
+                                <li><strong>Fast Inference:</strong> The generative style decoder allows for predicting the entire long sequence in one forward pass, drastically improving speed.</li>
+                                <li><strong>Captures Long-Range Dependencies:</strong> Despite sparsity, it aims to maintain the Transformer's ability to model long-term relationships.</li>
+                                <li><strong>Parallelizable:</strong> Like other Transformers, it benefits from parallel computation during training.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2 text-red-600">Cons</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Sensitive to Noise:</strong> Informer variants have shown higher error rates and instability, particularly under noisy conditions and at longer forecast horizons. ProbSparse attention may struggle to capture precise long-term dependencies when signals are corrupted.</li>
+                                <li><strong>Potential Information Loss:</strong> Self-attention distillation, while efficient, can lead to the loss or weakening of long-term dependencies in temporal sequences.</li>
+                                <li><strong>Less Consistent Performance:</strong> May perform less consistently than other Transformer variants (e.g., Autoformer, PatchTST) on structured low-noise or high-variance time series.</li>
+                                <li><strong>Implicit Trend/Seasonality Handling:</strong> Does not explicitly decompose trend and seasonality like Autoformer, relying on the attention mechanism to implicitly learn these patterns.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Example Implementation</h2>
+                    <p>Informer is primarily implemented in PyTorch, often as part of larger time series Transformer libraries. Here's a conceptual example using the HuggingFace Transformers library, which provides a convenient API for Informer.</p>
+
+                    <h3>PyTorch Example (using HuggingFace Transformers)</h3>
+                    <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto"><code class="language-python">
+import torch
+import pandas as pd
+import numpy as np
+from transformers import InformerForPrediction
+from huggingface_hub import hf_hub_download
+import matplotlib.pyplot as plt
+
+# 1. Load a sample dataset (conceptual - replace with your own data)
+# For demonstration, we'll simulate a batch structure similar to HuggingFace datasets
+# In a real scenario, you'd load your time series data and preprocess it
+# to create 'past_values', 'past_time_features', etc.
+
+# Example: Create synthetic data
+n_samples = 200
+context_length = 96 # Length of input sequence for encoder
+prediction_length = 24 # Length of sequence to predict
+num_input_channels = 1 # Univariate time series
+
+# Simulate past_values (e.g., a sine wave with noise and trend)
+past_values_np = (np.sin(np.arange(context_length + prediction_length) / 10) * 10 +
+                  np.arange(context_length + prediction_length) * 0.1 +
+                  np.random.randn(context_length + prediction_length) * 2)
+past_values_np = past_values_np.reshape(1, -1, num_input_channels) # (batch_size, seq_len, num_channels)
+past_values = torch.tensor(past_values_np[:, :context_length, :], dtype=torch.float32)
+
+# Simulate future_values (for training/evaluation, not needed for inference)
+future_values = torch.tensor(past_values_np[:, context_length:, :], dtype=torch.float32)
+
+# Simulate past_time_features (e.g., simple linear time index)
+past_time_features = torch.tensor(np.arange(context_length).reshape(1, -1, 1), dtype=torch.float32)
+future_time_features = torch.tensor(np.arange(context_length, context_length + prediction_length).reshape(1, -1, 1), dtype=torch.float32)
+
+# 2. Load a pre-trained Informer model (or initialize from scratch)
+# For a real application, you might fine-tune on your data or train from scratch
+# model = InformerForPrediction.from_pretrained("huggingface/informer-tourism-monthly") # Example pre-trained model
+# Or initialize from config:
+from transformers import InformerConfig
+config = InformerConfig(
+    context_length=context_length,
+    prediction_length=prediction_length,
+    num_input_channels=num_input_channels,
+    lags_sequence=[1, 2, 3, 4, 5, 6, 7], # Default lags
+    num_encoder_layers=2,
+    num_decoder_layers=1,
+    d_model=128,
+    num_attention_heads=4,
+    activation_function="gelu",
+    dropout=0.1,
+    attention_dropout=0.0,
+    ffn_dim=512,
+    scaling="mean", # or "std", "none"
+    loss="mse", # or "nll" for probabilistic
+    num_time_features=1, # For the time feature we created
+)
+model = InformerForPrediction(config)
+
+# 3. Perform a forward pass (inference example)
+# For inference, you only need past_values and future_time_features
+# (future_values and past_observed_mask are typically for training/evaluation)
+model.eval() # Set model to evaluation mode
+with torch.no_grad():
+    outputs = model(
+        past_values=past_values,
+        past_time_features=past_time_features,
+        future_time_features=future_time_features,
+        # If you have missing values in past_values, provide past_observed_mask
+        # past_observed_mask=torch.ones_like(past_values, dtype=torch.bool)
+    )
+
+forecast = outputs.predictions.squeeze().numpy() # Remove batch and channel dimensions
+
+# 4. Display the forecast (conceptual)
+print("Informer PyTorch (HuggingFace) model inference complete.")
+print(f"Forecast shape: {forecast.shape}")
+print(f"First 5 forecasted values: {forecast[:5]}")
+
+# Plotting (conceptual)
+# plt.figure(figsize=(14, 7))
+# plt.plot(np.arange(context_length), past_values.squeeze().numpy(), label='Past Values')
+# plt.plot(np.arange(context_length, context_length + prediction_length), future_values.squeeze().numpy(), label='Actual Future Values', color='orange')
+# plt.plot(np.arange(context_length, context_length + prediction_length), forecast, label='Informer Forecast', linestyle='--', color='green')
+# plt.title('Informer Time Series Forecast (PyTorch)')
+# plt.xlabel('Time Step')
+# plt.ylabel('Value')
+# plt.legend()
+# plt.grid(True)
+# plt.show()
+                        </code></pre>
+                    </div>
+
+                    <h3>TensorFlow Example (Conceptual - HuggingFace Transformers)</h3>
+                    <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto"><code class="language-python">
+import tensorflow as tf
+import numpy as np
+import pandas as pd
+from transformers import TFInformerForPrediction, InformerConfig
+import matplotlib.pyplot as plt
+
+# 1. Generate sample data (similar to PyTorch example)
+n_samples = 200
+context_length = 96
+prediction_length = 24
+num_input_channels = 1
+
+past_values_np = (np.sin(np.arange(context_length + prediction_length) / 10) * 10 +
+                  np.arange(context_length + prediction_length) * 0.1 +
+                  np.random.randn(context_length + prediction_length) * 2)
+past_values_np = past_values_np.reshape(1, -1, num_input_channels)
+past_values = tf.constant(past_values_np[:, :context_length, :], dtype=tf.float32)
+
+future_values = tf.constant(past_values_np[:, context_length:, :], dtype=tf.float32)
+
+past_time_features = tf.constant(np.arange(context_length).reshape(1, -1, 1), dtype=tf.float32)
+future_time_features = tf.constant(np.arange(context_length, context_length + prediction_length).reshape(1, -1, 1), dtype=tf.float32)
+
+# 2. Load a pre-trained Informer model (or initialize from scratch)
+config = InformerConfig(
+    context_length=context_length,
+    prediction_length=prediction_length,
+    num_input_channels=num_input_channels,
+    lags_sequence=[1, 2, 3, 4, 5, 6, 7],
+    num_encoder_layers=2,
+    num_decoder_layers=1,
+    d_model=128,
+    num_attention_heads=4,
+    activation_function="gelu",
+    dropout=0.1,
+    attention_dropout=0.0,
+    ffn_dim=512,
+    scaling="mean",
+    loss="mse",
+    num_time_features=1,
+)
+model = TFInformerForPrediction(config)
+
+# 3. Perform a forward pass (inference example)
+# For TensorFlow, you typically call the model directly
+outputs = model(
+    past_values=past_values,
+    past_time_features=past_time_features,
+    future_time_features=future_time_features,
+    # past_observed_mask=tf.ones_like(past_values, dtype=tf.bool)
+)
+
+forecast = outputs.predictions.numpy().squeeze()
+
+# 4. Display the forecast (conceptual)
+print("Informer TensorFlow (HuggingFace) model inference complete.")
+print(f"Forecast shape: {forecast.shape}")
+print(f"First 5 forecasted values: {forecast[:5]}")
+
+# Plotting (conceptual)
+# plt.figure(figsize=(14, 7))
+# plt.plot(np.arange(context_length), past_values.numpy().squeeze(), label='Past Values')
+# plt.plot(np.arange(context_length, context_length + prediction_length), future_values.numpy().squeeze(), label='Actual Future Values', color='orange')
+# plt.plot(np.arange(context_length, context_length + prediction_length), forecast, label='Informer Forecast', linestyle='--', color='green')
+# plt.title('Informer Time Series Forecast (TensorFlow)')
+# plt.xlabel('Time Step')
+# plt.ylabel('Value')
+# plt.legend()
+# plt.grid(True)
+# plt.show()
+                        </code></pre>
+                    </div>
+                </section>
+                
+                <section>
+                    <h2>Dependencies & Resources</h2>
+                    <p><strong>Dependencies:</strong> <code>numpy</code>, <code>pandas</code>, <code>torch</code> (for PyTorch example), <code>tensorflow</code> (for TensorFlow example), <code>transformers</code> (HuggingFace library), <code>matplotlib</code> (for plotting).</p>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><a href="https://arxiv.org/abs/2012.07436" target="_blank" rel="noopener noreferrer">Informer: Beyond Efficient Transformer for Long Sequence Time-Series Forecasting (Original Paper) ↗</a></li>
+                        <li><a href="https://github.com/zhouhaoyi/Informer2020" target="_blank" rel="noopener noreferrer">Original Informer GitHub Repository (PyTorch) ↗</a></li>
+                        <li><a href="https://huggingface.co/docs/transformers/model_doc/informer" target="_blank" rel="noopener noreferrer">HuggingFace Transformers - Informer Documentation ↗</a></li>
+                        <li><a href="https://github.com/thuml/Autoformer" target="_blank" rel="noopener noreferrer">THUML/Autoformer GitHub Repository (includes Informer) ↗</a></li>
+                    </ul>
+                </section>
+            </article>
+        </div>
+    </main>
+
+    <footer class="text-center p-6 bg-slate-200 mt-12">
+        <p class="text-slate-600 text-sm">TSM Hub: An Interactive Resource for Time Series Analysis</p>
+    </footer>
+
+    <script src="main.js"></script>
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</body>
+</html>

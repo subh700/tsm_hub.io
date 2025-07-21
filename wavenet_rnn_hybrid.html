@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Wavenet-RNN Hybrid | AI Forecasting Hub</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+  <!-- Navigation -->
+  <nav class="bg-white shadow-lg sticky top-0 z-50">
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+      <div class="text-2xl font-bold text-blue-600">🤖 AI Forecasting Hub</div>
+      <div class="hidden md:flex space-x-6">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="models.html" class="nav-link">Model Library</a>
+        <a href="model-selector.html" class="nav-link">AI Recommender</a>
+        <a href="chat.html" class="nav-link">AI Assistant</a>
+        <a href="forecast-simulator.html" class="nav-link">Simulator</a>
+        <a href="comparison.html" class="nav-link">Compare</a>
+      </div>
+    </div>
+  </nav>
+  <main class="container mx-auto px-6 py-12">
+    <div class="bg-white rounded-lg shadow-lg p-8 max-w-3xl mx-auto">
+      <div class="flex items-center mb-6">
+        <span class="text-4xl mr-4">🌊🔁</span>
+        <h1 class="text-3xl font-bold">Wavenet-RNN Hybrid</h1>
+      </div>
+      <p class="text-gray-700 mb-6">
+        <strong>Wavenet-RNN Hybrid</strong> combines the strengths of Wavenet (dilated causal convolutions) and RNNs (sequential modeling) for advanced time series forecasting, capturing both local and long-range dependencies.
+      </p>
+      <h2 class="text-xl font-semibold mt-8 mb-2">Key Features</h2>
+      <ul class="list-disc list-inside text-gray-700 mb-6">
+        <li>Captures both local and global patterns</li>
+        <li>Combines convolutional and recurrent architectures</li>
+        <li>Suitable for complex, long time series</li>
+      </ul>
+      <h2 class="text-xl font-semibold mt-8 mb-2">Example Use</h2>
+      <pre class="bg-gray-100 rounded p-4 text-sm mb-6 overflow-x-auto">
+# Pseudocode
+wavenet_output = Wavenet(input_sequence)
+rnn_output = RNN(wavenet_output)
+final_prediction = Dense(rnn_output)
+      </pre>
+      <h2 class="text-xl font-semibold mt-8 mb-2">References</h2>
+      <ul class="list-disc list-inside text-blue-700">
+        <li><a href="https://deepmind.com/blog/article/wavenet-generative-model-raw-audio" target="_blank" class="underline">Wavenet (DeepMind Blog)</a></li>
+        <li><a href="https://en.wikipedia.org/wiki/Recurrent_neural_network" target="_blank" class="underline">RNN (Wikipedia)</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="bg-gray-800 text-white py-8">
+    <div class="container mx-auto px-6 text-center">
+      <p>&copy; 2025 AI-Powered Time Series Forecasting Hub. Enhanced with artificial intelligence for better learning experiences.</p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prophet Model - TSM Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-slate-100 text-slate-800">
+<!-- Enhanced Navigation for Model Pages -->
+<nav class="bg-white shadow-lg sticky top-0 z-50 mb-8">
+    <div class="container mx-auto px-6 py-4">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <a href="index.html" class="text-2xl font-bold text-blue-600">🏠 TS Forecasting Hub</a>
+                <div class="hidden md:flex items-center space-x-1 bg-gray-100 rounded-lg p-1">
+                    <a href="models.html" class="nav-link px-3 py-2 rounded">📚 All Models</a>
+                    <a href="comparison.html" class="nav-link px-3 py-2 rounded">📊 Compare</a>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+                <!-- AI Features Quick Access -->
+                <div class="hidden md:flex items-center space-x-2">
+                    <a href="model-selector.html" class="bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-600 text-sm flex items-center">
+                        🤖 AI Recommender
+                    </a>
+                    <a href="chat.html" class="bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-600 text-sm flex items-center">
+                        💬 AI Assistant
+                    </a>
+                    <a href="forecast-simulator.html?model={{MODEL_NAME}}" class="bg-purple-500 text-white px-3 py-2 rounded-lg hover:bg-purple-600 text-sm flex items-center">
+                        🚀 Try in Simulator
+                    </a>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <button class="md:hidden p-2" onclick="toggleMobileMenu()">☰</button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 border-t">
+            <div class="flex flex-col space-y-2">
+                <a href="models.html" class="text-gray-600 hover:text-blue-600 py-2">📚 All Models</a>
+                <a href="comparison.html" class="text-gray-600 hover:text-blue-600 py-2">📊 Compare Models</a>
+                <a href="model-selector.html" class="text-gray-600 hover:text-blue-600 py-2">🤖 AI Recommender</a>
+                <a href="chat.html" class="text-gray-600 hover:text-blue-600 py-2">💬 AI Assistant</a>
+                <a href="forecast-simulator.html" class="text-gray-600 hover:text-blue-600 py-2">🚀 Simulator</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-slate-900">TSM Hub</a>
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="concepts.html" class="nav-link">Concepts</a>
+                <a href="models.html" class="nav-link active">Models</a>
+                <a href="comparison.html" class="nav-link">Comparison</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden p-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="index.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Home</a>
+            <a href="concepts.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Concepts</a>
+            <a href="models.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Models</a>
+            <a href="comparison.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Comparison</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        <div class="bg-white p-8 rounded-lg shadow-md">
+            <header class="border-b-2 border-slate-200 pb-6 mb-8">
+                 <a href="models.html" class="text-blue-600 hover:underline mb-4 inline-block">&larr; Back to Model Library</a>
+                <h1 class="text-4xl md:text-5xl font-bold text-slate-900">Prophet Model</h1>
+                <p class="mt-2 text-lg text-slate-600">A Forecasting Procedure by Facebook</p>
+            </header>
+            
+            <article class="prose max-w-none">
+                <section>
+                    <h2>Overview</h2>
+                    <p>Prophet is an open-source forecasting procedure developed by Facebook. It is designed for forecasting time series data with strong seasonal effects and several seasons of historical data. Prophet is particularly robust to missing data, shifts in the trend, and large outliers, making it a popular choice for business forecasting where such irregularities are common.</p>
+                    
+                    <h2>Architecture & Components</h2>
+                    <p>Prophet uses an additive regression model with four main components:</p>
+                    <p class="font-mono text-center bg-slate-100 p-4 rounded-md">
+                        $ y(t) = g(t) + s(t) + h(t) + \epsilon_t $
+                    </p>
+                    <ul>
+                        <li><strong>$g(t)$ - Trend Component:</strong> Models non-linear trends with changepoints. Prophet automatically detects these changepoints (points where the trend rate changes) from the data. It uses a piecewise linear or logistic growth model.</li>
+                        <li><strong>$s(t)$ - Seasonality Component:</strong> Models periodic changes. Prophet uses Fourier series to model yearly, weekly, and daily seasonality. You can specify the periods (e.g., 7 for weekly, 365.25 for yearly) and the order of the Fourier series.</li>
+                        <li><strong>$h(t)$ - Holiday Component:</strong> Models the impact of holidays and special events. You can provide a custom list of holidays with their start and end dates, and Prophet will estimate their impact.</li>
+                        <li><strong>$\epsilon_t$ - Error Term:</strong> Represents the irreducible noise or residual fluctuations not explained by the model. This is assumed to be normally distributed.</li>
+                    </ul>
+                    <p>Prophet's strength lies in its modularity and interpretability, allowing users to inspect and adjust each component separately.</p>
+                </section>
+                
+                <section>
+                    <h2>When to Use Prophet</h2>
+                    <p>Prophet is an excellent choice for:</p>
+                    <ul>
+                        <li>Business forecasting scenarios with daily, weekly, or yearly seasonality.</li>
+                        <li>Time series data that might have missing values or outliers.</li>
+                        <li>Data where trend changes (changepoints) are expected or observed.</li>
+                        <li>Users who prefer an intuitive and easily configurable model without deep statistical knowledge.</li>
+                        <li>When you need to incorporate custom holidays or events into your forecast.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Pros and Cons</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2 text-green-600">Pros</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Handles Seasonality & Holidays:</strong> Excellent at capturing complex seasonal patterns and incorporating holiday effects.</li>
+                                <li><strong>Robust to Missing Data & Outliers:</strong> Can produce good forecasts even with gaps in the data or extreme values.</li>
+                                <li><strong>Fast & Easy to Use:</strong> Designed for automation and ease of use, requiring minimal feature engineering.</li>
+                                <li><strong>Interpretable Components:</strong> The trend, seasonality, and holiday components can be easily visualized and understood.</li>
+                                <li><strong>Automatic Changepoint Detection:</strong> Automatically identifies shifts in the trend, which is a significant advantage.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2 text-red-600">Cons</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Less Flexible for Complex Non-Linearity:</strong> May not perform as well on time series with highly complex, non-linear patterns not related to time (e.g., chaotic systems).</li>
+                                <li><strong>"Black Box" for Non-Experts:</strong> While components are interpretable, the underlying statistical mechanics can still be a "black box" for users without a background in generalized additive models.</li>
+                                <li><strong>Limited for Short Series:</strong> Requires several seasons of historical data for accurate seasonal modeling.</li>
+                                <li><strong>No Uncertainty in Components:</strong> While it provides prediction intervals for the total forecast, it doesn't provide uncertainty estimates for individual components.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Example Implementation</h2>
+                    <p>Here's how to implement Prophet in Python. The library expects the time series data to be in a Pandas DataFrame with two columns: `ds` (datestamp) and `y` (value).</p>
+                    <div class="code-block my-4">
+                        <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto"><code class="language-python">
+# Import necessary libraries
+import pandas as pd
+import numpy as np
+from prophet import Prophet
+
+# 1. Prepare sample data
+# Create a date range for 2 years (730 days)
+dates = pd.date_range(start='2020-01-01', periods=730, freq='D')
+# Generate a series with trend, yearly seasonality, and some noise
+values = (100 + np.arange(730) * 0.2 + # Trend
+          50 * np.sin(np.arange(730) * 2 * np.pi / 365) + # Yearly seasonality
+          np.random.normal(0, 5, 730)) # Noise
+
+df = pd.DataFrame({'ds': dates, 'y': values})
+
+# 2. Initialize and fit the Prophet model
+# You can add parameters like yearly_seasonality=True, weekly_seasonality=True, etc.
+m = Prophet(
+    yearly_seasonality=True,
+    weekly_seasonality=True,
+    daily_seasonality=False # Set to True if daily patterns are expected
+)
+
+# Optional: Add custom holidays
+# holidays = pd.DataFrame({
+#     'holiday': 'christmas',
+#     'ds': pd.to_datetime(['2020-12-25', '2021-12-25']),
+#     'lower_window': 0,
+#     'upper_window': 1,
+# })
+# m.add_country_holidays(country_name='US') # Example for US holidays
+# m.add_seasonality(name='monthly', period=30.5, fourier_order=5) # Example for monthly seasonality
+
+m.fit(df)
+
+# 3. Create a future DataFrame for predictions
+# Make future dataframe for the next 30 days
+future = m.make_future_dataframe(periods=30)
+
+# 4. Make predictions
+forecast = m.predict(future)
+
+# 5. Display the forecast (conceptual, actual plotting requires matplotlib setup)
+print("Prophet Forecast (first 5 and last 5 rows):")
+print(forecast[['ds', 'yhat', 'yhat_lower', 'yhat_upper']].head())
+print(forecast[['ds', 'yhat', 'yhat_lower', 'yhat_upper']].tail())
+
+# You can also plot the components
+# fig = m.plot_components(forecast)
+# plt.show()
+                        </code></pre>
+                    </div>
+                </section>
+                
+                <section>
+                    <h2>Dependencies & Resources</h2>
+                    <p><strong>Dependencies:</strong> <code>pandas</code>, <code>numpy</code>, <code>prophet</code>, <code>matplotlib</code> (for plotting).</p>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><a href="https://facebook.github.io/prophet/" target="_blank" rel="noopener noreferrer">Prophet Official Documentation ↗</a></li>
+                        <li><a href="https://github.com/facebook/prophet" target="_blank" rel="noopener noreferrer">Prophet GitHub Repository ↗</a></li>
+                        <li><a href="https://peerj.com/preprints/3190/" target="_blank" rel="noopener noreferrer">Forecasting at Scale (Prophet Paper) ↗</a></li>
+                    </ul>
+                </section>
+            </article>
+        </div>
+    </main>
+
+    <footer class="text-center p-6 bg-slate-200 mt-12">
+        <p class="text-slate-600 text-sm">TSM Hub: An Interactive Resource for Time Series Analysis</p>
+    </footer>
+
+    <script src="main.js"></script>
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</body>
+</html>

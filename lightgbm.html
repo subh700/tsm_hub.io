@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LightGBM Model - TSM Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-slate-100 text-slate-800">
+<!-- Enhanced Navigation for Model Pages -->
+<nav class="bg-white shadow-lg sticky top-0 z-50 mb-8">
+    <div class="container mx-auto px-6 py-4">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <a href="index.html" class="text-2xl font-bold text-blue-600">🏠 TS Forecasting Hub</a>
+                <div class="hidden md:flex items-center space-x-1 bg-gray-100 rounded-lg p-1">
+                    <a href="models.html" class="nav-link px-3 py-2 rounded">📚 All Models</a>
+                    <a href="comparison.html" class="nav-link px-3 py-2 rounded">📊 Compare</a>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+                <!-- AI Features Quick Access -->
+                <div class="hidden md:flex items-center space-x-2">
+                    <a href="model-selector.html" class="bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-600 text-sm flex items-center">
+                        🤖 AI Recommender
+                    </a>
+                    <a href="chat.html" class="bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-600 text-sm flex items-center">
+                        💬 AI Assistant
+                    </a>
+                    <a href="forecast-simulator.html?model={{MODEL_NAME}}" class="bg-purple-500 text-white px-3 py-2 rounded-lg hover:bg-purple-600 text-sm flex items-center">
+                        🚀 Try in Simulator
+                    </a>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <button class="md:hidden p-2" onclick="toggleMobileMenu()">☰</button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 border-t">
+            <div class="flex flex-col space-y-2">
+                <a href="models.html" class="text-gray-600 hover:text-blue-600 py-2">📚 All Models</a>
+                <a href="comparison.html" class="text-gray-600 hover:text-blue-600 py-2">📊 Compare Models</a>
+                <a href="model-selector.html" class="text-gray-600 hover:text-blue-600 py-2">🤖 AI Recommender</a>
+                <a href="chat.html" class="text-gray-600 hover:text-blue-600 py-2">💬 AI Assistant</a>
+                <a href="forecast-simulator.html" class="text-gray-600 hover:text-blue-600 py-2">🚀 Simulator</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-slate-900">TSM Hub</a>
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="concepts.html" class="nav-link">Concepts</a>
+                <a href="models.html" class="nav-link active">Models</a>
+                <a href="comparison.html" class="nav-link">Comparison</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden p-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="index.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Home</a>
+            <a href="concepts.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Concepts</a>
+            <a href="models.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Models</a>
+            <a href="comparison.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Comparison</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        <div class="bg-white p-8 rounded-lg shadow-md">
+            <header class="border-b-2 border-slate-200 pb-6 mb-8">
+                 <a href="models.html" class="text-blue-600 hover:underline mb-4 inline-block">&larr; Back to Model Library</a>
+                <h1 class="text-4xl md:text-5xl font-bold text-slate-900">LightGBM Model</h1>
+                <p class="mt-2 text-lg text-slate-600">Light Gradient Boosting Machine</p>
+            </header>
+            
+            <article class="prose max-w-none">
+                <section>
+                    <h2>Overview</h2>
+                    <p>LightGBM (Light Gradient Boosting Machine) is an open-source, distributed gradient boosting framework developed by Microsoft. It uses tree-based learning algorithms and is designed for high speed and accuracy, making it a popular choice for large-scale and complex datasets. While not inherently a time series model, LightGBM can be effectively applied to time series forecasting by transforming the time series problem into a supervised learning problem through **feature engineering** (e.g., creating lagged variables, rolling statistics, and time-based features).</p>
+                    
+                    <h2>Architecture & Components</h2>
+                    <p>LightGBM is an ensemble learning method that builds a prediction model in the form of an ensemble of weak prediction models, typically decision trees. Its key architectural features that differentiate it from other gradient boosting frameworks like XGBoost include:</p>
+                    <ul>
+                        <li><strong>Gradient-based One-Side Sampling (GOSS):</strong> This technique speeds up the training process by only selecting a small fraction of the data points for each iteration. It focuses on data instances with larger gradients (under-trained instances) while randomly sampling from instances with smaller gradients. This significantly reduces the computational cost.</li>
+                        <li><strong>Exclusive Feature Bundling (EFB):</strong> This technique bundles mutually exclusive features (features that rarely take non-zero values simultaneously) to reduce the number of features. This helps in handling high-dimensional data efficiently.</li>
+                        <li><strong>Leaf-wise (Vertical) Tree Growth:</strong> Unlike traditional gradient boosting algorithms that grow trees level-wise (horizontally), LightGBM grows trees leaf-wise (vertically). It chooses the leaf that is expected to yield the largest reduction in loss, which often results in faster convergence and lower loss compared to level-wise growth, especially for complex models.</li>
+                        <li><strong>Feature Engineering:</strong> For time series forecasting, LightGBM relies heavily on manually engineered features to capture temporal patterns. These typically include:
+                            <ul>
+                                <li><strong>Lagged Features:</strong> Past values of the time series itself (e.g., sales from yesterday, last week).</li>
+                                <li><strong>Rolling Window Statistics:</strong> Mean, standard deviation, min, max over a defined past window.</li>
+                                <li><strong>Time-Based Features:</strong> Day of week, month, year, hour, quarter, day of year, week of year, and holiday indicators.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                     <div class="bg-slate-100 p-4 rounded-lg my-6 text-center">
+                        <img src="https://placehold.co/600x300/e2e8f0/334155?text=Conceptual+LightGBM+for+Time+Series" alt="LightGBM Architecture Diagram" class="mx-auto rounded-md">
+                        <p class="text-sm text-slate-500 mt-2">Conceptual diagram of LightGBM's tree-based ensemble approach for time series.</p>
+                    </div>
+                </section>
+                
+                <section>
+                    <h2>When to Use LightGBM</h2>
+                    <p>LightGBM is a powerful choice for time series forecasting when:</p>
+                    <ul>
+                        <li><strong>You have large datasets:</strong> Its efficiency and speed make it suitable for big data.</li>
+                        <li><strong>High performance and accuracy are required:</strong> It consistently achieves excellent results in various machine learning tasks.</li>
+                        <li><strong>You are comfortable with feature engineering:</strong> Its effectiveness in time series relies on creating relevant temporal features.</li>
+                        <li><strong>The time series exhibits complex non-linear relationships:</strong> Tree-based models can capture intricate interactions between features.</li>
+                        <li><strong>You need a fast training process:</strong> GOSS and EFB significantly reduce training time.</li>
+                        <li><strong>You are dealing with multiple related time series:</strong> It can be trained as a global model across many series.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Pros and Cons</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2 text-green-600">Pros</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Extremely Fast & Memory Efficient:</strong> GOSS and EFB techniques significantly speed up training and reduce memory consumption.</li>
+                                <li><strong>High Performance & Accuracy:</strong> Often achieves state-of-the-art results on tabular data.</li>
+                                <li><strong>Handles Large Datasets:</strong> Scalable for big data problems.</li>
+                                <li><strong>Captures Non-Linear Relationships:</strong> Tree-based nature allows it to model complex interactions.</li>
+                                <li><strong>Built-in Regularization:</strong> Helps prevent overfitting.</li>
+                                <li><strong>Handles Missing Values:</strong> Can inherently handle missing data during tree splitting.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2 text-red-600">Cons</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Requires Feature Engineering:</strong> Not a native time series model; requires manual creation of lagged, rolling, and time-based features.</li>
+                                <li><strong>Struggles with Extrapolation:</strong> As a tree-based model, it cannot predict values outside the range seen in the training data, making it less suitable for strong trends that extend beyond the observed data. [3]</li>
+                                <li><strong>Less Suited for Long-Term Dependencies:</strong> While features can capture some temporal context, it's less inherently designed for long-term dependencies compared to RNNs or Transformers.</li>
+                                <li><strong>Prone to Overfitting:</strong> Can overfit if not tuned carefully, especially with many features.</li>
+                                <li><strong>Less Interpretable:</strong> Ensemble of many trees makes it less interpretable than simpler models.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Example Implementation</h2>
+                    <p>Here's an example of implementing LightGBM for time series forecasting in Python. The key steps involve feature engineering, splitting data chronologically, and then training and predicting with `LGBMRegressor`.</p>
+
+                    <h3>Python Example (using `lightgbm` library)</h3>
+                    <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">
+                        <code class="language-python">
+import pandas as pd
+import numpy as np
+import lightgbm as lgb
+from sklearn.metrics import mean_absolute_error, mean_squared_error
+import matplotlib.pyplot as plt
+
+# 1. Create sample time series data [4]
+date_range = pd.date_range(start='2022-01-01', periods=300, freq='D')
+# Simulate data with trend, seasonality, and noise
+values = (100 + np.arange(300) * 0.5 + # Trend
+          20 * np.sin(np.arange(300) * 2 * np.pi / 30) + # Monthly seasonality
+          np.random.randn(300) * 5) # Noise
+df = pd.DataFrame({'date': date_range, 'value': values})
+
+# 2. Feature Engineering [4, 5]
+# Lagged features
+df['lag_1'] = df['value'].shift(1)
+df['lag_7'] = df['value'].shift(7) # Weekly lag
+
+# Rolling window features
+df['rolling_mean_7'] = df['value'].rolling(window=7).mean().shift(1) # Shifted to avoid data leakage
+df['rolling_std_7'] = df['value'].rolling(window=7).std().shift(1)
+
+# Time-based features
+df['day_of_week'] = df['date'].dt.dayofweek
+df['month'] = df['date'].dt.month
+df['year'] = df['date'].dt.year
+df['day_of_year'] = df['date'].dt.dayofyear
+df['is_weekend'] = df['day_of_week'].isin([1, 2]).astype(int)
+
+# Drop rows with NaN values created by lagging/rolling features [4]
+df = df.dropna()
+
+# 3. Splitting Data (Chronological Split) [4, 5]
+# Use a specific date to split training and testing sets
+split_date = '2022-09-01'
+train = df[df['date'] < split_date]
+test = df[df['date'] >= split_date]
+
+features = [col for col in df.columns if col not in ['date', 'value']]
+target = 'value'
+
+X_train, y_train = train[features], train[target]
+X_test, y_test = test[features], test[target]
+
+# 4. Create and Train LightGBM Model [4, 5]
+# n_estimators: number of boosting rounds
+# early_stopping_rounds: stop if validation metric doesn't improve for this many rounds
+reg = lgb.LGBMRegressor(n_estimators=1000, learning_rate=0.05, num_leaves=31, random_state=42)
+reg.fit(X_train, y_train,
+        eval_set=[(X_train, y_train), (X_test, y_test)],
+        eval_metric='rmse', # Evaluation metric for early stopping
+        callbacks=[lgb.early_stopping(50, verbose=False)]) # Stop if no improvement for 50 rounds
+
+# 5. Make Predictions [4, 5]
+predictions = reg.predict(X_test)
+
+# 6. Evaluate Model Performance [4]
+mae = mean_absolute_error(y_test, predictions)
+rmse = np.sqrt(mean_squared_error(y_test, predictions))
+print(f"MAE: {mae:.3f}")
+print(f"RMSE: {rmse:.3f}")
+
+# 7. Plotting Results [4]
+plt.figure(figsize=(14, 7))
+plt.plot(train['date'], train['value'], label='Training Data', color='blue')
+plt.plot(test['date'], y_test, label='Actual Test Data', color='orange')
+plt.plot(test['date'], predictions, label='LightGBM Predictions', color='green', linestyle='--')
+plt.title('LightGBM Time Series Forecasting')
+plt.xlabel('Date')
+plt.ylabel('Value')
+plt.legend()
+plt.grid(True)
+plt.show()
+                        </code></pre>
+                    </div>
+                </section>
+                
+                <section>
+                    <h2>Dependencies & Resources</h2>
+                    <p><strong>Dependencies:</strong> <code>pandas</code>, <code>numpy</code>, <code>lightgbm</code>, <code>scikit-learn</code> (for metrics), <code>matplotlib</code> (for plotting).</p>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><a href="https://lightgbm.readthedocs.io/en/latest/" target="_blank" rel="noopener noreferrer">LightGBM Official Documentation ↗</a></li>
+                        <li><a href="https://github.com/microsoft/LightGBM" target="_blank" rel="noopener noreferrer">LightGBM GitHub Repository ↗</a></li>
+                        <li><a href="https://www.geeksforgeeks.org/machine-learning/time-series-using-lightgbm/" target="_blank" rel="noopener noreferrer">Time Series Forecasting using LightGBM (GeeksforGeeks) ↗</a> [4]</li>
+                        <li><a href="https://www.kaggle.com/code/ahmedabdulhamid/recursive-multistep-time-series-forecasting" target="_blank" rel="noopener noreferrer">Recursive Multi-step Time Series Forecasting (Kaggle Notebook) ↗</a> [5]</li>
+                        <li><a href="https://medium.com/@t8rohman/when-lightgbm-struggles-with-trends-cb086c6f56cc" target="_blank" rel="noopener noreferrer">When LightGBM Struggles with Trends (Medium Blog) ↗</a> [6]</li>
+                        <li><a href="https://www.researchgate.net/publication/371136595_Improved_Sales_Forecasting_using_Trend_and_Seasonality_Decomposition_with_LightGBM" target="_blank" rel="noopener noreferrer">Improved Sales Forecasting using Trend and Seasonality Decomposition with LightGBM (ResearchGate) ↗</a> [7]</li>
+                    </ul>
+                </section>
+            </article>
+        </div>
+    </main>
+
+    <footer class="text-center p-6 bg-slate-200 mt-12">
+        <p class="text-slate-600 text-sm">TSM Hub: An Interactive Resource for Time Series Analysis</p>
+    </footer>
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [['$','$'], ['\\(','\\)']],
+                displayMath: [['$$','$$'], ['\\[','\\]']],
+                processEscapes: true,
+                ignoreHtmlClass: ".*",
+                processHtmlClass: "mathjax-process"
+            },
+            skipStartupTypeset: true
+        });
+    </script>
+    <script src="main.js"></script>
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof MathJax!== 'undefined') {
+                MathJax.Hub.Queue();
+            }
+        });
+    </script>
+</body>
+</html>

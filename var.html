@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vector Autoregression (VAR) Model - TSM Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-slate-100 text-slate-800">
+<!-- Enhanced Navigation for Model Pages -->
+<nav class="bg-white shadow-lg sticky top-0 z-50 mb-8">
+    <div class="container mx-auto px-6 py-4">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <a href="index.html" class="text-2xl font-bold text-blue-600">🏠 TS Forecasting Hub</a>
+                <div class="hidden md:flex items-center space-x-1 bg-gray-100 rounded-lg p-1">
+                    <a href="models.html" class="nav-link px-3 py-2 rounded">📚 All Models</a>
+                    <a href="comparison.html" class="nav-link px-3 py-2 rounded">📊 Compare</a>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+                <!-- AI Features Quick Access -->
+                <div class="hidden md:flex items-center space-x-2">
+                    <a href="model-selector.html" class="bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-600 text-sm flex items-center">
+                        🤖 AI Recommender
+                    </a>
+                    <a href="chat.html" class="bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-600 text-sm flex items-center">
+                        💬 AI Assistant
+                    </a>
+                    <a href="forecast-simulator.html?model={{MODEL_NAME}}" class="bg-purple-500 text-white px-3 py-2 rounded-lg hover:bg-purple-600 text-sm flex items-center">
+                        🚀 Try in Simulator
+                    </a>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <button class="md:hidden p-2" onclick="toggleMobileMenu()">☰</button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 border-t">
+            <div class="flex flex-col space-y-2">
+                <a href="models.html" class="text-gray-600 hover:text-blue-600 py-2">📚 All Models</a>
+                <a href="comparison.html" class="text-gray-600 hover:text-blue-600 py-2">📊 Compare Models</a>
+                <a href="model-selector.html" class="text-gray-600 hover:text-blue-600 py-2">🤖 AI Recommender</a>
+                <a href="chat.html" class="text-gray-600 hover:text-blue-600 py-2">💬 AI Assistant</a>
+                <a href="forecast-simulator.html" class="text-gray-600 hover:text-blue-600 py-2">🚀 Simulator</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-slate-900">TSM Hub</a>
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="concepts.html" class="nav-link">Concepts</a>
+                <a href="models.html" class="nav-link active">Models</a>
+                <a href="comparison.html" class="nav-link">Comparison</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden p-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="index.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Home</a>
+            <a href="concepts.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Concepts</a>
+            <a href="models.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Models</a>
+            <a href="comparison.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Comparison</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        <div class="bg-white p-8 rounded-lg shadow-md">
+            <header class="border-b-2 border-slate-200 pb-6 mb-8">
+                 <a href="models.html" class="text-blue-600 hover:underline mb-4 inline-block">&larr; Back to Model Library</a>
+                <h1 class="text-4xl md:text-5xl font-bold text-slate-900">Vector Autoregression (VAR) Model</h1>
+                <p class="mt-2 text-lg text-slate-600">Forecasting Interdependent Time Series</p>
+            </header>
+            
+            <article class="prose max-w-none">
+                <section>
+                    <h2>Overview</h2>
+                    <p>Vector Autoregression (VAR) models are a class of statistical models used for forecasting when two or more time series are interdependent. Unlike univariate models (like ARIMA) that focus on a single series, VAR models capture the linear interdependencies among multiple time series simultaneously. This makes them particularly useful in fields like economics, finance, and climate science where variables often influence each other over time.</p>
+                    <p>While primarily a multivariate model, understanding VAR is crucial for univariate forecasting when exogenous variables are present and their dynamic interaction with the target series needs to be modeled explicitly, rather than just as a simple input.</p>
+                    
+                    <h2>Architecture & Components</h2>
+                    <p>A VAR(p) model for $K$ variables means that the current value of each variable is expressed as a linear function of its own past $p$ values, and the past $p$ values of all other $K-1$ variables in the system.</p>
+                    <h3>Mathematical Formulation</h3>
+                    <p>For a VAR(p) model with $K$ variables ($Y_{1,t}, Y_{2,t}, ..., Y_{K,t}$), the model can be written in matrix form:</p>
+                    <p class="font-mono text-center bg-slate-100 p-4 rounded-md">
+                        $ Y_t = c + A_1 Y_{t-1} + A_2 Y_{t-2} + ... + A_p Y_{t-p} + \epsilon_t $
+                    </p>
+                    <p>Where:</p>
+                    <ul>
+                        <li>$Y_t = [Y_{1,t}, Y_{2,t}, ..., Y_{K,t}]^T$ is a $K \times 1$ vector of observations at time $t$.</li>
+                        <li>$c = [c_1, c_2, ..., c_K]^T$ is a $K \times 1$ vector of constants (intercepts).</li>
+                        <li>$A_i$ are $K \times K$ matrices of autoregressive coefficients for lag $i$. Each element $A_{i,jk}$ represents the influence of variable $Y_k$ at time $t-i$ on variable $Y_j$ at time $t$.</li>
+                        <li>$Y_{t-i}$ are the lagged vectors of observations.</li>
+                        <li>$\epsilon_t = [\epsilon_{1,t}, \epsilon_{2,t}, ..., \epsilon_{K,t}]^T$ is a $K \times 1$ vector of white noise error terms, assumed to be multivariate normally distributed with mean zero and a constant covariance matrix.</li>
+                    </ul>
+                    <p>The order <code>p</code> determines how many past time steps are included in the model for each variable.</p>
+                </section>
+                
+                <section>
+                    <h2>When to Use VAR Models</h2>
+                    <p>VAR models are most appropriate when:</p>
+                    <ul>
+                        <li>You are dealing with multiple time series that are believed to influence each other (e.g., interest rates, inflation, and GDP).</li>
+                        <li>The primary goal is forecasting, and understanding the causal relationships is secondary (though VAR can be extended for causality analysis like Granger causality).</li>
+                        <li>The time series are stationary. If not, cointegration tests (for long-run relationships) and Vector Error Correction Models (VECM) might be more appropriate.</li>
+                        <li>You need to model dynamic interactions between variables rather than treating some as simple exogenous inputs.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Pros and Cons</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2 text-green-600">Pros</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Captures Interdependencies:</strong> Explicitly models the dynamic relationships among multiple time series.</li>
+                                <li><strong>Flexible:</strong> Does not require strong theoretical assumptions about the underlying economic or physical structure, unlike structural models.</li>
+                                <li><strong>Good for Forecasting:</strong> Often provides accurate forecasts for multivariate systems.</li>
+                                <li><strong>Provides Impulse Response Functions:</strong> Allows analysis of how a shock to one variable affects all variables in the system over time.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2 text-red-600">Cons</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Parameter Explosion:</strong> The number of parameters to estimate grows quadratically with the number of variables ($K^2 \times p$), making it challenging for many series or high lags.</li>
+                                <li><strong>Assumes Linearity:</strong> Cannot capture complex non-linear relationships.</li>
+                                <li><strong>Requires Stationarity:</strong> All series must be stationary, or differenced to achieve stationarity.</li>
+                                <li><strong>Less Interpretable Coefficients:</strong> Individual coefficients can be hard to interpret directly due to the complex interdependencies.</li>
+                                <li><strong>Data Hungry:</strong> Requires a sufficient amount of historical data to reliably estimate all parameters.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Example Implementation</h2>
+                    <p>Here's an example of implementing a VAR model using the `statsmodels` library in Python. We'll generate two interdependent time series and then fit the VAR model.</p>
+                    <div class="code-block my-4">
+                        <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto"><code class="language-python">
+# Import necessary libraries
+import pandas as pd
+import numpy as np
+from statsmodels.tsa.api import VAR
+import matplotlib.pyplot as plt
+
+# 1. Generate sample interdependent data
+np.random.seed(42)
+n_samples = 150
+# Create two series where each influences the other
+data1 = np.zeros(n_samples)
+data2 = np.zeros(n_samples)
+
+# Initial values
+data1[0] = 10
+data2[0] = 5
+
+# Simple VAR(1) process:
+# data1_t = 0.6 * data1_{t-1} + 0.3 * data2_{t-1} + noise1_t
+# data2_t = 0.4 * data1_{t-1} + 0.5 * data2_{t-1} + noise2_t
+for i in range(1, n_samples):
+    noise1 = np.random.normal(0, 1)
+    noise2 = np.random.normal(0, 1)
+    data1[i] = 0.6 * data1[i-1] + 0.3 * data2[i-1] + noise1
+    data2[i] = 0.4 * data1[i-1] + 0.5 * data2[i-1] + noise2
+
+# Combine into a DataFrame
+df = pd.DataFrame({'Series1': data1, 'Series2': data2}, 
+                  index=pd.date_range(start='2020-01-01', periods=n_samples, freq='D'))
+
+# 2. Split data into train and test
+train_size = 120
+train_df, test_df = df[0:train_size], df[train_size:n_samples]
+
+# 3. Fit the VAR model
+# The order (lags) determines how many past time steps are used
+model = VAR(train_df)
+results = model.fit(maxlags=5, ic='aic') # Let it select optimal lags up to 5 using AIC
+
+# 4. Make a forecast
+forecast_steps = len(test_df)
+# To forecast, you need the last 'lags' observations from the training data
+# results.k_ar gives the optimal number of lags chosen by the model
+lag_order = results.k_ar
+forecast_input = train_df.values[-lag_order:]
+
+# Forecast future values
+forecast = results.forecast(y=forecast_input, steps=forecast_steps)
+forecast_df = pd.DataFrame(forecast, index=test_df.index, columns=df.columns)
+
+# 5. Display the forecast (conceptual, actual plotting requires matplotlib setup)
+print("VAR Model Summary:")
+print(results.summary())
+print("\nVAR Model Forecast:")
+print(forecast_df)
+
+# Example plotting (uncomment and run in a Python environment with matplotlib)
+# fig, axes = plt.subplots(nrows=2, ncols=1, figsize=(14, 10), sharex=True)
+#
+# # Plot Series1
+# axes[0].plot(train_df.index, train_df['Series1'], label='Training Series1')
+# axes[0].plot(test_df.index, test_df['Series1'], label='Actual Series1', color='orange')
+# axes[0].plot(forecast_df.index, forecast_df['Series1'], label='VAR Forecast Series1', color='green', linestyle='--')
+# axes[0].set_title('Series1 Forecast')
+# axes[0].legend()
+# axes[0].grid(True)
+#
+# # Plot Series2
+# axes[1].plot(train_df.index, train_df['Series2'], label='Training Series2')
+# axes[1].plot(test_df.index, test_df['Series2'], label='Actual Series2', color='red')
+# axes[1].plot(forecast_df.index, forecast_df['Series2'], label='VAR Forecast Series2', color='purple', linestyle='--')
+# axes[1].set_title('Series2 Forecast')
+# axes[1].legend()
+# axes[1].grid(True)
+#
+# plt.tight_layout()
+# plt.show()
+                        </code></pre>
+                    </div>
+                </section>
+                
+                <section>
+                    <h2>Dependencies & Resources</h2>
+                    <p><strong>Dependencies:</strong> <code>pandas</code>, <code>numpy</code>, <code>statsmodels</code>, <code>matplotlib</code> (for plotting).</p>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><a href="https://www.statsmodels.org/stable/generated/statsmodels.tsa.api.VAR.html" target="_blank" rel="noopener noreferrer">Statsmodels VAR Documentation ↗</a></li>
+                        <li><a href="https://otexts.com/fpp2/VAR.html" target="_blank" rel="noopener noreferrer">Forecasting: Principles and Practice - VAR Models ↗</a></li>
+                    </ul>
+                </section>
+            </article>
+        </div>
+    </main>
+
+    <footer class="text-center p-6 bg-slate-200 mt-12">
+        <p class="text-slate-600 text-sm">TSM Hub: An Interactive Resource for Time Series Analysis</p>
+    </footer>
+
+    <script src="main.js"></script>
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</body>
+</html>

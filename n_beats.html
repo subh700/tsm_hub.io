@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>N-BEATS Model - TSM Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-slate-100 text-slate-800">
+<!-- Enhanced Navigation for Model Pages -->
+<nav class="bg-white shadow-lg sticky top-0 z-50 mb-8">
+    <div class="container mx-auto px-6 py-4">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <a href="index.html" class="text-2xl font-bold text-blue-600">🏠 TS Forecasting Hub</a>
+                <div class="hidden md:flex items-center space-x-1 bg-gray-100 rounded-lg p-1">
+                    <a href="models.html" class="nav-link px-3 py-2 rounded">📚 All Models</a>
+                    <a href="comparison.html" class="nav-link px-3 py-2 rounded">📊 Compare</a>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+                <!-- AI Features Quick Access -->
+                <div class="hidden md:flex items-center space-x-2">
+                    <a href="model-selector.html" class="bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-600 text-sm flex items-center">
+                        🤖 AI Recommender
+                    </a>
+                    <a href="chat.html" class="bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-600 text-sm flex items-center">
+                        💬 AI Assistant
+                    </a>
+                    <a href="forecast-simulator.html?model={{MODEL_NAME}}" class="bg-purple-500 text-white px-3 py-2 rounded-lg hover:bg-purple-600 text-sm flex items-center">
+                        🚀 Try in Simulator
+                    </a>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <button class="md:hidden p-2" onclick="toggleMobileMenu()">☰</button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 border-t">
+            <div class="flex flex-col space-y-2">
+                <a href="models.html" class="text-gray-600 hover:text-blue-600 py-2">📚 All Models</a>
+                <a href="comparison.html" class="text-gray-600 hover:text-blue-600 py-2">📊 Compare Models</a>
+                <a href="model-selector.html" class="text-gray-600 hover:text-blue-600 py-2">🤖 AI Recommender</a>
+                <a href="chat.html" class="text-gray-600 hover:text-blue-600 py-2">💬 AI Assistant</a>
+                <a href="forecast-simulator.html" class="text-gray-600 hover:text-blue-600 py-2">🚀 Simulator</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-slate-900">TSM Hub</a>
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="concepts.html" class="nav-link">Concepts</a>
+                <a href="models.html" class="nav-link active">Models</a>
+                <a href="comparison.html" class="nav-link">Comparison</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden p-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="index.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Home</a>
+            <a href="concepts.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Concepts</a>
+            <a href="models.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Models</a>
+            <a href="comparison.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Comparison</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        <div class="bg-white p-8 rounded-lg shadow-md">
+            <header class="border-b-2 border-slate-200 pb-6 mb-8">
+                 <a href="models.html" class="text-blue-600 hover:underline mb-4 inline-block">&larr; Back to Model Library</a>
+                <h1 class="text-4xl md:text-5xl font-bold text-slate-900">N-BEATS Model</h1>
+                <p class="mt-2 text-lg text-slate-600">Neural Basis Expansion Analysis for Interpretable Time Series Forecasting</p>
+            </header>
+            
+            <article class="prose max-w-none">
+                <section>
+                    <h2>Overview</h2>
+                    <p>N-BEATS (Neural Basis Expansion Analysis for Time Series) is a state-of-the-art deep neural network architecture specifically designed for univariate time series forecasting. Unlike traditional recurrent (RNNs) or convolutional (CNNs) models, N-BEATS employs a fully connected feedforward architecture. Its key innovation lies in its ability to provide interpretable outputs by explicitly decomposing time series into distinct components such as trend, seasonality, and noise, while achieving high accuracy.</p>
+                    
+                    <h2>Architecture & Components</h2>
+                    <p>The N-BEATS architecture is built upon a system of "blocks" and "stacks," utilizing backward and forward residual links to iteratively refine predictions. Each block specializes in modeling specific time series patterns, and these blocks are organized into stacks, where each stack can focus on a particular component (e.g., trend or seasonality).</p>
+                    <ul>
+                        <li><strong>Blocks:</strong> The fundamental building block is a multi-layer fully connected network with ReLU non-linearities. Each block predicts two outputs:
+                            <ul>
+                                <li><strong>Backcast:</strong> A reconstruction of the input time series, modeling the patterns already captured. This backcast is subtracted from the original input, allowing subsequent blocks to focus on the residual errors. This iterative refinement helps the model incrementally capture finer details.</li>
+                                <li><strong>Forecast:</strong> Predictions for future time series values, extrapolating the identified patterns.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Stacks:</strong> Blocks are organized into stacks. N-BEATS offers two main configurations:
+                            <ul>
+                                <li><strong>Generic Architecture:</strong> Uses as little prior knowledge as possible, with no explicit time-series-specific components. It demonstrates that deep learning primitives like residual blocks are sufficient for a wide range of forecasting problems.</li>
+                                <li><strong>Interpretable Architecture:</strong> Specifically designed to provide interpretable outputs. It typically consists of two main stacks:
+                                    <ul>
+                                        <li><strong>Trend Stack:</strong> Uses polynomial basis expansion to model long-term directional changes. The number of trend coefficients is a configurable hyperparameter.</li>
+                                        <li><strong>Seasonality Stack:</strong> Leverages Fourier series basis expansion to model periodic patterns. The number of seasonal coefficients is also configurable, allowing it to capture multiple seasonalities (e.g., hourly, weekly, monthly).</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li><strong>Double Residual Stacking:</strong> This mechanism ensures that each block focuses on the unexplained variance from previous blocks, allowing the model to incrementally capture finer details of the data patterns, including trend, seasonality, and residual noise. The final forecast is the aggregation (sum) of the forecasts from all blocks.</li>
+                    </ul>
+                    <p>The feedforward design of N-BEATS helps it avoid the limitations often associated with recursive memory, contributing to its robustness and generalization capabilities.</p>
+                     <div class="bg-slate-100 p-4 rounded-lg my-6 text-center">
+                        <img src="https://placehold.co/600x300/e2e8f0/334155?text=Diagram+of+N-BEATS+Architecture" alt="N-BEATS Architecture Diagram" class="mx-auto rounded-md">
+                        <p class="text-sm text-slate-500 mt-2">Conceptual diagram of N-BEATS architecture with blocks and stacks.</p>
+                    </div>
+                </section>
+                
+                <section>
+                    <h2>When to Use N-BEATS</h2>
+                    <p>N-BEATS is a highly competitive and versatile option, particularly suitable for:</p>
+                    <ul>
+                        <li>Achieving state-of-the-art accuracy on univariate time series forecasting problems.</li>
+                        <li>Scenarios where interpretability is desired, as it can explicitly decompose the series into trend, seasonality, and residuals.</li>
+                        <li>Long-term forecasting, as its forecasts do not seem to deteriorate significantly with extended horizons.</li>
+                        <li>Handling structurally diverse and non-linear data, including those with multiple orders of seasonality.</li>
+                        <li>As a robust alternative to recurrent or convolutional networks for sequence modeling.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Pros and Cons</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2 text-green-600">Pros</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>State-of-the-Art Performance:</strong> Achieved top results in major forecasting competitions (M3, M4, TOURISM), often outperforming statistical and hybrid methods.</li>
+                                <li><strong>Interpretable by Design:</strong> Can explicitly decompose time series into trend, seasonality, and noise components, providing insights into predictions.</li>
+                                <li><strong>Robustness & Generalization:</strong> Its feedforward design and residual stacking enhance robustness to noise, outliers, and complex dynamics, generalizing well across diverse datasets.</li>
+                                <li><strong>No Recurrent Connections:</strong> Avoids vanishing/exploding gradient issues common in RNNs, and can be faster to train than LSTMs in some cases.</li>
+                                <li><strong>Probabilistic Forecasting:</strong> Can provide probabilistic forecasts (e.g., quantile estimates) with low computational cost.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2 text-red-600">Cons</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Complex Architecture:</strong> While powerful, its deep stacking architecture can be complex to understand and implement from scratch.</li>
+                                <li><strong>Computationally Intensive:</strong> Training and hyperparameter tuning can be time-consuming, especially for very large parameter values that define the tensor size.</li>
+                                <li><strong>Hyperparameter Sensitivity:</strong> Performance can be sensitive to hyperparameters like input/output layer sizes, number of blocks/stacks, and layer widths.</li>
+                                <li><strong>Batch Size Sensitivity:</strong> Very large batch sizes can mislead gradient descent, while very small ones might reduce accuracy.</li>
+                                <li><strong>Output Chunk Length Constraints:</strong> The output chunk length cannot be arbitrarily increased due to memory and tensor size constraints.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Example Implementation</h2>
+                    <p>N-BEATS has implementations in both PyTorch and TensorFlow. Here are conceptual examples for both frameworks, highlighting key aspects of their usage. For full runnable examples, refer to the official repositories.</p>
+
+                    <h3>PyTorch Example (using Darts/PyTorch Lightning)</h3>
+                    <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto"><code class="language-python">
+import pandas as pd
+import numpy as np
+import pytorch_lightning as pl
+from pytorch_lightning.callbacks import ModelCheckpoint
+from pytorch_lightning import loggers as pl_loggers
+from darts import TimeSeries
+from darts.models import NBEATSModel
+from darts.dataprocessing.transformers import MinMaxScaler
+from darts.utils.timeseries_generation import gaussian_timeseries, linear_timeseries
+
+# 1. Generate sample data (or load your own)
+# Create a simple series with trend and seasonality
+n_samples = 300
+time_index = pd.date_range(start='2020-01-01', periods=n_samples, freq='D')
+trend_data = linear_timeseries(start_value=0, end_value=100, length=n_samples)
+seasonal_data = gaussian_timeseries(length=n_samples, mean=0, std=5, start_value=0) + \
+                10 * np.sin(np.arange(n_samples) * 2 * np.pi / 30) # Monthly-like seasonality
+noise_data = gaussian_timeseries(length=n_samples, mean=0, std=2, start_value=0)
+series_data = trend_data + seasonal_data + noise_data
+series = TimeSeries.from_series(pd.Series(series_data.values.flatten(), index=time_index))
+
+# 2. Preprocess data (scaling is often beneficial for neural networks)
+scaler = MinMaxScaler()
+series_scaled = scaler.fit_transform(series)
+
+# 3. Split data into train and validation sets
+train_size = int(0.8 * len(series_scaled))
+train_series, val_series = series_scaled.split_after(train_size)
+
+# 4. Define N-BEATS model hyperparameters
+forecast_length = 10 # Number of steps to forecast
+backcast_length = 3 * forecast_length # Number of past steps to consider
+
+# 5. Instantiate the N-BEATS model
+# Using interpretable architecture with Trend and Seasonality stacks
+model = NBEATSModel(
+    input_chunk_length=backcast_length,
+    output_chunk_length=forecast_length,
+    generic_architecture=False, # Set to False for interpretable architecture
+    num_stacks=2, # For interpretable: 1 for trend, 1 for seasonality
+    num_blocks_per_stack=3,
+    num_layers=4,
+    layer_widths=512,
+    expansion_coefficient_dim=5, # For basis expansion
+    trend_polynomial_degree=2, # For trend stack
+    dropout=0.1,
+    n_epochs=50, # Reduced epochs for quick demo
+    batch_size=32,
+    optimizer_kwargs={"lr": 1e-3},
+    random_state=42,
+    pl_trainer_kwargs={
+        "accelerator": "auto", # Use GPU if available, otherwise CPU
+        "callbacks": [ModelCheckpoint(monitor="val_loss", mode="min", filename="nbeats_best_model")],
+        "logger": pl_loggers.TensorBoardLogger("lightning_logs/", name="nbeats_experiment")
+    }
+)
+
+# 6. Train the model
+# Darts handles data loading and batching internally with the TimeSeries objects
+model.fit(train_series, val_series=val_series, verbose=False) # verbose=False to suppress detailed output
+
+# 7. Make a forecast
+prediction = model.predict(n=forecast_length)
+
+# 8. Inverse transform the forecast to original scale
+prediction_original_scale = scaler.inverse_transform(prediction)
+
+# 9. Display results (conceptual)
+print("N-BEATS PyTorch (Darts) model training complete.")
+print("\nForecast (original scale):")
+print(prediction_original_scale.pd_series())
+
+# Plotting (conceptual)
+# plt.figure(figsize=(14, 7))
+# series.plot(label='Original Series')
+# prediction_original_scale.plot(label='N-BEATS Forecast', linestyle='--')
+# plt.title('N-BEATS Model Forecast (PyTorch/Darts)')
+# plt.xlabel('Date')
+# plt.ylabel('Value')
+# plt.legend()
+# plt.grid(True)
+# plt.show()
+                        </code></pre>
+                    </div>
+
+                    <h3>TensorFlow Example (using flaviagiammarino/nbeats-tensorflow)</h3>
+                    <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto"><code class="language-python">
+import numpy as np
+import pandas as pd
+import tensorflow as tf
+from nbeats_tensorflow.model import NBeats
+# from nbeats_tensorflow.plots import plot # Requires plotly and kaleido for image export
+
+# 1. Generate sample data
+N = 1000
+t = np.linspace(0, 1, N)
+trend = 30 + 20 * t + 10 * (t ** 2)
+seasonality = 5 * np.cos(2 * np.pi * (10 * t - 0.5)) + 3 * np.sin(2 * np.pi * (20 * t))
+noise = np.random.normal(0, 1, N)
+y_data = trend + seasonality + noise
+
+# 2. Define model parameters
+forecast_period = 200
+lookback_period = 400
+
+# 3. Fit the N-BEATS model
+model = NBeats(
+    y=y_data,
+    forecast_period=forecast_period,
+    lookback_period=lookback_period,
+    units=30, # Number of units in FC layers
+    stacks=['trend', 'seasonality'], # Use interpretable stacks
+    num_trend_coefficients=3,
+    num_seasonal_coefficients=5,
+    num_blocks_per_stack=2,
+    share_weights=True,
+    share_coefficients=False,
+)
+
+model.fit(
+    loss='mse',
+    epochs=50, # Reduced epochs for quick demo
+    batch_size=32,
+    learning_rate=0.003,
+    backcast_loss_weight=0.5, # Weight for the backcast loss
+    verbose=0 # Set to 1 or True for verbose output
+)
+
+# 4. Generate forecasts and backcasts
+df_results = model.forecast(y=y_data, return_backcast=True)
+
+# 5. Display results (conceptual)
+print("N-BEATS TensorFlow model training complete.")
+print("\nForecast (first 5 rows):")
+print(df_results[['forecast']].head())
+print("\nBackcast (first 5 rows):")
+print(df_results[['backcast']].head())
+
+# Plotting (conceptual, requires matplotlib or plotly)
+# import matplotlib.pyplot as plt
+# plt.figure(figsize=(14, 7))
+# plt.plot(df_results.index[:len(y_data)], y_data, label='Original Data')
+# plt.plot(df_results.index[len(y_data):], df_results['forecast'].iloc[len(y_data):], label='N-BEATS Forecast', linestyle='--')
+# plt.plot(df_results.index[:len(y_data)], df_results['backcast'].iloc[:len(y_data)], label='N-BEATS Backcast', linestyle=':')
+# plt.title('N-BEATS Model Forecast and Backcast (TensorFlow)')
+# plt.xlabel('Time Step')
+# plt.ylabel('Value')
+# plt.legend()
+# plt.grid(True)
+# plt.show()
+                        </code></pre>
+                    </div>
+                </section>
+                
+                <section>
+                    <h2>Dependencies & Resources</h2>
+                    <p><strong>Dependencies:</strong></p>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><strong>PyTorch (Darts/Lightning):</strong> <code>pandas</code>, <code>numpy</code>, <code>torch</code>, <code>pytorch-lightning</code>, <code>darts</code> (install with `pip install darts[pytorch]`).</li>
+                        <li><strong>TensorFlow (flaviagiammarino/nbeats-tensorflow):</strong> <code>pandas==1.5.2</code>, <code>numpy==1.23.5</code>, <code>tensorflow==2.11.0</code>, <code>plotly==5.11.0</code>, <code>kaleido==0.2.1</code>.</li>
+                        <li><strong>TensorFlow (ARM-software/tspfnbeats):</strong> <code>tensorflow (2.3)</code>, <code>pyyaml (5.3.1)</code>, <code>pandas (1.1.1)</code>, <code>scikit-learn (0.23.2)</code>, <code>tqdm (4.48.2)</code>, <code>matplotlib (3.3.1)</code>.</li>
+                    </ul>
+                    <p><strong>Resources:</strong></p>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><a href="https://arxiv.org/abs/1905.10437" target="_blank" rel="noopener noreferrer">N-BEATS: Neural basis expansion analysis for interpretable time series forecasting (Original Paper) ↗</a></li>
+                        <li><a href="https://github.com/ServiceNow/N-BEATS" target="_blank" rel="noopener noreferrer">ServiceNow/N-BEATS GitHub Repository (PyTorch) ↗</a></li>
+                        <li><a href="https://github.com/realdanielbyrne/N-BEATS-Lightning" target="_blank" rel="noopener noreferrer">realdanielbyrne/N-BEATS-Lightning GitHub Repository (PyTorch Lightning) ↗</a></li>
+                        <li><a href="https://github.com/flaviagiammarino/nbeats-tensorflow" target="_blank" rel="noopener noreferrer">flaviagiammarino/nbeats-tensorflow GitHub Repository (TensorFlow) ↗</a></li>
+                        <li><a href="https://github.com/ARM-software/tspfnbeats" target="_blank" rel="noopener noreferrer">ARM-software/tspfnbeats GitHub Repository (TensorFlow) ↗</a></li>
+                        <li><a href="https://unit8co.github.io/darts/generated_api/darts.models.forecasting.nbeats.html" target="_blank" rel="noopener noreferrer">Darts NBEATSModel Documentation ↗</a></li>
+                    </ul>
+                </section>
+            </article>
+        </div>
+    </main>
+
+    <footer class="text-center p-6 bg-slate-200 mt-12">
+        <p class="text-slate-600 text-sm">TSM Hub: An Interactive Resource for Time Series Analysis</p>
+    </footer>
+
+    <script src="main.js"></script>
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</body>
+</html>

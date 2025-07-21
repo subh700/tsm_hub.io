@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FEDformer Model - TSM Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-slate-100 text-slate-800">
+<!-- Enhanced Navigation for Model Pages -->
+<nav class="bg-white shadow-lg sticky top-0 z-50 mb-8">
+    <div class="container mx-auto px-6 py-4">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <a href="index.html" class="text-2xl font-bold text-blue-600">🏠 TS Forecasting Hub</a>
+                <div class="hidden md:flex items-center space-x-1 bg-gray-100 rounded-lg p-1">
+                    <a href="models.html" class="nav-link px-3 py-2 rounded">📚 All Models</a>
+                    <a href="comparison.html" class="nav-link px-3 py-2 rounded">📊 Compare</a>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+                <!-- AI Features Quick Access -->
+                <div class="hidden md:flex items-center space-x-2">
+                    <a href="model-selector.html" class="bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-600 text-sm flex items-center">
+                        🤖 AI Recommender
+                    </a>
+                    <a href="chat.html" class="bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-600 text-sm flex items-center">
+                        💬 AI Assistant
+                    </a>
+                    <a href="forecast-simulator.html?model={{MODEL_NAME}}" class="bg-purple-500 text-white px-3 py-2 rounded-lg hover:bg-purple-600 text-sm flex items-center">
+                        🚀 Try in Simulator
+                    </a>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <button class="md:hidden p-2" onclick="toggleMobileMenu()">☰</button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 border-t">
+            <div class="flex flex-col space-y-2">
+                <a href="models.html" class="text-gray-600 hover:text-blue-600 py-2">📚 All Models</a>
+                <a href="comparison.html" class="text-gray-600 hover:text-blue-600 py-2">📊 Compare Models</a>
+                <a href="model-selector.html" class="text-gray-600 hover:text-blue-600 py-2">🤖 AI Recommender</a>
+                <a href="chat.html" class="text-gray-600 hover:text-blue-600 py-2">💬 AI Assistant</a>
+                <a href="forecast-simulator.html" class="text-gray-600 hover:text-blue-600 py-2">🚀 Simulator</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-slate-900">TSM Hub</a>
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="concepts.html" class="nav-link">Concepts</a>
+                <a href="models.html" class="nav-link active">Models</a>
+                <a href="comparison.html" class="nav-link">Comparison</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden p-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="index.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Home</a>
+            <a href="concepts.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Concepts</a>
+            <a href="models.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Models</a>
+            <a href="comparison.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Comparison</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        <div class="bg-white p-8 rounded-lg shadow-md">
+            <header class="border-b-2 border-slate-200 pb-6 mb-8">
+                 <a href="models.html" class="text-blue-600 hover:underline mb-4 inline-block">&larr; Back to Model Library</a>
+                <h1 class="text-4xl md:text-5xl font-bold text-slate-900">FEDformer Model</h1>
+                <p class="mt-2 text-lg text-slate-600">Frequency Enhanced Decomposed Transformer for Long-term Series Forecasting</p>
+            </header>
+            
+            <article class="prose max-w-none">
+                <section>
+                    <h2>Overview</h2>
+                    <p>FEDformer (Frequency Enhanced Decomposed Transformer) is a Transformer-based model designed for long-term time series forecasting. It addresses the limitations of standard Transformers, which are computationally expensive and struggle to capture the global view of time series. FEDformer combines the Transformer architecture with seasonal-trend decomposition and integrates Fourier-based decomposition to process time series in the frequency domain. This approach allows it to capture global patterns and long-range dependencies more effectively while significantly reducing computational overhead.</p>
+                    
+                    <h2>Architecture & Components</h2>
+                    <p>FEDformer's architecture is built on the Transformer framework but introduces key innovations:</p>
+                    <ul>
+                        <li><strong>Seasonal-Trend Decomposition:</strong> Similar to Autoformer, FEDformer first decomposes the time series input into a trend and a seasonal component. The trend captures long-term growth or decline, while the seasonal component captures recurring patterns. This decomposition helps the model focus on distinct aspects of the time series.</li>
+                        <li><strong>Frequency-Domain Processing (Fourier-based Decomposition):</strong> This is a core innovation. Instead of processing the entire time series in the time domain, FEDformer converts parts of the time series (specifically the seasonal component) into the frequency domain using Fourier transforms. This allows the model to detect dominant patterns by focusing on the strongest frequencies and effectively filtering out noise.</li>
+                        <li><strong>Frequency Enhanced Block (FEB) and Frequency Enhanced Attention (FEA):</strong> These are the mechanisms through which Fourier analysis is integrated into the neural network. FEB and FEA operate in the frequency domain, where attention mechanisms are applied to identify the most meaningful signals. This leverages the sparsity and low-rank characteristics of time series in the Fourier domain, leading to a more compact and informative representation.</li>
+                        <li><strong>Linear Complexity:</strong> By exploiting frequency-domain sparsity and random selection of frequency bases, FEDformer achieves a linear complexity with respect to the sequence length, making it more efficient than standard Transformers.</li>
+                        <li><strong>Encoder-Decoder Structure:</strong> FEDformer maintains an encoder-decoder structure. The encoder processes the input, and the decoder generates the forecast, with the final prediction being the sum of refined decomposed components.</li>
+                    </ul>
+                     <div class="bg-slate-100 p-4 rounded-lg my-6 text-center">
+                        <img src="https://placehold.co/600x300/e2e8f0/334155?text=Diagram+of+FEDformer+Architecture" alt="FEDformer Architecture Diagram" class="mx-auto rounded-md">
+                        <p class="text-sm text-slate-500 mt-2">Conceptual diagram of FEDformer's architecture with frequency-domain processing.</p>
+                    </div>
+                </section>
+                
+                <section>
+                    <h2>When to Use FEDformer</h2>
+                    <p>FEDformer is particularly suitable for:</p>
+                    <ul>
+                        <li>Long-term time series forecasting where efficiency and accuracy are critical.</li>
+                        <li>Data that exhibits clear periodic patterns, as it leverages Fourier transforms to identify dominant frequencies.</li>
+                        <li>Applications where noise filtering is important, as it focuses on strong frequencies to highlight key signals.</li>
+                        <li>When you need a Transformer-based model that is more computationally efficient than vanilla Transformers for long sequences.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Pros and Cons</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2 text-green-600">Pros</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Reduced Complexity:</strong> Achieves linear complexity ($O(L)$) with sequence length, making it highly efficient for long time series.</li>
+                                <li><strong>Effective for Periodic Data:</strong> Leverages Fourier-based decomposition to effectively capture and model periodic patterns.</li>
+                                <li><strong>Noise Filtering:</strong> By focusing on dominant frequencies, it effectively filters out noise and highlights important signals.</li>
+                                <li><strong>Improved Accuracy:</strong> Demonstrates state-of-the-art forecasting accuracy, reducing prediction error significantly compared to other methods.</li>
+                                <li><strong>Captures Global View:</strong> Its decomposition and frequency analysis help capture overall trends and global patterns.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2 text-red-600">Cons</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Potential for Underfitting:</strong> Only handling low-frequency components might lead to underfitting if high-frequency details are crucial.</li>
+                                <li><strong>Limited Flexibility for Irregular Data:</strong> Reliance on frequency-domain transforms may limit its flexibility in handling irregular or highly non-stationary time series.</li>
+                                <li><strong>Outperformed by Some Models:</strong> While strong, other models like TSAA have shown to consistently outperform it across various error metrics in some benchmarks.</li>
+                                <li><strong>Less Interpretable:</strong> Frequency-domain operations can make the model less interpretable than simpler decomposition methods.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Example Implementation</h2>
+                    <p>FEDformer is primarily implemented in PyTorch, with the official code provided by MAZiqing/FEDformer. It is also included in the THUML/Autoformer repository. The typical usage involves running bash scripts for specific datasets.</p>
+
+                    <h3>PyTorch Example (using MAZiqing/FEDformer)</h3>
+                    <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">
+                        <code class="language-bash">
+# 1. Clone the official FEDformer repository
+# git clone https://github.com/MAZiqing/FEDformer.git
+# cd FEDformer
+
+# 2. Install Python >= 3.8 and PyTorch 1.9.0 (or compatible versions)
+# pip install -r requirements.txt # (assuming a requirements.txt exists or install manually)
+
+# 3. Download datasets
+# Datasets can be obtained from Autoformer or Informer repositories (links in FEDformer README).
+# Download them and place them in a './dataset' folder in the root of the cloned repository.
+
+# 4. Run a training script for a specific dataset (e.g., ETTm1 for univariate forecasting)
+# These scripts are located in the './scripts' directory.
+echo "Running FEDformer training script for ETTm1 dataset (univariate)..."
+bash./scripts/ETT_script/FEDformer_ETTm1_univariate.sh
+
+# This script will typically:
+# - Set up model parameters (e.g., sequence length, prediction length, number of encoder/decoder layers)
+# - Load the ETTm1 dataset
+# - Train the FEDformer model
+# - Evaluate its performance (RMSE, MAE) and save results.
+
+# Example of what the script might contain (simplified):
+# python main_long_term_forecast.py \
+#   --model FEDformer \
+#   --data ETTm1 \
+#   --features S \
+#   --seq_len 96 \
+#   --label_len 48 \
+#   --pred_len 24 \
+#   --e_layers 2 \
+#   --d_layers 1 \
+#   --factor 3 \
+#   --enc_in 1 \
+#   --dec_in 1 \
+#   --c_out 1 \
+#   --des Exp \
+#   --itr 1 \
+#   --train_epochs 10 \
+#   --batch_size 32 \
+#   --learning_rate 0.0001 \
+#   --root_path./dataset/ETT-small/ \
+#   --data_path ETTm1.csv \
+#   --checkpoints./checkpoints/
+
+echo "FEDformer training script executed. Check output directory for results."
+
+# For multivariate forecasting, you would run a similar script with --features M
+# bash./scripts/ETT_script/FEDformer_ETTm1_multivariate.sh
+                        </code></pre>
+                    </div>
+                </section>
+                
+                <section>
+                    <h2>Dependencies & Resources</h2>
+                    <p><strong>Dependencies:</strong> <code>pandas</code>, <code>numpy</code>, <code>torch</code>, <code>matplotlib</code> (for plotting).</p>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><a href="https://arxiv.org/abs/2201.10248" target="_blank" rel="noopener noreferrer">FEDformer: Frequency Enhanced Decomposed Transformer for Long-term Series Forecasting (Original Paper) ↗</a></li>
+                        <li><a href="https://github.com/MAZiqing/FEDformer" target="_blank" rel="noopener noreferrer">MAZiqing/FEDformer GitHub Repository (Official PyTorch) ↗</a></li>
+                        <li><a href="https://github.com/thuml/Autoformer" target="_blank" rel="noopener noreferrer">THUML/Autoformer GitHub Repository (includes FEDformer) ↗</a></li>
+                    </ul>
+                </section>
+            </article>
+        </div>
+    </main>
+
+    <footer class="text-center p-6 bg-slate-200 mt-12">
+        <p class="text-slate-600 text-sm">TSM Hub: An Interactive Resource for Time Series Analysis</p>
+    </footer>
+
+    <script src="main.js"></script>
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</body>
+</html>

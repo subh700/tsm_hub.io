@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elastic Net Regression Model - TSM Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-slate-100 text-slate-800">
+<!-- Enhanced Navigation for Model Pages -->
+<nav class="bg-white shadow-lg sticky top-0 z-50 mb-8">
+    <div class="container mx-auto px-6 py-4">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <a href="index.html" class="text-2xl font-bold text-blue-600">🏠 TS Forecasting Hub</a>
+                <div class="hidden md:flex items-center space-x-1 bg-gray-100 rounded-lg p-1">
+                    <a href="models.html" class="nav-link px-3 py-2 rounded">📚 All Models</a>
+                    <a href="comparison.html" class="nav-link px-3 py-2 rounded">📊 Compare</a>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+                <!-- AI Features Quick Access -->
+                <div class="hidden md:flex items-center space-x-2">
+                    <a href="model-selector.html" class="bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-600 text-sm flex items-center">
+                        🤖 AI Recommender
+                    </a>
+                    <a href="chat.html" class="bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-600 text-sm flex items-center">
+                        💬 AI Assistant
+                    </a>
+                    <a href="forecast-simulator.html?model={{MODEL_NAME}}" class="bg-purple-500 text-white px-3 py-2 rounded-lg hover:bg-purple-600 text-sm flex items-center">
+                        🚀 Try in Simulator
+                    </a>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <button class="md:hidden p-2" onclick="toggleMobileMenu()">☰</button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 border-t">
+            <div class="flex flex-col space-y-2">
+                <a href="models.html" class="text-gray-600 hover:text-blue-600 py-2">📚 All Models</a>
+                <a href="comparison.html" class="text-gray-600 hover:text-blue-600 py-2">📊 Compare Models</a>
+                <a href="model-selector.html" class="text-gray-600 hover:text-blue-600 py-2">🤖 AI Recommender</a>
+                <a href="chat.html" class="text-gray-600 hover:text-blue-600 py-2">💬 AI Assistant</a>
+                <a href="forecast-simulator.html" class="text-gray-600 hover:text-blue-600 py-2">🚀 Simulator</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-slate-900">TSM Hub</a>
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="concepts.html" class="nav-link">Concepts</a>
+                <a href="models.html" class="nav-link active">Models</a>
+                <a href="comparison.html" class="nav-link">Comparison</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden p-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="index.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Home</a>
+            <a href="concepts.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Concepts</a>
+            <a href="models.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Models</a>
+            <a href="comparison.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Comparison</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        <div class="bg-white p-8 rounded-lg shadow-md">
+            <header class="border-b-2 border-slate-200 pb-6 mb-8">
+                 <a href="models.html" class="text-blue-600 hover:underline mb-4 inline-block">&larr; Back to Model Library</a>
+                <h1 class="text-4xl md:text-5xl font-bold text-slate-900">Elastic Net Regression Model</h1>
+                <p class="mt-2 text-lg text-slate-600">Regularized Linear Regression</p>
+            </header>
+            
+            <article class="prose max-w-none">
+                <section>
+                    <h2>Overview</h2>
+                    <p>Elastic Net Regression is a regularized linear regression model that combines the strengths of two popular regularization techniques: L1 regularization (Lasso) and L2 regularization (Ridge). It was developed to address the limitations of Lasso (which can struggle with highly correlated predictors) and Ridge (which doesn't perform feature selection). Elastic Net is particularly useful for time series forecasting when the problem can be framed as a linear regression task with many potentially correlated features (e.g., lagged values, time-based features, exogenous variables).</p>
+                    
+                    <h2>Architecture & Components</h2>
+                    <p>Elastic Net estimates regression coefficients by minimizing a loss function that includes both the sum of squared errors and a linear combination of the L1 and L2 penalties:</p>
+                    <p class="font-mono text-center bg-slate-100 p-4 rounded-md mathjax-process">
+                        $ \text{minimize } \sum_{i=1}^{n} (y_i - \hat{y}_i)^2 + \lambda_1 \sum_{j=1}^{p} |\beta_j| + \lambda_2 \sum_{j=1}^{p} \beta_j^2 $
+                    </p>
+                    <p>This objective function can also be expressed using a single `alpha` parameter and an `l1_ratio`:</p>
+                    <p class="font-mono text-center bg-slate-100 p-4 rounded-md mathjax-process">
+                        $ \text{minimize } \sum_{i=1}^{n} (y_i - \hat{y}_i)^2 + \alpha \cdot \text{l1\_ratio} \sum_{j=1}^{p} |\beta_j| + \alpha \cdot (1 - \text{l1\_ratio}) \sum_{j=1}^{p} \beta_j^2 $
+                    </p>
+                    <p>Where:</p>
+                    <ul>
+                        <li>$y_i$ is the actual value, $\hat{y}_i$ is the predicted value.</li>
+                        <li>$\beta_j$ are the regression coefficients.</li>
+                        <li>$\lambda_1$ (or $\alpha \cdot \text{l1\_ratio}$) controls the **L1 penalty (Lasso)**: This term adds the absolute value of the coefficients to the loss function. It encourages sparsity, meaning it can shrink some coefficients exactly to zero, effectively performing **feature selection**.</li>
+                        <li>$\lambda_2$ (or $\alpha \cdot (1 - \text{l1\_ratio})$) controls the **L2 penalty (Ridge)**: This term adds the squared value of the coefficients to the loss function. It shrinks coefficients towards zero but rarely to exactly zero. It is particularly effective at handling **multicollinearity** (high correlation between predictor variables).</li>
+                        <li>$\alpha$ (alpha): The overall regularization strength. A higher $\alpha$ means more regularization.</li>
+                        <li>`l1_ratio`: The mixing parameter between L1 and L2.
+                            <ul>
+                                <li>If `l1_ratio = 1`: It's equivalent to Lasso regression.</li>
+                                <li>If `l1_ratio = 0`: It's equivalent to Ridge regression.</li>
+                                <li>If `0 < l1_ratio < 1`: It's Elastic Net, combining both penalties.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>For time series forecasting, Elastic Net relies on manually engineered features to transform the time series into a supervised learning problem. These typically include lagged values, rolling statistics, and time-based features.</p>
+                     <div class="bg-slate-100 p-4 rounded-lg my-6 text-center">
+                        <img src="https://placehold.co/600x300/e2e8f0/334155?text=Conceptual+Elastic+Net+for+Time+Series" alt="Elastic Net Regression Architecture Diagram" class="mx-auto rounded-md">
+                        <p class="text-sm text-slate-500 mt-2">Conceptual diagram of Elastic Net's combined L1 and L2 regularization for time series.</p>
+                    </div>
+                </section>
+                
+                <section>
+                    <h2>When to Use Elastic Net Regression</h2>
+                    <p>Elastic Net is a suitable choice for time series forecasting when:</p>
+                    <ul>
+                        <li><strong>You have many correlated features:</strong> It effectively handles multicollinearity, a common issue when creating many lagged or rolling features.</li>
+                        <li><strong>Feature selection is desired:</strong> The L1 penalty can drive irrelevant feature coefficients to zero.</li>
+                        <li><strong>The underlying relationships are assumed to be linear:</strong> It's a linear model, so it works best when patterns can be approximated linearly.</li>
+                        <li><strong>You need a robust model for high-dimensional data:</strong> It performs well when the number of predictors is large, even larger than the number of observations.</li>
+                        <li><strong>You are comfortable with feature engineering:</strong> It requires transforming the time series into a supervised learning problem.</li>
+                        <li><strong>You want a balance between Ridge's robustness and Lasso's sparsity.</strong></li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Pros and Cons</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2 text-green-600">Pros</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Handles Multicollinearity:</strong> Effectively manages highly correlated predictor variables.</li>
+                                <li><strong>Performs Feature Selection:</strong> The L1 penalty can shrink irrelevant coefficients to zero.</li>
+                                <li><strong>Robust:</strong> More stable than Lasso when predictors are highly correlated.</li>
+                                <li><strong>Interpretable Coefficients:</strong> For the features it selects, the coefficients are directly interpretable in a linear relationship.</li>
+                                <li><strong>Prevents Overfitting:</strong> Regularization helps improve generalization performance.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2 text-red-600">Cons</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Assumes Linear Relationships:</strong> Struggles with complex non-linear patterns that cannot be captured by linear combinations of features.</li>
+                                <li><strong>Requires Feature Engineering:</strong> Not a native time series model; requires manual creation of lagged, rolling, and time-based features.</li>
+                                <li><strong>Hyperparameter Tuning:</strong> Requires tuning of both `alpha` (regularization strength) and `l1_ratio` (L1/L2 mix).</li>
+                                <li><strong>Less Effective for Extrapolation:</strong> Like other linear models, it may not extrapolate well beyond the range of the training data.</li>
+                                <li><strong>Sensitive to Feature Scaling:</strong> Requires standardization of features to ensure coefficients are penalized equally.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Example Implementation</h2>
+                    <p>Here's an example of implementing Elastic Net Regression for time series forecasting in Python using `scikit-learn`. The process involves creating lagged features, scaling the data, and then training an `ElasticNet` model.</p>
+
+                    <h3>Python Example (using `scikit-learn` library)</h3>
+                    <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">
+import pandas as pd
+import numpy as np
+from sklearn.linear_model import ElasticNet
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import mean_absolute_error, mean_squared_error
+import matplotlib.pyplot as plt
+
+# 1. Create sample time series data
+date_range = pd.date_range(start='2020-01-01', periods=300, freq='D')
+# Simulate data with trend, seasonality, and noise
+values = (100 + np.arange(300) * 0.5 + # Trend
+          20 * np.sin(np.arange(300) * 2 * np.pi / 30) + # Monthly seasonality
+          np.random.randn(300) * 5) # Noise
+df = pd.DataFrame({'date': date_range, 'value': values})
+
+# 2. Feature Engineering (Create lagged features)
+def create_lagged_features(df, lag_steps):
+    for i in range(1, lag_steps + 1):
+        df[f'lag_{i}'] = df['value'].shift(i)
+    return df
+
+df = create_lagged_features(df.copy(), 7) # Use last 7 days as features
+
+# Add time-based features (optional, but often useful)
+df['day_of_week'] = df['date'].dt.dayofweek
+df['month'] = df['date'].dt.month
+df['year'] = df['date'].dt.year
+
+# Drop rows with NaN values created by lagging
+df = df.dropna()
+
+# 3. Splitting Data (Chronological Split)
+split_date = '2020-09-01'
+train = df[df['date'] < split_date]
+test = df[df['date'] >= split_date]
+
+features = [col for col in df.columns if col not in ['date', 'value']]
+target = 'value'
+
+X_train, y_train = train[features], train[target]
+X_test, y_test = test[features], test[target]
+
+# 4. Create a pipeline with scaling and ElasticNet [26]
+# StandardScaler is crucial for regularized linear models
+# alpha: Constant that multiplies the L1 and L2 terms.
+# l1_ratio: The ElasticNet mixing parameter, with 0 <= l1_ratio <= 1.
+#           For l1_ratio = 0 the penalty is an L2 penalty. For l1_ratio = 1 it is an L1 penalty.
+model_en = make_pipeline(StandardScaler(), ElasticNet(alpha=0.1, l1_ratio=0.5, random_state=42))
+
+# 5. Fit the Elastic Net model
+model_en.fit(X_train, y_train)
+
+# 6. Make Predictions
+predictions = model_en.predict(X_test)
+
+# 7. Evaluate Model Performance
+mae = mean_absolute_error(y_test, predictions)
+rmse = np.sqrt(mean_squared_error(y_test, predictions))
+print(f"MAE: {mae:.3f}")
+print(f"RMSE: {rmse:.3f}")
+
+# 8. Plotting Results
+plt.figure(figsize=(14, 7))
+plt.plot(train['date'], train['value'], label='Training Data', color='blue')
+plt.plot(test['date'], y_test, label='Actual Test Data', color='orange')
+plt.plot(test['date'], predictions, label='Elastic Net Predictions', color='green', linestyle='--')
+plt.title('Elastic Net Regression Time Series Forecasting')
+plt.xlabel('Date')
+plt.ylabel('Value')
+plt.legend()
+plt.grid(True)
+plt.show()
+                    </pre>
+                </section>
+                
+                <section>
+                    <h2>Dependencies & Resources</h2>
+                    <p><strong>Dependencies:</strong> <code>pandas</code>, <code>numpy</code>, <code>scikit-learn</code>, <code>matplotlib</code> (for plotting).</p>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.ElasticNet.html" target="_bl

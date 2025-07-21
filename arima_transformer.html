@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARIMA-Transformer Hybrid Model - TSM Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-slate-100 text-slate-800">
+<!-- Enhanced Navigation for Model Pages -->
+<nav class="bg-white shadow-lg sticky top-0 z-50 mb-8">
+    <div class="container mx-auto px-6 py-4">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <a href="index.html" class="text-2xl font-bold text-blue-600">🏠 TS Forecasting Hub</a>
+                <div class="hidden md:flex items-center space-x-1 bg-gray-100 rounded-lg p-1">
+                    <a href="models.html" class="nav-link px-3 py-2 rounded">📚 All Models</a>
+                    <a href="comparison.html" class="nav-link px-3 py-2 rounded">📊 Compare</a>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+                <!-- AI Features Quick Access -->
+                <div class="hidden md:flex items-center space-x-2">
+                    <a href="model-selector.html" class="bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-600 text-sm flex items-center">
+                        🤖 AI Recommender
+                    </a>
+                    <a href="chat.html" class="bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-600 text-sm flex items-center">
+                        💬 AI Assistant
+                    </a>
+                    <a href="forecast-simulator.html?model={{MODEL_NAME}}" class="bg-purple-500 text-white px-3 py-2 rounded-lg hover:bg-purple-600 text-sm flex items-center">
+                        🚀 Try in Simulator
+                    </a>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <button class="md:hidden p-2" onclick="toggleMobileMenu()">☰</button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 border-t">
+            <div class="flex flex-col space-y-2">
+                <a href="models.html" class="text-gray-600 hover:text-blue-600 py-2">📚 All Models</a>
+                <a href="comparison.html" class="text-gray-600 hover:text-blue-600 py-2">📊 Compare Models</a>
+                <a href="model-selector.html" class="text-gray-600 hover:text-blue-600 py-2">🤖 AI Recommender</a>
+                <a href="chat.html" class="text-gray-600 hover:text-blue-600 py-2">💬 AI Assistant</a>
+                <a href="forecast-simulator.html" class="text-gray-600 hover:text-blue-600 py-2">🚀 Simulator</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-slate-900">TSM Hub</a>
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="concepts.html" class="nav-link">Concepts</a>
+                <a href="models.html" class="nav-link active">Models</a>
+                <a href="comparison.html" class="nav-link">Comparison</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden p-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="index.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Home</a>
+            <a href="concepts.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Concepts</a>
+            <a href="models.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Models</a>
+            <a href="comparison.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Comparison</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        <div class="bg-white p-8 rounded-lg shadow-md">
+            <header class="border-b-2 border-slate-200 pb-6 mb-8">
+                 <a href="models.html" class="text-blue-600 hover:underline mb-4 inline-block">&larr; Back to Model Library</a>
+                <h1 class="text-4xl md:text-5xl font-bold text-slate-900">ARIMA-Transformer Hybrid Model</h1>
+                <p class="mt-2 text-lg text-slate-600">Combining Linear and Transformer-based Forecasting</p>
+            </header>
+            
+            <article class="prose max-w-none">
+                <section>
+                    <h2>Overview</h2>
+                    <p>The ARIMA-Transformer hybrid model combines the strengths of traditional statistical time series methods with the advanced capabilities of Transformer networks. This dual-stage forecasting process leverages ARIMA (AutoRegressive Integrated Moving Average) to capture the linear patterns (trend and seasonality) in a time series, and then uses a Transformer model to capture the complex non-linear relationships and long-range dependencies found in the residuals (errors) of the ARIMA model. This hybridization aims to achieve superior forecasting performance by addressing both linear and non-linear components that often coexist in real-world time series data, particularly benefiting from the Transformer's ability to model intricate sequential patterns.</p>
+                    
+                    <h2>Architecture & Components</h2>
+                    <p>The ARIMA-Transformer hybrid model typically follows a two-stage sequential process:</p>
+                    <ol>
+                        <li><strong>Stage 1: ARIMA Modeling (Linear Component)</strong>
+                            <p>A classical ARIMA model is first applied to the raw time series data. The ARIMA component is responsible for capturing and forecasting the transparent linear trends and seasonal patterns. After fitting, the ARIMA model generates in-sample predictions, and the **residuals** (the differences between the actual values and the ARIMA's fitted values) are calculated. These residuals are assumed to primarily contain the non-linear patterns that the ARIMA model could not capture.</p>
+                            <p class="font-mono text-center bg-slate-100 p-2 rounded-md mathjax-process">
+                                $ R_t = Y_t - \hat{Y}_t^{\text{ARIMA}} $
+                            </p>
+                            Where $R_t$ are the residuals, $Y_t$ is the actual value, and $\hat{Y}_t^{\text{ARIMA}}$ is the ARIMA's fitted value.
+                        </li>
+                        <li><strong>Stage 2: Transformer Modeling (Non-linear Residuals)</strong>
+                            <p>A Transformer model is then trained on these residuals. The Transformer's self-attention mechanism allows it to capture complex non-linear relationships and long-range dependencies in the residual series, overcoming the limitations of traditional RNNs. The Transformer takes past residuals as input and learns a function to forecast the future deviation of the linear predictions.</p>
+                            <p class="font-mono text-center bg-slate-100 p-2 rounded-md mathjax-process">
+                                $ \hat{R}_t^{\text{Transformer}} = \text{Transformer}(R_{t-w}, \dots, R_{t-1}) $
+                            </p>
+                            Where $\hat{R}_t^{\text{Transformer}}$ is the Transformer's forecast of the residual, and $w$ is the look-back window for the Transformer.
+                        </li>
+                        <li><strong>Final Forecast Combination:</strong>
+                            <p>The final forecast is obtained by summing the forecasts from both components: the linear forecast from ARIMA and the non-linear residual forecast from the Transformer.</p>
+                            <p class="font-mono text-center bg-slate-100 p-2 rounded-md mathjax-process">
+                                $ \hat{Y}_t^{\text{Hybrid}} = \hat{Y}_t^{\text{ARIMA}} + \hat{R}_t^{\text{Transformer}} $
+                            </p>
+                        </li>
+                    </ol>
+                     <div class="bg-slate-100 p-4 rounded-lg my-6 text-center">
+                        <img src="https://placehold.co/600x300/e2e8f0/334155?text=Conceptual+ARIMA-Transformer+Hybrid+Architecture" alt="ARIMA-Transformer Hybrid Architecture Diagram" class="mx-auto rounded-md">
+                        <p class="text-sm text-slate-500 mt-2">Conceptual diagram of the ARIMA-Transformer hybrid model, showing sequential processing.</p>
+                    </div>
+                </section>
+                
+                <section>
+                    <h2>When to Use ARIMA-Transformer Hybrid</h2>
+                    <p>The ARIMA-Transformer hybrid model is particularly effective for:</p>
+                    <ul>
+                        <li><strong>Time series with both clear linear patterns and complex non-linear, long-range dependencies:</strong> This is common in real-world data where underlying processes might have both predictable linear trends/seasonalities and intricate, non-linear dynamics that benefit from Transformer's attention mechanism.</li>
+                        <li><strong>Achieving high forecasting accuracy:</strong> By combining complementary strengths, it often outperforms standalone ARIMA or Transformer models.</li>
+                        <li><strong>Short-horizon and long-horizon forecasts:</strong> Hybrid methods have shown consistent outperformance across various forecasting horizons.</li>
+                        <li><strong>When interpretability of the linear component is desired:</strong> The ARIMA part provides a transparent baseline.</li>
+                        <li><strong>As a robust solution for challenging time series data.</strong></li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Pros and Cons</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2 text-green-600">Pros</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Enhanced Accuracy:</strong> Leverages the strengths of both statistical (linear patterns) and deep learning (non-linear residuals, long-range dependencies) models.</li>
+                                <li><strong>Improved Robustness:</strong> Can handle a wider range of time series characteristics than individual models.</li>
+                                <li><strong>Interpretability:</strong> The ARIMA component provides a clear, interpretable baseline for the linear part of the forecast.</li>
+                                <li><strong>Addresses Limitations:</strong> Overcomes ARIMA's linearity assumption and Transformer's potential lack of inductive bias for simple time series patterns.</li>
+                                <li><strong>Parallelizable Non-linear Component:</strong> The Transformer part benefits from parallel computation during training.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2 text-red-600">Cons</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>High Complexity:</strong> More challenging to implement and manage due to the need to train and integrate two separate models.</li>
+                                <li><strong>Very High Computational Cost:</strong> Involves training two models sequentially, and Transformers themselves can be computationally intensive, especially for long sequences.</li>
+                                <li><strong>Error Propagation:</strong> Errors from the ARIMA model can propagate to the Transformer model, potentially affecting overall performance.</li>
+                                <li><strong>Data Requirements:</strong> Transformers generally require substantial amounts of data, which might be a limitation for very short series.</li>
+                                <li><strong>Hyperparameter Tuning:</strong> Requires tuning parameters for both ARIMA and Transformer components.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Example Implementation</h2>
+                    <p>Implementing an ARIMA-Transformer hybrid model involves several steps: fitting ARIMA, extracting residuals, preparing residuals for the Transformer, training the Transformer, and combining forecasts. Here's a conceptual Python example demonstrating this process.</p>
+
+                    <h3>Python Example (Conceptual)</h3>
+                    <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">
+import pandas as pd
+import numpy as np
+from statsmodels.tsa.arima.model import ARIMA
+from sklearn.preprocessing import MinMaxScaler
+import matplotlib.pyplot as plt
+
+# TensorFlow/Keras for Transformer
+import tensorflow as tf
+from tensorflow.keras.layers import Input, Dense, Dropout, LayerNormalization
+from tensorflow.keras.models import Model
+
+# 1. Generate sample data with both linear trend/seasonality and some non-linearity
+np.random.seed(42)
+n_samples = 200
+time_idx = np.arange(n_samples)
+# Linear trend + seasonality
+linear_component = 50 + 0.5 * time_idx + 10 * np.sin(time_idx * 2 * np.pi / 30)
+# Add some non-linear, autoregressive-like noise
+non_linear_noise = np.zeros(n_samples)
+for i in range(1, n_samples):
+    non_linear_noise[i] = 0.3 * non_linear_noise[i-1] + np.random.normal(0, 1) * (1 + np.sin(i/50))
+
+original_series = linear_component + non_linear_noise
+series = pd.Series(original_series, index=pd.date_range(start='2020-01-01', periods=n_samples, freq='D'))
+
+# 2. Split data into train and test sets (chronological)
+train_size = 150
+train_series, test_series = series[0:train_size], series[train_size:n_samples]
+
+# --- Stage 1: ARIMA Modeling ---
+# 3. Fit ARIMA model to capture linear patterns
+# (p,d,q) orders need to be determined via ACF/PACF or auto_arima
+arima_order = (5,1,0)
+arima_model = ARIMA(train_series, order=arima_order)
+arima_model_fit = arima_model.fit()
+
+# 4. Get ARIMA in-sample predictions and residuals
+arima_train_pred = arima_model_fit.predict(start=0, end=len(train_series)-1)
+arima_residuals = train_series - arima_train_pred
+
+print("ARIMA Model Summary:")
+print(arima_model_fit.summary())
+print(f"\nARIMA Residuals (first 5): {arima_residuals.head().values}")
+
+# --- Stage 2: Transformer Modeling on Residuals ---
+# 5. Prepare residuals for Transformer (supervised learning format)
+look_back = 10 # Number of past residuals to use as input for Transformer
+scaler = MinMaxScaler(feature_range=(0, 1))
+scaled_residuals = scaler.fit_transform(arima_residuals.values.reshape(-1, 1))
+
+def create_transformer_dataset(data, look_back=1):
+    X, Y =,
+    for i in range(len(data) - look_back):
+        X.append(data[i:(i + look_back), 0])
+        Y.append(data[i + look_back, 0])
+    return np.array(X), np.array(Y)
+
+X_residuals, y_residuals = create_transformer_dataset(scaled_residuals, look_back)
+
+# Reshape input to be [samples, time steps, features] for Transformer
+X_residuals = np.reshape(X_residuals, (X_residuals.shape, X_residuals.shape[1], 1))
+
+# Positional Embedding for Transformer
+class PositionalEmbedding(tf.keras.layers.Layer):
+    def __init__(self, sequence_length, embed_dim, **kwargs):
+        super().__init__(**kwargs)
+        self.position_embeddings = tf.keras.layers.Embedding(sequence_length, embed_dim)
+        self.embed_dim = embed_dim
+    def call(self, inputs):
+        length = tf.shape(inputs)[-2]
+        positions = tf.range(start=0, limit=length, delta=1)
+        return inputs + self.position_embeddings(positions)
+
+# Transformer Block (Encoder Layer)
+class TransformerBlock(tf.keras.layers.Layer):
+    def __init__(self, embed_dim, num_heads, ff_dim, rate=0.1, **kwargs):
+        super().__init__(**kwargs)
+        self.att = tf.keras.layers.MultiHeadAttention(num_heads=num_heads, key_dim=embed_dim)
+        self.ffn = tf.keras.Sequential()
+        self.layernorm1 = LayerNormalization(epsilon=1e-6)
+        self.layernorm2 = LayerNormalization(epsilon=1e-6)
+        self.dropout1 = Dropout(rate)
+        self.dropout2 = Dropout(rate)
+    def call(self, inputs, training):
+        attn_output = self.att(inputs, inputs)
+        attn_output = self.dropout1(attn_output, training=training)
+        out1 = self.layernorm1(inputs + attn_output)
+        ffn_output = self.ffn(out1)
+        ffn_output = self.dropout2(ffn_output, training=training)
+        return self.layernorm2(out1 + ffn_output)
+
+# 6. Build and train Transformer model on residuals
+embed_dim = 32
+num_heads = 4
+ff_dim = 32
+num_transformer_blocks = 2
+
+inputs = Input(shape=(look_back, 1))
+x = Dense(embed_dim)(inputs) # Project input features to embed_dim
+x = PositionalEmbedding(look_back, embed_dim)(x)
+
+for _ in range(num_transformer_blocks):
+    x = TransformerBlock(embed_dim, num_heads, ff_dim)(x)
+
+outputs = Dense(1)(x[:, -1, :]) # Predict the next single value
+
+transformer_model = Model(inputs=inputs, outputs=outputs)
+transformer_model.compile(optimizer='adam', loss='mean_squared_error')
+
+print("\nStarting Transformer training on ARIMA residuals...")
+transformer_model.fit(X_residuals, y_residuals, epochs=50, batch_size=32, verbose=0) # Reduced epochs for demo
+print("Transformer training complete.")
+
+# --- Forecasting and Combination ---
+# 7. Make multi-step forecasts
+forecast_steps = len(test_series)
+
+# ARIMA forecast for the future
+arima_forecast_future = arima_model_fit.forecast(steps=forecast_steps)
+
+# Transformer forecast for future residuals (recursive prediction)
+last_residuals_sequence = scaled_residuals[-look_back:]
+transformer_future_residuals_scaled =
+current_transformer_input = last_residuals_sequence.reshape(1, look_back, 1)
+
+for _ in range(forecast_steps):
+    next_residual_pred_scaled = transformer_model.predict(current_transformer_input, verbose=0)
+    transformer_future_residuals_scaled.append(next_residual_pred_scaled)
+    # Update input sequence: remove oldest, add new prediction
+    current_transformer_input = np.append(current_transformer_input[:, 1:, :], [[[next_residual_pred_scaled]]], axis=1)
+
+transformer_future_residuals = scaler.inverse_transform(np.array(transformer_future_residuals_scaled).reshape(-1, 1)).flatten()
+
+# 8. Combine forecasts
+hybrid_forecast = arima_forecast_future.values + transformer_future_residuals
+
+# 9. Evaluate Hybrid Model
+mae = mean_absolute_error(test_series, hybrid_forecast)
+rmse = np.sqrt(mean_squared_error(test_series, hybrid_forecast))
+print(f"\nHybrid Model MAE: {mae:.3f}")
+print(f"Hybrid Model RMSE: {rmse:.3f}")
+
+# 10. Plotting Results
+plt.figure(figsize=(14, 7))
+plt.plot(train_series.index, train_series, label='Training Data', color='blue')
+plt.plot(test_series.index, test_series, label='Actual Test Data', color='orange')
+plt.plot(test_series.index, hybrid_forecast, label='ARIMA-Transformer Hybrid Forecast', color='green', linestyle='--')
+plt.title('ARIMA-Transformer Hybrid Time Series Forecasting')
+plt.xlabel('Date')
+plt.ylabel('Value')
+plt.legend()
+plt.grid(True)
+plt.show()
+                    </pre>
+                </section>
+                
+                <section>
+                    <h2>Dependencies & Resources</h2>
+                    <p><strong>Dependencies:</strong> <code>pandas</code>, <code>numpy</code>, <code>statsmodels</code>, <code>tensorflow</code>/<code>keras</code>, <code>scikit-learn</code>, <code>matplotlib</code> (for plotting).</p>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><a href="https://www.mdpi.com/1099-4300/27/7/695" target="_blank" rel="noopener noreferrer">A Hybrid Framework Integrating Traditional Models and Deep Learning for Multi-Scale Time Series Forecasting (MDPI Paper) ↗</a></li>
+                        <li><a href="https://www.researchgate.net/publication/344075730_A_Hybrid_Forecasting_Model_Based_on_ARIMA_and_Transformer" target="_blank" rel="noopener noreferrer">A Hybrid Forecasting Model Based on ARIMA and Transformer (ResearchGate) ↗</a></li>
+                        <li><a href="https://github.com/huytjuh/Hybrid-Time-Series-Modeling" target="_blank" rel="noopener noreferrer">Hybrid-Time-Series-Modeling GitHub Repository (includes conceptual hybrid frameworks) ↗</a></li>
+                    </ul>
+                </section>
+            </article>
+        </div>
+    </main>
+
+    <footer class="text-center p-6 bg-slate-200 mt-12">
+        <p class="text-slate-600 text-sm">TSM Hub: An Interactive Resource for Time Series Analysis</p>
+    </footer>
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [['$','$'], ['\\(','\\)']],
+                displayMath: [['$$','$$'], ['\\[','\\]']],
+                processEscapes: true,
+                ignoreHtmlClass: ".*",
+                processHtmlClass: "mathjax-process"
+            },
+            skipStartupTypeset: true
+        });
+    </script>
+    <script src="main.js"></script>
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof MathJax!== 'undefined') {
+                MathJax.Hub.Queue();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prophet-XGBoost Hybrid Model - TSM Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-slate-100 text-slate-800">
+<!-- Enhanced Navigation for Model Pages -->
+<nav class="bg-white shadow-lg sticky top-0 z-50 mb-8">
+    <div class="container mx-auto px-6 py-4">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <a href="index.html" class="text-2xl font-bold text-blue-600">🏠 TS Forecasting Hub</a>
+                <div class="hidden md:flex items-center space-x-1 bg-gray-100 rounded-lg p-1">
+                    <a href="models.html" class="nav-link px-3 py-2 rounded">📚 All Models</a>
+                    <a href="comparison.html" class="nav-link px-3 py-2 rounded">📊 Compare</a>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+                <!-- AI Features Quick Access -->
+                <div class="hidden md:flex items-center space-x-2">
+                    <a href="model-selector.html" class="bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-600 text-sm flex items-center">
+                        🤖 AI Recommender
+                    </a>
+                    <a href="chat.html" class="bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-600 text-sm flex items-center">
+                        💬 AI Assistant
+                    </a>
+                    <a href="forecast-simulator.html?model={{MODEL_NAME}}" class="bg-purple-500 text-white px-3 py-2 rounded-lg hover:bg-purple-600 text-sm flex items-center">
+                        🚀 Try in Simulator
+                    </a>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <button class="md:hidden p-2" onclick="toggleMobileMenu()">☰</button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 border-t">
+            <div class="flex flex-col space-y-2">
+                <a href="models.html" class="text-gray-600 hover:text-blue-600 py-2">📚 All Models</a>
+                <a href="comparison.html" class="text-gray-600 hover:text-blue-600 py-2">📊 Compare Models</a>
+                <a href="model-selector.html" class="text-gray-600 hover:text-blue-600 py-2">🤖 AI Recommender</a>
+                <a href="chat.html" class="text-gray-600 hover:text-blue-600 py-2">💬 AI Assistant</a>
+                <a href="forecast-simulator.html" class="text-gray-600 hover:text-blue-600 py-2">🚀 Simulator</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-slate-900">TSM Hub</a>
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="concepts.html" class="nav-link">Concepts</a>
+                <a href="models.html" class="nav-link active">Models</a>
+                <a href="comparison.html" class="nav-link">Comparison</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden p-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="index.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Home</a>
+            <a href="concepts.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Concepts</a>
+            <a href="models.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Models</a>
+            <a href="comparison.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Comparison</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        <div class="bg-white p-8 rounded-lg shadow-md">
+            <header class="border-b-2 border-slate-200 pb-6 mb-8">
+                 <a href="models.html" class="text-blue-600 hover:underline mb-4 inline-block">&larr; Back to Model Library</a>
+                <h1 class="text-4xl md:text-5xl font-bold text-slate-900">Prophet-XGBoost Hybrid Model</h1>
+                <p class="mt-2 text-lg text-slate-600">Combining Decomposition with Gradient Boosting for Residuals</p>
+            </header>
+            
+            <article class="prose max-w-none">
+                <section>
+                    <h2>Overview</h2>
+                    <p>The Prophet-XGBoost hybrid model combines the strengths of Facebook's Prophet forecasting procedure with the powerful gradient boosting capabilities of XGBoost. This hybrid approach leverages Prophet for its robust decomposition of time series into trend, seasonality, and holiday effects, and then uses an XGBoost model to capture any remaining complex, non-linear patterns in the residuals (the unexplained part) from the Prophet forecast. This synergy aims to provide more accurate and robust forecasts, particularly for time series data that exhibits both clear, interpretable patterns and intricate, non-linear dynamics that tree-based models excel at capturing.</p>
+                    
+                    <h2>Architecture & Components</h2>
+                    <p>The Prophet-XGBoost hybrid model typically follows a two-stage sequential process:</p>
+                    <ol>
+                        <li><strong>Stage 1: Prophet Modeling (Trend, Seasonality, Holidays)</strong>
+                            <p>A Prophet model is first applied to the raw time series data. Prophet excels at modeling piecewise linear or logistic trends, multiple seasonalities (yearly, weekly, daily) using Fourier series, and the impact of holidays. After fitting, Prophet generates in-sample predictions, and the **residuals** (the differences between the actual values and Prophet's fitted values) are calculated. These residuals are assumed to primarily contain the non-linear patterns that Prophet's additive model could not fully capture.</p>
+                            <p class="font-mono text-center bg-slate-100 p-2 rounded-md mathjax-process">
+                                $ R_t = Y_t - \hat{Y}_t^{\text{Prophet}} $
+                            </p>
+                            Where $R_t$ are the residuals, $Y_t$ is the actual value, and $\hat{Y}_t^{\text{Prophet}}$ is Prophet's fitted value.
+                        </li>
+                        <li><strong>Stage 2: XGBoost Modeling (Non-linear Residuals)</strong>
+                            <p>An XGBoost model is then trained on these residuals. XGBoost, a powerful gradient boosting algorithm, is highly effective at capturing complex non-linear relationships and interactions between features. For time series residuals, it would typically be trained on lagged residuals and potentially other relevant time-based features (e.g., day of week, month) to predict the future deviation of the Prophet predictions.</p>
+                            <p class="font-mono text-center bg-slate-100 p-2 rounded-md mathjax-process">
+                                $ \hat{R}_t^{\text{XGBoost}} = \text{XGBoost}(R_{t-1}, R_{t-2}, \dots, \text{TimeFeatures}_t) $
+                            </p>
+                            Where $\hat{R}_t^{\text{XGBoost}}$ is the XGBoost's forecast of the residual.
+                        </li>
+                        <li><strong>Final Forecast Combination:</strong>
+                            <p>The final forecast is obtained by summing the forecasts from both components: the forecast from Prophet and the non-linear residual forecast from XGBoost.</p>
+                            <p class="font-mono text-center bg-slate-100 p-2 rounded-md mathjax-process">
+                                $ \hat{Y}_t^{\text{Hybrid}} = \hat{Y}_t^{\text{Prophet}} + \hat{R}_t^{\text{XGBoost}} $
+                            </p>
+                        </li>
+                    </ol>
+                     <div class="bg-slate-100 p-4 rounded-lg my-6 text-center">
+                        <img src="https://placehold.co/600x300/e2e8f0/334155?text=Conceptual+Prophet-XGBoost+Hybrid+Architecture" alt="Prophet-XGBoost Hybrid Architecture Diagram" class="mx-auto rounded-md">
+                        <p class="text-sm text-slate-500 mt-2">Conceptual diagram of the Prophet-XGBoost hybrid model, showing sequential processing.</p>
+                    </div>
+                </section>
+                
+                <section>
+                    <h2>When to Use Prophet-XGBoost Hybrid</h2>
+                    <p>The Prophet-XGBoost hybrid model is particularly effective for:</p>
+                    <ul>
+                        <li><strong>Time series with strong seasonality and holidays, combined with complex non-linear residuals:</strong> This is common in business data where predictable calendar effects interact with subtle, hard-to-model non-linearities.</li>
+                        <li><strong>Achieving high forecasting accuracy:</strong> By combining complementary strengths, it often outperforms standalone Prophet or XGBoost models.</li>
+                        <li><strong>When interpretability of the trend and seasonal components is desired:</strong> Prophet provides a clear, interpretable baseline.</li>
+                        <li><strong>Handling missing data and outliers:</strong> Prophet's robustness to these issues is maintained, and XGBoost can also handle missing values.</li>
+                        <li><strong>As a robust solution for challenging time series data.</strong></li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Pros and Cons</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2 text-green-600">Pros</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Enhanced Accuracy:</strong> Leverages Prophet's robust handling of seasonality and holidays with XGBoost's predictive power for complex non-linearities.</li>
+                                <li><strong>Improved Robustness:</strong> Benefits from Prophet's resilience to missing data and outliers, and XGBoost's general robustness.</li>
+                                <li><strong>Interpretability:</strong> Prophet's decomposition provides clear insights into the linear and seasonal components.</li>
+                                <li><strong>Addresses Limitations:</strong> Overcomes Prophet's limitation with complex non-linearities and XGBoost's struggle with extrapolation of trends.</li>
+                                <li><strong>Fast & Efficient Residual Modeling:</strong> XGBoost is known for its speed and efficiency in training.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2 text-red-600">Cons</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Increased Complexity:</strong> More challenging to implement and manage due to the need to train and integrate two separate models.</li>
+                                <li><strong>Higher Computational Cost:</strong> Involves training two models sequentially.</li>
+                                <li><strong>Error Propagation:</strong> Errors from the Prophet model can propagate to the XGBoost model.</li>
+                                <li><strong>Feature Engineering for XGBoost:</strong> Requires careful manual creation of features from residuals and time components.</li>
+                                <li><strong>Hyperparameter Tuning:</strong> Requires tuning parameters for both Prophet and XGBoost components.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Example Implementation</h2>
+                    <p>Implementing a Prophet-XGBoost hybrid model involves several steps: fitting Prophet, extracting residuals, preparing residuals for XGBoost (with lagged features), training XGBoost, and combining forecasts. Here's a conceptual Python example demonstrating this process.</p>
+
+                    <h3>Python Example (Conceptual)</h3>
+                    <div class="code-block my-4">
+                        <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto"><code class="language-python">
+import pandas as pd
+import numpy as np
+from prophet import Prophet
+import xgboost as xgb
+from sklearn.metrics import mean_absolute_error, mean_squared_error
+import matplotlib.pyplot as plt
+
+# 1. Generate sample data with trend, seasonality, and some non-linearity
+np.random.seed(42)
+n_samples = 365 * 2 # 2 years of daily data
+time_idx = pd.date_range(start='2020-01-01', periods=n_samples, freq='D')
+
+# Linear trend + strong yearly seasonality
+linear_seasonal_component = 100 + 0.5 * np.arange(n_samples) + 30 * np.sin(np.arange(n_samples) * 2 * np.pi / 365)
+# Add some non-linear, autoregressive-like noise (residuals for XGBoost)
+non_linear_residuals_base = np.zeros(n_samples)
+for i in range(1, n_samples):
+    non_linear_residuals_base[i] = 0.4 * non_linear_residuals_base[i-1] + np.random.normal(0, 2) * (1 + np.cos(i/100))
+
+original_series = linear_seasonal_component + non_linear_residuals_base
+df_prophet = pd.DataFrame({'ds': time_idx, 'y': original_series})
+
+# 2. Split data into train and test sets (chronological)
+train_size = int(n_samples * 0.8)
+train_df_prophet, test_df_prophet = df_prophet.iloc[0:train_size], df_prophet.iloc[train_size:n_samples]
+train_series_actual = df_prophet['y'].iloc[0:train_size]
+test_series_actual = df_prophet['y'].iloc[train_size:n_samples]
+
+# --- Stage 1: Prophet Modeling ---
+# 3. Fit Prophet model to capture linear/seasonal patterns
+m = Prophet(yearly_seasonality=True, weekly_seasonality=True, daily_seasonality=False)
+m.fit(train_df_prophet)
+
+# Create future dataframe for in-sample predictions to get residuals
+future_in_sample = m.make_future_dataframe(periods=0, include_history=True)
+prophet_train_pred_df = m.predict(future_in_sample)
+prophet_train_pred = prophet_train_pred_df['yhat'].iloc[0:train_size]
+
+# 4. Get Prophet in-sample residuals
+prophet_residuals = train_series_actual - prophet_train_pred
+
+print("Prophet Model Fitted.")
+print(f"\nProphet Residuals (first 5): {prophet_residuals.head().values}")
+
+# --- Stage 2: XGBoost Modeling on Residuals ---
+# 5. Prepare residuals for XGBoost (create lagged features and time features)
+df_residuals = pd.DataFrame({'ds': train_df_prophet['ds'], 'residuals': prophet_residuals})
+
+def create_features_for_xgboost(df_res, lag_steps):
+    df_res['day_of_week'] = df_res['ds'].dt.dayofweek
+    df_res['month'] = df_res['ds'].dt.month
+    df_res['day_of_year'] = df_res['ds'].dt.dayofyear
+    for i in range(1, lag_steps + 1):
+        df_res[f'lag_res_{i}'] = df_res['residuals'].shift(i)
+    return df_res.dropna()
+
+lag_steps = 7 # Number of past residuals to use as input for XGBoost
+df_residuals_features = create_features_for_xgboost(df_residuals.copy(), lag_steps)
+
+features_xgb = [col for col in df_residuals_features.columns if col not in ['ds', 'residuals']]
+X_residuals_xgb, y_residuals_xgb = df_residuals_features[features_xgb], df_residuals_features['residuals']
+
+# 6. Build and train XGBoost model on residuals
+xgb_model = xgb.XGBRegressor(n_estimators=100, learning_rate=0.1, max_depth=5, random_state=42)
+print("\nStarting XGBoost training on Prophet residuals...")
+xgb_model.fit(X_residuals_xgb, y_residuals_xgb)
+print("XGBoost training complete.")
+
+# --- Forecasting and Combination ---
+# 7. Make multi-step forecasts
+forecast_steps = len(test_series_actual)
+
+# Prophet forecast for the future
+future_prophet = m.make_future_dataframe(periods=forecast_steps, include_history=False)
+prophet_forecast_future_df = m.predict(future_prophet)
+prophet_forecast_future = prophet_forecast_future_df['yhat'].values
+
+# XGBoost forecast for future residuals (recursive prediction)
+# Need to create future features for XGBoost
+future_residuals_xgb =
+# Start with the last 'lag_steps' residuals from training
+current_residuals_sequence = prophet_residuals.values[-lag_steps:]
+
+# Create a dummy dataframe for future dates to extract time features
+future_dates_df = pd.DataFrame({'ds': test_df_prophet['ds']})
+future_dates_df['day_of_week'] = future_dates_df['ds'].dt.dayofweek
+future_dates_df['month'] = future_dates_df['ds'].dt.month
+future_dates_df['day_of_year'] = future_dates_df['ds'].dt.dayofyear
+
+for i in range(forecast_steps):
+    # Prepare input for next residual prediction
+    time_features_for_next_step = future_dates_df.iloc[i][['day_of_week', 'month', 'day_of_year']].values
+    
+    # Combine time features with current lagged residuals
+    input_features_for_xgb = np.concatenate((time_features_for_next_step, current_residuals_sequence)).reshape(1, -1)
+    
+    next_residual_pred = xgb_model.predict(input_features_for_xgb)
+    future_residuals_xgb.append(next_residual_pred)
+    
+    # Update current_residuals_sequence for the next iteration
+    current_residuals_sequence = np.append(current_residuals_sequence[1:], next_residual_pred)
+
+# 8. Combine forecasts
+hybrid_forecast = prophet_forecast_future + np.array(future_residuals_xgb)
+
+# 9. Evaluate Hybrid Model
+mae = mean_absolute_error(test_series_actual, hybrid_forecast)
+rmse = np.sqrt(mean_squared_error(test_series_actual, hybrid_forecast))
+print(f"\nHybrid Model MAE: {mae:.3f}")
+print(f"Hybrid Model RMSE: {rmse:.3f}")
+
+# 10. Plotting Results
+plt.figure(figsize=(14, 7))
+plt.plot(train_df_prophet['ds'], train_series_actual, label='Training Data', color='blue')
+plt.plot(test_df_prophet['ds'], test_series_actual, label='Actual Test Data', color='orange')
+plt.plot(test_df_prophet['ds'], hybrid_forecast, label='Prophet-XGBoost Hybrid Forecast', color='green', linestyle='--')
+plt.title('Prophet-XGBoost Hybrid Time Series Forecasting')
+plt.xlabel('Date')
+plt.ylabel('Value')
+plt.legend()
+plt.grid(True)
+plt.show()
+                        </code></pre>
+                    </div>
+                </section>
+                
+                <section>
+                    <h2>Dependencies & Resources</h2>
+                    <p><strong>Dependencies:</strong> <code>pandas</code>, <code>numpy</code>, <code>prophet</code>, <code>xgboost</code>, <code>scikit-learn</code>, <code>matplotlib</code> (for plotting).</p>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><a href="https://www.mdpi.com/2076-3417/11/17/7822" target="_blank" rel="noopener noreferrer">A Hybrid Forecasting Model Based on Prophet and LSTM for Time Series Prediction (MDPI Paper, discusses Prophet hybrids) ↗</a></li>
+                        <li><a href="https://arxiv.org/pdf/2305.17201" target="_blank" rel="noopener noreferrer">Improved Sales Forecasting using Trend and Seasonality Decomposition with LightGBM (discusses Prophet-LightGBM hybrid, similar concept) ↗</a></li>
+                        <li><a href="https://github.com/huytjuh/Hybrid-Time-Series-Modeling" target="_blank" rel="noopener noreferrer">Hybrid-Time-Series-Modeling GitHub Repository (includes conceptual hybrid frameworks) ↗</a></li>
+                    </ul>
+                </section>
+            </article>
+        </div>
+    </main>
+
+    <footer class="text-center p-6 bg-slate-200 mt-12">
+        <p class="text-slate-600 text-sm">TSM Hub: An Interactive Resource for Time Series Analysis</p>
+    </footer>
+
+    <script type="text/x-math

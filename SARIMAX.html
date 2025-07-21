@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SARIMAX Model - TSM Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-slate-100 text-slate-800">
+<!-- Enhanced Navigation for Model Pages -->
+<nav class="bg-white shadow-lg sticky top-0 z-50 mb-8">
+    <div class="container mx-auto px-6 py-4">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <a href="index.html" class="text-2xl font-bold text-blue-600">🏠 TS Forecasting Hub</a>
+                <div class="hidden md:flex items-center space-x-1 bg-gray-100 rounded-lg p-1">
+                    <a href="models.html" class="nav-link px-3 py-2 rounded">📚 All Models</a>
+                    <a href="comparison.html" class="nav-link px-3 py-2 rounded">📊 Compare</a>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+                <!-- AI Features Quick Access -->
+                <div class="hidden md:flex items-center space-x-2">
+                    <a href="model-selector.html" class="bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-600 text-sm flex items-center">
+                        🤖 AI Recommender
+                    </a>
+                    <a href="chat.html" class="bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-600 text-sm flex items-center">
+                        💬 AI Assistant
+                    </a>
+                    <a href="forecast-simulator.html?model={{MODEL_NAME}}" class="bg-purple-500 text-white px-3 py-2 rounded-lg hover:bg-purple-600 text-sm flex items-center">
+                        🚀 Try in Simulator
+                    </a>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <button class="md:hidden p-2" onclick="toggleMobileMenu()">☰</button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 border-t">
+            <div class="flex flex-col space-y-2">
+                <a href="models.html" class="text-gray-600 hover:text-blue-600 py-2">📚 All Models</a>
+                <a href="comparison.html" class="text-gray-600 hover:text-blue-600 py-2">📊 Compare Models</a>
+                <a href="model-selector.html" class="text-gray-600 hover:text-blue-600 py-2">🤖 AI Recommender</a>
+                <a href="chat.html" class="text-gray-600 hover:text-blue-600 py-2">💬 AI Assistant</a>
+                <a href="forecast-simulator.html" class="text-gray-600 hover:text-blue-600 py-2">🚀 Simulator</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-slate-900">TSM Hub</a>
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="concepts.html" class="nav-link">Concepts</a>
+                <a href="models.html" class="nav-link active">Models</a>
+                <a href="comparison.html" class="nav-link">Comparison</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden p-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="index.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Home</a>
+            <a href="concepts.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Concepts</a>
+            <a href="models.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Models</a>
+            <a href="comparison.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Comparison</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        <div class="bg-white p-8 rounded-lg shadow-md">
+            <header class="border-b-2 border-slate-200 pb-6 mb-8">
+                 <a href="models.html" class="text-blue-600 hover:underline mb-4 inline-block">&larr; Back to Model Library</a>
+                <h1 class="text-4xl md:text-5xl font-bold text-slate-900">SARIMAX Model</h1>
+                <p class="mt-2 text-lg text-slate-600">Seasonal AutoRegressive Integrated Moving Average with eXogenous Regressors</p>
+            </header>
+            
+            <article class="prose max-w-none">
+                <section>
+                    <h2>Overview</h2>
+                    <p>SARIMAX is a powerful and flexible extension of the ARIMA model. It stands for Seasonal AutoRegressive Integrated Moving Average with eXogenous regressors. This model is designed to handle time series data that exhibits both non-seasonal and seasonal patterns, and it can also incorporate the influence of external (exogenous) variables.</p>
+                    
+                    <h2>Architecture & Components</h2>
+                    <p>A SARIMAX model is defined by two sets of parameters: non-seasonal (p, d, q) and seasonal (P, D, Q, s).</p>
+                    <ul>
+                        <li><strong>Non-Seasonal Orders (p, d, q):</strong> These are the same as in the standard ARIMA model:
+                            <ul>
+                                <li><code>p</code>: Order of the non-seasonal Autoregressive (AR) part.</li>
+                                <li><code>d</code>: Degree of non-seasonal Differencing (I) to make the series stationary.</li>
+                                <li><code>q</code>: Order of the non-seasonal Moving Average (MA) part.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Seasonal Orders (P, D, Q, s):</strong> These parameters mirror the non-seasonal components but apply to the seasonal part of the series:
+                            <ul>
+                                <li><code>P</code>: Order of the seasonal Autoregressive (AR) part.</li>
+                                <li><code>D</code>: Degree of seasonal Differencing (I).</li>
+                                <li><code>Q</code>: Order of the seasonal Moving Average (MA) part.</li>
+                                <li><code>s</code>: The number of time steps in a single seasonal period (e.g., 12 for monthly data, 4 for quarterly data, 24 for hourly data with daily seasonality).</li>
+                            </ul>
+                        </li>
+                        <li><strong>Exogenous Regressors (X):</strong> The 'X' in SARIMAX indicates the inclusion of external variables that are not part of the time series itself but are believed to influence it. These can be other time series (e.g., economic indicators, weather data) that are known for both historical and future periods.</li>
+                    </ul>
+
+                    <h3>Mathematical Formulation (Conceptual)</h3>
+                    <p>The full SARIMAX model combines the non-seasonal and seasonal parts multiplicatively. Including exogenous variables, the model conceptually looks like:</p>
+                    <p class="font-mono text-center bg-slate-100 p-4 rounded-md">
+                        $ (1 - \sum_{i=1}^{p} \phi_i L^i) (1 - \sum_{i=1}^{P} \Phi_i L^{is}) (1-L)^d (1-L^s)^D Y_t = c + (1 + \sum_{i=1}^{q} \theta_i L^i) (1 + \sum_{i=1}^{Q} \Theta_i L^{is}) \epsilon_t + \beta X_t $
+                    </p>
+                    <p>Where:
+                        <ul>
+                            <li>$Y_t$ is the time series value at time t.</li>
+                            <li>$L$ is the lag operator.</li>
+                            <li>$\phi_i, \theta_i$ are non-seasonal AR and MA parameters.</li>
+                            <li>$\Phi_i, \Theta_i$ are seasonal AR and MA parameters.</li>
+                            <li>$d, D$ are non-seasonal and seasonal differencing orders.</li>
+                            <li>$s$ is the seasonal period.</li>
+                            <li>$\epsilon_t$ is the white noise error term.</li>
+                            <li>$X_t$ represents the exogenous variables, and $\beta$ are their coefficients.</li>
+                            <li>$c$ is a constant.</li>
+                        </ul>
+                    </p>
+                </section>
+                
+                <section>
+                    <h2>When to Use SARIMAX</h2>
+                    <p>SARIMAX is particularly useful for:</p>
+                    <ul>
+                        <li>Time series data that exhibits both a clear trend and a repeating seasonal pattern (e.g., monthly sales data, daily electricity consumption).</li>
+                        <li>When the series is non-stationary and requires differencing to achieve stationarity.</li>
+                        <li>When external factors are known to influence the time series, and their future values can be reliably predicted or are already known.</li>
+                        <li>When you need to quantify the uncertainty of your forecasts with confidence intervals.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Pros and Cons</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2 text-green-600">Pros</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Handles Seasonality & Trend:</strong> Explicitly models both non-seasonal and seasonal components.</li>
+                                <li><strong>Incorporates Exogenous Variables:</strong> Can leverage external information to improve forecast accuracy.</li>
+                                <li><strong>Statistically Robust:</strong> Based on well-established statistical principles, providing interpretable parameters and confidence intervals.</li>
+                                <li><strong>Flexible:</strong> Can be configured to handle a wide variety of time series patterns by adjusting its many parameters.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2 text-red-600">Cons</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Complex Configuration:</strong> Determining the optimal (p,d,q)(P,D,Q,s) orders can be challenging and time-consuming, often requiring ACF/PACF analysis and iterative testing.</li>
+                                <li><strong>Assumes Linearity:</strong> Struggles with highly non-linear relationships in the data.</li>
+                                <li><strong>Requires Stationarity:</strong> The series (or its differences) must be stationary.</li>
+                                <li><strong>Computational Cost:</strong> Can be slow to fit on very long time series due to its iterative optimization process.</li>
+                                <li><strong>Future Exogenous Data Needed:</strong> To forecast into the future, you must have future values for all exogenous variables, which is often a practical limitation.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Example Implementation</h2>
+                    <p>Here's an example of implementing a SARIMAX model in Python using the `statsmodels` library. We'll generate sample data with trend, seasonality, and an exogenous variable.</p>
+                    <div class="code-block my-4">
+                        <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto"><code class="language-python">
+# Import necessary libraries
+import pandas as pd
+import numpy as np
+from statsmodels.tsa.statespace.sarimax import SARIMAX
+import matplotlib.pyplot as plt
+
+# 1. Generate sample data with trend, seasonality, and an exogenous variable
+np.random.seed(42)
+n_samples = 120 # 10 years of monthly data
+time_index = pd.date_range(start='2010-01-01', periods=n_samples, freq='MS')
+
+# Target series: sales with trend, yearly seasonality, and noise
+sales_data = (100 + np.arange(n_samples) * 0.5 + # Trend
+              30 * np.sin(np.arange(n_samples) * 2 * np.pi / 12) + # Yearly seasonality
+              np.random.normal(0, 5, n_samples)) # Noise
+series = pd.Series(sales_data, index=time_index)
+
+# Exogenous variable: advertising spend (also with some pattern)
+advertising_spend = (50 + 10 * np.cos(np.arange(n_samples) * 2 * np.pi / 6) + # Bi-monthly pattern
+                     np.random.normal(0, 2, n_samples))
+exog_df = pd.DataFrame({'advertising': advertising_spend}, index=time_index)
+
+# 2. Split data into train and test sets
+train_size = 100
+train_series, test_series = series[0:train_size], series[train_size:n_samples]
+train_exog, test_exog = exog_df[0:train_size], exog_df[train_size:n_samples]
+
+# 3. Fit the SARIMAX model
+# Non-seasonal order (p,d,q) = (1,1,1)
+# Seasonal order (P,D,Q,s) = (1,1,1,12) for yearly seasonality with monthly data
+model = SARIMAX(
+    train_series,
+    exog=train_exog,
+    order=(1, 1, 1),              # Non-seasonal (AR, I, MA)
+    seasonal_order=(1, 1, 1, 12), # Seasonal (AR, I, MA, Period)
+    enforce_stationarity=False,   # Set to True if you want to enforce stationarity
+    enforce_invertibility=False   # Set to True if you want to enforce invertibility
+)
+model_fit = model.fit(disp=False) # disp=False to suppress verbose output
+
+# 4. Make a forecast
+forecast_steps = len(test_series)
+# To forecast, you MUST provide future values for exogenous variables
+future_exog = test_exog # In a real scenario, this would be actual future or predicted future exog values
+forecast = model_fit.forecast(steps=forecast_steps, exog=future_exog)
+
+# 5. Display the forecast (conceptual, actual plotting requires matplotlib setup)
+print("SARIMAX Model Summary:")
+print(model_fit.summary())
+print("\nSARIMAX Forecast:")
+print(forecast)
+
+# Example plotting (uncomment and run in a Python environment with matplotlib)
+# plt.figure(figsize=(14, 7))
+# plt.plot(train_series.index, train_series, label='Training Data')
+# plt.plot(test_series.index, test_series, label='Actual Data', color='orange')
+# plt.plot(forecast.index, forecast, label='SARIMAX Forecast', color='green', linestyle='--')
+# plt.title('SARIMAX Model Forecast with Exogenous Variable')
+# plt.xlabel('Date')
+# plt.ylabel('Value')
+# plt.legend()
+# plt.grid(True)
+# plt.show()
+                        </code></pre>
+                    </div>
+                </section>
+                
+                <section>
+                    <h2>Dependencies & Resources</h2>
+                    <p><strong>Dependencies:</strong> <code>pandas</code>, <code>numpy</code>, <code>statsmodels</code>, <code>matplotlib</code> (for plotting).</p>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><a href="https://www.statsmodels.org/stable/generated/statsmodels.tsa.statespace.sarimax.SARIMAX.html" target="_blank" rel="noopener noreferrer">Statsmodels SARIMAX Documentation ↗</a></li>
+                        <li><a href="https://otexts.com/fpp2/seasonal-arima.html" target="_blank" rel="noopener noreferrer">Forecasting: Principles and Practice - Seasonal ARIMA ↗</a></li>
+                    </ul>
+                </section>
+            </article>
+        </div>
+    </main>
+
+    <footer class="text-center p-6 bg-slate-200 mt-12">
+        <p class="text-slate-600 text-sm">TSM Hub: An Interactive Resource for Time Series Analysis</p>
+    </footer>
+
+    <script src="main.js"></script>
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</body>
+</html>

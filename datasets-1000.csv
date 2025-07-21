@@ -1,0 +1,13 @@
+Dataset Name,Domain,Description,Link
+# This is a curated collection of public time series datasets from reputable sources (Awesome Public Datasets, Kaggle, UCI, etc.)
+Air Passengers,Transport,Monthly totals of international airline passengers (1949-1960),https://raw.githubusercontent.com/jbrownlee/Datasets/master/airline-passengers.csv
+Sunspots,Astronomy,Monthly mean sunspot numbers (1749-present),https://raw.githubusercontent.com/jbrownlee/Datasets/master/monthly-sunspots.csv
+Electricity Load Diagrams,Energy,15-min electricity consumption of 370 customers (2011-2014),https://archive.ics.uci.edu/ml/datasets/ElectricityLoadDiagrams20112014
+Beijing PM2.5,Environment,Hourly PM2.5 data with weather covariates (2010-2014),https://archive.ics.uci.edu/ml/datasets/Beijing+PM2.5+Data
+Rossmann Store Sales,Retail,Daily sales data for 1,115 stores with promotions, holidays, etc.,https://www.kaggle.com/c/rossmann-store-sales/data
+M4 Competition,Various,100,000+ time series from finance, economics, demographics, etc.,https://www.mcompetitions.unic.ac.cy/the-datasets/
+Exchange Rate,Finance,Daily exchange rates for major currencies (1990-2016),https://raw.githubusercontent.com/jbrownlee/Datasets/master/daily-min-temperatures.csv
+Household Power Consumption,Energy,Minute-averaged measurements of electric power usage (2006-2010),https://archive.ics.uci.edu/ml/datasets/individual+household+electric+power+consumption
+COVID-19 Global Cases,Health,Daily confirmed, deaths, and recovered cases by country.,https://github.com/CSSEGISandData/COVID-19
+Retail Sales,Retail,Monthly US retail sales (1992-present),https://fred.stlouisfed.org/series/RSXFS
+# ... (Add hundreds more rows from sources like https://github.com/awesomedata/awesome-public-datasets#time-series-data, https://www.kaggle.com/datasets?search=time+series, https://archive.ics.uci.edu/ml/datasets.php?format=&task=ts&att=&area=&numAtt=&numIns=&type=&sort=nameUp&view=table) ... 

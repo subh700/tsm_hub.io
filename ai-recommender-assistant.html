@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Recommender & Assistant | AI Forecasting Hub</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <!-- Navigation -->
+  <nav class="bg-white shadow-lg sticky top-0 z-50">
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+      <div class="text-2xl font-bold text-blue-600">🤖 AI Forecasting Hub</div>
+      <div class="hidden md:flex space-x-6">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="models.html" class="nav-link">Model Library</a>
+        <a href="model-selector.html" class="nav-link">AI Recommender</a>
+        <a href="chat.html" class="nav-link">AI Assistant</a>
+        <a href="forecast-simulator.html" class="nav-link">Simulator</a>
+        <a href="comparison.html" class="nav-link">Compare</a>
+        <a href="Concepts.html" class="nav-link">Concepts</a>
+        <a href="time-series-plots.html" class="nav-link">Plots & Graphs</a>
+        <a href="ai-recommender-assistant.html" class="nav-link active">AI Recommender & Assistant</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container mx-auto px-6 py-8 max-w-4xl">
+    <h1 class="text-4xl font-bold text-center mb-8">🤖 AI Recommender & Assistant</h1>
+    <div class="grid md:grid-cols-2 gap-8">
+      <!-- AI Assistant (Chat) -->
+      <section class="bg-white rounded-lg shadow-lg p-6 flex flex-col">
+        <h2 class="text-2xl font-semibold mb-4">AI Assistant</h2>
+        <div id="chat-messages" class="flex-1 overflow-y-auto p-2 space-y-4 mb-4" style="min-height:180px;max-height:300px;">
+          <div class="flex items-start space-x-3">
+            <div class="bg-blue-500 rounded-full p-2 text-white text-sm">🤖</div>
+            <div class="bg-white rounded-lg shadow p-4 max-w-md">
+              <p class="text-gray-800">Hello! I'm your AI forecasting assistant. I can help you with:</p>
+              <ul class="mt-2 text-sm text-gray-600 list-disc list-inside">
+                <li>Model selection advice</li>
+                <li>Parameter tuning tips</li>
+                <li>Interpreting results</li>
+                <li>Best practices</li>
+                <li>Troubleshooting issues</li>
+              </ul>
+              <p class="mt-2 text-gray-600">What would you like to know about time series forecasting?</p>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-wrap gap-2 mb-2">
+          <button class="quick-action-btn" onclick="sendQuickMessage('How do I choose between ARIMA and LSTM?')">Model Comparison</button>
+          <button class="quick-action-btn" onclick="sendQuickMessage('My forecasts are inaccurate. What should I check?')">Accuracy Issues</button>
+          <button class="quick-action-btn" onclick="sendQuickMessage('How do I handle seasonality in my data?')">Seasonality Help</button>
+          <button class="quick-action-btn" onclick="sendQuickMessage('What are the best practices for data preprocessing?')">Data Preprocessing</button>
+        </div>
+        <div class="flex space-x-2">
+          <input type="text" id="chat-input" placeholder="Ask me anything about time series forecasting..." class="flex-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" onkeypress="handleChatKeyPress(event)">
+          <button onclick="sendMessage()" class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors">Send</button>
+        </div>
+      </section>
+
+      <!-- AI Model Selector -->
+      <section class="bg-white rounded-lg shadow-lg p-6">
+        <h2 class="text-2xl font-semibold mb-4">AI Model Selector</h2>
+        <form id="model-selector-form">
+          <!-- Data Characteristics -->
+          <div class="mb-4">
+            <label class="block text-sm font-medium mb-2">Data Frequency</label>
+            <select name="frequency" class="w-full p-2 border rounded-lg">
+              <option value="">Select frequency</option>
+              <option value="daily">Daily</option>
+              <option value="weekly">Weekly</option>
+              <option value="monthly">Monthly</option>
+              <option value="quarterly">Quarterly</option>
+              <option value="yearly">Yearly</option>
+              <option value="hourly">Hourly</option>
+            </select>
+          </div>
+          <div class="mb-4">
+            <label class="block text-sm font-medium mb-2">Data Size</label>
+            <select name="size" class="w-full p-2 border rounded-lg">
+              <option value="">Select size</option>
+              <option value="small">&lt; 100 observations</option>
+              <option value="medium">100-1000 observations</option>
+              <option value="large">1000-10000 observations</option>
+              <option value="very_large">&gt; 10000 observations</option>
+            </select>
+          </div>
+          <div class="mb-4">
+            <label class="block text-sm font-medium mb-2">Does your data have a trend?</label>
+            <div class="flex space-x-4">
+              <label><input type="radio" name="trend" value="yes" class="mr-2"> Yes</label>
+              <label><input type="radio" name="trend" value="no" class="mr-2"> No</label>
+              <label><input type="radio" name="trend" value="unsure" class="mr-2"> Unsure</label>
+            </div>
+          </div>
+          <div class="mb-4">
+            <label class="block text-sm font-medium mb-2">Does your data have seasonality?</label>
+            <div class="flex space-x-4">
+              <label><input type="radio" name="seasonality" value="yes" class="mr-2"> Yes</label>
+              <label><input type="radio" name="seasonality" value="no" class="mr-2"> No</label>
+              <label><input type="radio" name="seasonality" value="unsure" class="mr-2"> Unsure</label>
+            </div>
+          </div>
+          <div class="mb-4">
+            <label class="block text-sm font-medium mb-2">Data behavior</label>
+            <select name="behavior" class="w-full p-2 border rounded-lg">
+              <option value="">Select behavior</option>
+              <option value="linear">Mostly linear patterns</option>
+              <option value="nonlinear">Complex non-linear patterns</option>
+              <option value="volatile">High volatility/noise</option>
+              <option value="stable">Stable with occasional changes</option>
+            </select>
+          </div>
+          <div class="mb-4">
+            <label class="block text-sm font-medium mb-2">Do you have external variables that influence your time series?</label>
+            <div class="flex space-x-4">
+              <label><input type="radio" name="external" value="yes" class="mr-2"> Yes</label>
+              <label><input type="radio" name="external" value="no" class="mr-2"> No</label>
+            </div>
+          </div>
+          <div class="mb-4">
+            <label class="block text-sm font-medium mb-2">Primary goal</label>
+            <select name="goal" class="w-full p-2 border rounded-lg">
+              <option value="">Select primary goal</option>
+              <option value="accuracy">Highest accuracy</option>
+              <option value="interpretability">Model interpretability</option>
+              <option value="speed">Fast prediction</option>
+              <option value="automation">Automated forecasting</option>
+            </select>
+          </div>
+          <div class="mb-4">
+            <label class="block text-sm font-medium mb-2">Forecast horizon</label>
+            <select name="horizon" class="w-full p-2 border rounded-lg">
+              <option value="">Select horizon</option>
+              <option value="short">Short-term (1-10 periods)</option>
+              <option value="medium">Medium-term (10-50 periods)</option>
+              <option value="long">Long-term (50+ periods)</option>
+            </select>
+          </div>
+          <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+            Get AI Recommendations 🚀
+          </button>
+        </form>
+        <div id="recommendations" class="mt-8 hidden">
+          <h3 class="text-2xl font-semibold mb-6">🎯 Your Personalized Recommendations</h3>
+          <div id="recommendation-results"></div>
+        </div>
+      </section>
+    </div>
+  </main>
+  <footer class="bg-gray-800 text-white py-8">
+    <div class="container mx-auto px-6 text-center">
+      <p>&copy; 2025 AI-Powered Time Series Forecasting Hub. Enhanced with artificial intelligence for better learning experiences.</p>
+    </div>
+  </footer>
+  <script src="ai-features.js"></script>
+  <script>
+    // --- Chat Assistant Logic ---
+    function appendChatMessage(sender, message) {
+      const chatMessages = document.getElementById('chat-messages');
+      const wrapper = document.createElement('div');
+      wrapper.className = 'flex items-start space-x-3';
+      wrapper.innerHTML = `
+        <div class="${sender === 'user' ? 'bg-gray-300 text-gray-800' : 'bg-blue-500 text-white'} rounded-full p-2 text-sm">${sender === 'user' ? '🧑' : '🤖'}</div>
+        <div class="bg-white rounded-lg shadow p-4 max-w-md"><div class="text-gray-800 whitespace-pre-line">${message}</div></div>
+      `;
+      chatMessages.appendChild(wrapper);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function sendMessage() {
+      const input = document.getElementById('chat-input');
+      const text = input.value.trim();
+      if (!text) return;
+      appendChatMessage('user', text);
+      input.value = '';
+      setTimeout(() => {
+        getAIChatResponse(text);
+      }, 400);
+    }
+
+    function sendQuickMessage(msg) {
+      document.getElementById('chat-input').value = msg;
+      sendMessage();
+    }
+
+    function handleChatKeyPress(e) {
+      if (e.key === 'Enter') sendMessage();
+    }
+
+    function getAIChatResponse(text) {
+      // Use ai-features.js chat logic
+      if (typeof getChatResponse === 'function') {
+        const response = getChatResponse(text);
+        appendChatMessage('ai', response);
+      } else {
+        appendChatMessage('ai', "Sorry, AI Assistant is not available right now.");
+      }
+    }
+  </script>
+</body>
+</html> 

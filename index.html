@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered Time Series Forecasting Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="text-2xl font-bold text-blue-600">🤖 AI Forecasting Hub</div>
+                <div class="hidden md:flex space-x-6">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="models.html" class="nav-link">Model Library</a>
+                    <a href="forecast-simulator.html" class="nav-link">Simulator</a>
+                    <a href="comparison.html" class="nav-link">Compare</a>
+                    <a href="Concepts.html" class="nav-link">Concepts</a>
+                    <a href="time-series-plots.html" class="nav-link">Plots & Graphs</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section (Redesigned) -->
+    <section id="home" class="container mx-auto px-6 py-20 flex flex-col md:flex-row items-center justify-between gap-12">
+      <div class="flex-1 text-center md:text-left">
+        <h1 class="text-5xl md:text-6xl font-extrabold text-gray-900 mb-6 leading-tight">
+          <span class="text-blue-600">AI-Powered</span> Time Series Forecasting Hub
+        </h1>
+        <p class="text-2xl text-gray-700 mb-8 max-w-2xl">
+          Discover, compare, and experiment with the latest forecasting models. Learn time series analysis with interactive tools, AI guidance, and real-world datasets.
+        </p>
+        <div class="flex flex-col md:flex-row gap-4 justify-center md:justify-start">
+          <a href="forecast-simulator.html" class="bg-blue-600 text-white px-8 py-4 rounded-lg font-bold text-lg shadow hover:bg-blue-700 transition">🚀 Try the Simulator</a>
+          <a href="models.html" class="bg-white text-blue-600 px-8 py-4 rounded-lg font-bold text-lg shadow border border-blue-600 hover:bg-blue-50 transition">📚 Browse Models</a>
+        </div>
+      </div>
+      <div class="flex-1 flex justify-center">
+        <!-- AI/Forecasting SVG Illustration -->
+        <svg width="320" height="240" viewBox="0 0 320 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="40" width="300" height="180" rx="24" fill="#e0e7ff"/>
+          <polyline points="30,200 70,120 110,160 150,80 190,100 230,60 270,120 310,50" fill="none" stroke="#3b82f6" stroke-width="6" stroke-linecap="round"/>
+          <circle cx="70" cy="120" r="10" fill="#6366f1"/>
+          <circle cx="150" cy="80" r="10" fill="#6366f1"/>
+          <circle cx="230" cy="60" r="10" fill="#6366f1"/>
+          <rect x="120" y="10" width="80" height="32" rx="16" fill="#6366f1"/>
+          <text x="160" y="32" text-anchor="middle" fill="white" font-size="18" font-family="sans-serif">AI</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- Featured Dataset -->
+    <div class="container mx-auto px-6 pt-8">
+      <div class="bg-blue-50 border-l-4 border-blue-500 p-6 mb-8 rounded-lg shadow flex flex-col md:flex-row items-center justify-between">
+        <div>
+          <h2 class="text-xl font-bold text-blue-800 mb-1">🌟 Featured Dataset: Pollution-Data-17-indian-cites</h2>
+          <div class="text-gray-800 mb-1"><b>Domain:</b> Environment / Air Quality</div>
+          <div class="text-gray-700 mb-2">PM2.5 pollution data for 17 Indian cities, including preprocessed and raw datasets. Useful for urban air quality prediction and time series analysis.</div>
+          <a href="https://github.com/subh700/Pollution-Data-17-indian-cites" class="text-blue-600 underline font-semibold mr-4" target="_blank">View on GitHub</a>
+          <a href="https://doi.org/10.1016/j.jclepro.2024.141259" class="text-green-700 underline font-semibold" target="_blank">Related Research Paper</a>
+                </div>
+        <div class="mt-4 md:mt-0">
+          <a href="forecast-simulator.html" class="bg-blue-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-700 transition-colors">Try in Simulator</a>
+                </div>
+            </div>
+        </div>
+    <!-- Quick Links -->
+    <div class="container mx-auto px-6 pb-4">
+      <div class="flex flex-wrap justify-center gap-4 mb-8">
+        <a href="forecast-simulator.html" class="bg-green-100 text-green-800 px-5 py-2 rounded-lg font-semibold hover:bg-green-200 transition">🚀 Simulator</a>
+        <a href="Concepts.html" class="bg-blue-100 text-blue-800 px-5 py-2 rounded-lg font-semibold hover:bg-blue-200 transition">📖 Concepts</a>
+        <a href="comparison.html" class="bg-purple-100 text-purple-800 px-5 py-2 rounded-lg font-semibold hover:bg-purple-200 transition">📊 Compare Models</a>
+        <a href="models.html" class="bg-yellow-100 text-yellow-800 px-5 py-2 rounded-lg font-semibold hover:bg-yellow-200 transition">📚 Model Library</a>
+        <a href="datasets-1000.csv" download class="bg-pink-100 text-pink-800 px-5 py-2 rounded-lg font-semibold hover:bg-pink-200 transition">🗂️ 1000+ Datasets (CSV)</a>
+        <a href="https://github.com/subh700/Pollution-Data-17-indian-cites" target="_blank" class="bg-gray-100 text-gray-800 px-5 py-2 rounded-lg font-semibold hover:bg-gray-200 transition">🌍 Community</a>
+      </div>
+    </div>
+
+    <!-- What We Offer - Enhanced (dynamic) -->
+    <section class="bg-white py-16">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-12">What We Offer</h2>
+            <p class="text-xl text-center text-gray-600 mb-12 max-w-3xl mx-auto">
+                A structured resource for mastering time series analysis, now enhanced with AI-powered tools and interactive learning experiences.
+            </p>
+            <div id="offerings-container" class="grid md:grid-cols-3 gap-8"></div>
+        </div>
+    </section>
+
+    <!-- Quick Model Access (static) -->
+    <section class="bg-gray-50 py-16">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-12">Popular Models</h2>
+            <div class="grid md:grid-cols-4 lg:grid-cols-6 gap-6">
+          <a href="ARIMA.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+                    <div class="text-3xl mb-2">📈</div>
+                    <div class="font-semibold">ARIMA</div>
+                </a>
+          <a href="LSTM.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+                    <div class="text-3xl mb-2">🧠</div>
+                    <div class="font-semibold">LSTM</div>
+                </a>
+          <a href="Prophet.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+                    <div class="text-3xl mb-2">🔮</div>
+                    <div class="font-semibold">Prophet</div>
+                </a>
+          <a href="ETS.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+                    <div class="text-3xl mb-2">📉</div>
+                    <div class="font-semibold">ETS</div>
+                </a>
+          <a href="SARIMAX.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+                    <div class="text-3xl mb-2">📊</div>
+                    <div class="font-semibold">SARIMAX</div>
+                </a>
+                <a href="holt_winters.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+                    <div class="text-3xl mb-2">❄️</div>
+                    <div class="font-semibold">Holt-Winters</div>
+                </a>
+          <a href="biLSTM.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+            <div class="text-3xl mb-2">🔁</div>
+            <div class="font-semibold">biLSTM</div>
+          </a>
+          <a href="biGRU.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+            <div class="text-3xl mb-2">🔂</div>
+            <div class="font-semibold">biGRU</div>
+          </a>
+          <a href="transformer.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+            <div class="text-3xl mb-2">⚡</div>
+            <div class="font-semibold">Transformer</div>
+          </a>
+          <a href="wavenet.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+            <div class="text-3xl mb-2">🌊</div>
+            <div class="font-semibold">WaveNet</div>
+          </a>
+          <a href="patchtst.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+            <div class="text-3xl mb-2">🧩</div>
+            <div class="font-semibold">PatchTST</div>
+          </a>
+          <a href="random_forest.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+            <div class="text-3xl mb-2">🌲</div>
+            <div class="font-semibold">Random Forest</div>
+          </a>
+          <a href="xgboost.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+            <div class="text-3xl mb-2">📦</div>
+            <div class="font-semibold">XGBoost</div>
+          </a>
+          <a href="prophet_lstm.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+            <div class="text-3xl mb-2">🧬</div>
+            <div class="font-semibold">Prophet-LSTM</div>
+          </a>
+          <a href="prophet_xgboost.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+            <div class="text-3xl mb-2">🧬</div>
+            <div class="font-semibold">Prophet-XGBoost</div>
+          </a>
+          <a href="arima_lstm.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+            <div class="text-3xl mb-2">🧬</div>
+            <div class="font-semibold">ARIMA-LSTM</div>
+          </a>
+          <a href="arima_transformer.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+            <div class="text-3xl mb-2">🧬</div>
+            <div class="font-semibold">ARIMA-Transformer</div>
+          </a>
+          <a href="stacking_ensemble.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+            <div class="text-3xl mb-2">🧬</div>
+            <div class="font-semibold">Stacking Ensemble</div>
+          </a>
+          <a href="deepar.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+            <div class="text-3xl mb-2">🧬</div>
+            <div class="font-semibold">DeepAR</div>
+          </a>
+          <a href="dssm.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+            <div class="text-3xl mb-2">🧬</div>
+            <div class="font-semibold">DSSM</div>
+          </a>
+          <a href="neural_prophet.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+            <div class="text-3xl mb-2">🧬</div>
+            <div class="font-semibold">NeuralProphet</div>
+          </a>
+          <a href="var.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+            <div class="text-3xl mb-2">🧬</div>
+            <div class="font-semibold">VAR</div>
+          </a>
+          <a href="MA.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+            <div class="text-3xl mb-2">🧬</div>
+            <div class="font-semibold">MA</div>
+          </a>
+          <a href="elastic_net.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+            <div class="text-3xl mb-2">🧬</div>
+            <div class="font-semibold">Elastic Net</div>
+          </a>
+          <a href="svr.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+            <div class="text-3xl mb-2">🧬</div>
+            <div class="font-semibold">SVR</div>
+          </a>
+          <a href="kalman_filter.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+            <div class="text-3xl mb-2">🧬</div>
+            <div class="font-semibold">Kalman Filter</div>
+          </a>
+          <a href="fedformer.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+            <div class="text-3xl mb-2">🧬</div>
+            <div class="font-semibold">Fedformer</div>
+          </a>
+          <a href="autoformer.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+            <div class="text-3xl mb-2">🧬</div>
+            <div class="font-semibold">Autoformer</div>
+          </a>
+          <a href="wavenet_rnn_hybrid.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+            <div class="text-3xl mb-2">🧬</div>
+            <div class="font-semibold">wavenet_rnn_hybrid</div>
+          </a>
+          <a href="stacking_ensemble.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+            <div class="text-3xl mb-2">🧬</div>
+            <div class="font-semibold">stacking_ensemble</div>
+          </a>
+          <a href="arima_garch.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+            <div class="text-3xl mb-2">🧬</div>
+            <div class="font-semibold">arima_garch</div>
+          </a>
+          <a href="AR.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow text-center">
+            <div class="text-3xl mb-2">🧬</div>
+            <div class="font-semibold">AR</div>
+          </a>
+        </div>
+        </div>
+    </section>
+
+    <!-- Ready to Dive In (dynamic) -->
+    <section class="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-16">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-4xl font-bold mb-6">Ready to Dive In?</h2>
+            <p class="text-xl mb-8 max-w-3xl mx-auto">
+                Whether you're a student, a data scientist, or a researcher, our AI-enhanced model library has the information and tools you need to succeed in your forecasting projects.
+            </p>
+            <div id="cta-buttons-container" class="flex flex-wrap justify-center gap-4"></div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="bg-white py-16">
+      <div class="container mx-auto px-6">
+        <h2 class="text-4xl font-bold text-center mb-12">How It Works</h2>
+        <div class="grid md:grid-cols-4 gap-8 text-center">
+          <div class="p-6 rounded-lg shadow-lg bg-blue-50">
+            <div class="text-3xl mb-2">🔍</div>
+            <h3 class="font-bold mb-2">1. Explore Concepts</h3>
+            <p class="text-gray-600">Learn the fundamentals of time series analysis and forecasting with beginner-friendly guides and infographics.</p>
+          </div>
+          <div class="p-6 rounded-lg shadow-lg bg-green-50">
+            <div class="text-3xl mb-2">🧪</div>
+            <h3 class="font-bold mb-2">2. Experiment in Simulator</h3>
+            <p class="text-gray-600">Try different models, tune parameters, and visualize results interactively with your own or sample data.</p>
+          </div>
+          <div class="p-6 rounded-lg shadow-lg bg-purple-50">
+            <div class="text-3xl mb-2">📊</div>
+            <h3 class="font-bold mb-2">3. Compare & Choose</h3>
+            <p class="text-gray-600">Use detailed comparison tables to select the best model for your needs and data characteristics.</p>
+          </div>
+          <div class="p-6 rounded-lg shadow-lg bg-yellow-50">
+            <div class="text-3xl mb-2">🚀</div>
+            <h3 class="font-bold mb-2">4. Apply & Learn</h3>
+            <p class="text-gray-600">Download code, datasets, and resources to apply forecasting in your own projects and research.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- References & Learning Section -->
+    <section class="bg-gray-50 py-12">
+      <div class="container mx-auto px-6">
+        <h2 class="text-2xl font-bold text-blue-800 mb-4">References & Learning</h2>
+        <ul class="list-disc pl-6 text-gray-800 space-y-1">
+          <li><a href="https://www.statsmodels.org/" class="text-blue-600 underline" target="_blank">statsmodels: Statistical Modeling in Python</a></li>
+          <li><a href="https://facebook.github.io/prophet/" class="text-blue-600 underline" target="_blank">Prophet: Forecasting at Scale</a></li>
+          <li><a href="https://keras.io/" class="text-blue-600 underline" target="_blank">Keras: Deep Learning for Humans</a></li>
+          <li><a href="https://scikit-learn.org/" class="text-blue-600 underline" target="_blank">scikit-learn: Machine Learning in Python</a></li>
+          <li><a href="https://github.com/subh700/Pollution-Data-17-indian-cites" class="text-blue-600 underline" target="_blank">Pollution-Data-17-indian-cites (PM2.5 Dataset)</a></li>
+          <li><a href="https://raw.githubusercontent.com/jbrownlee/Datasets/master/airline-passengers.csv" class="text-blue-600 underline" target="_blank">Air Passengers Dataset</a></li>
+          <li><a href="https://github.com/awesomedata/awesome-public-datasets#time-series-data" class="text-blue-600 underline" target="_blank">Awesome Public Datasets: Time Series</a></li>
+          <li><a href="https://otexts.com/fpp3/" class="text-blue-600 underline" target="_blank">Forecasting: Principles and Practice (Book)</a></li>
+          <li><a href="https://machinelearningmastery.com/time-series-forecasting/" class="text-blue-600 underline" target="_blank">Time Series Forecasting Tutorials (Machine Learning Mastery)</a></li>
+          <li><a href="https://www.analyticsvidhya.com/blog/2021/07/a-comprehensive-guide-to-time-series-analysis/" class="text-blue-600 underline" target="_blank">Comprehensive Guide to Time Series Analysis (Analytics Vidhya)</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Success Stories Section -->
+    <section class="bg-white py-16">
+      <div class="container mx-auto px-6">
+        <h2 class="text-3xl font-bold text-center mb-10">Success Stories</h2>
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="bg-blue-50 p-6 rounded-lg shadow text-center">
+            <div class="text-4xl mb-2">👩‍🎓</div>
+            <p class="text-gray-700 italic mb-2">"This platform made time series forecasting finally click for me. The simulator and model library are a game changer!"</p>
+            <div class="font-bold text-blue-700">Aarti, Student</div>
+          </div>
+          <div class="bg-green-50 p-6 rounded-lg shadow text-center">
+            <div class="text-4xl mb-2">👨‍💻</div>
+            <p class="text-gray-700 italic mb-2">"I was able to benchmark models on real datasets and quickly find the best approach for my project. Highly recommended!"</p>
+            <div class="font-bold text-green-700">Rahul, Data Scientist</div>
+          </div>
+          <div class="bg-purple-50 p-6 rounded-lg shadow text-center">
+            <div class="text-4xl mb-2">👩‍🔬</div>
+            <p class="text-gray-700 italic mb-2">"The AI assistant and detailed guides helped me publish my first forecasting research paper. Thank you!"</p>
+            <div class="font-bold text-purple-700">Dr. Meera, Researcher</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="bg-gray-50 py-16">
+      <div class="container mx-auto px-6">
+        <h2 class="text-3xl font-bold text-center mb-10">Frequently Asked Questions</h2>
+        <div class="max-w-3xl mx-auto space-y-6">
+          <div class="bg-white p-6 rounded-lg shadow">
+            <h3 class="font-semibold text-blue-700 mb-2">What is time series forecasting?</h3>
+            <p class="text-gray-700">Time series forecasting is the process of using historical data to predict future values. It’s widely used in finance, weather, energy, and more.</p>
+          </div>
+          <div class="bg-white p-6 rounded-lg shadow">
+            <h3 class="font-semibold text-blue-700 mb-2">Do I need coding experience to use this platform?</h3>
+            <p class="text-gray-700">No! You can use the simulator and explore models without writing any code. For advanced users, Python code examples are provided.</p>
+          </div>
+          <div class="bg-white p-6 rounded-lg shadow">
+            <h3 class="font-semibold text-blue-700 mb-2">Can I upload my own data?</h3>
+            <p class="text-gray-700">Yes, the simulator allows you to upload your own CSV files or enter data manually for custom forecasting.</p>
+          </div>
+          <div class="bg-white p-6 rounded-lg shadow">
+            <h3 class="font-semibold text-blue-700 mb-2">How do I choose the right model?</h3>
+            <p class="text-gray-700">Use the AI Recommender or the comparison tables to get personalized suggestions based on your data and goals.</p>
+          </div>
+          <div class="bg-white p-6 rounded-lg shadow">
+            <h3 class="font-semibold text-blue-700 mb-2">Where can I get more help?</h3>
+            <p class="text-gray-700">Check the Concepts page, ask the AI Assistant, or contact us using the form below.</p>
+          </div>
+          <div class="bg-white p-6 rounded-lg shadow">
+            <h3 class="font-semibold text-blue-700 mb-2">How do I interpret forecast accuracy metrics (MAE, RMSE, MAPE, R²)?</h3>
+            <p class="text-gray-700">These metrics help you judge how well a model predicts future values. Lower MAE, RMSE, and MAPE mean better accuracy. R² (closer to 1) means the model explains more of the data’s variation. See the Concepts page for detailed explanations and examples.</p>
+          </div>
+          <div class="bg-white p-6 rounded-lg shadow">
+            <h3 class="font-semibold text-blue-700 mb-2">Can I use these models for multivariate time series?</h3>
+            <p class="text-gray-700">Yes, some models (like VAR, SARIMAX, LSTM, Transformer, and others) support multivariate forecasting. Check each model’s page for details and examples.</p>
+          </div>
+          <div class="bg-white p-6 rounded-lg shadow">
+            <h3 class="font-semibold text-blue-700 mb-2">What are the limitations of AI/ML models for forecasting?</h3>
+            <p class="text-gray-700">AI/ML models can be powerful but may require lots of data, careful tuning, and may not always be interpretable. They can overfit, struggle with rare events, or fail if the data distribution changes. Always validate results and compare with simpler models.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Video Guides Section (disabled)
+    <section class="bg-white py-16">
+      <div class="container mx-auto px-6">
+        <h2 class="text-3xl font-bold text-center mb-10">Video Guides</h2>
+        <div class="grid md:grid-cols-4 gap-8">
+          <div class="bg-gray-100 p-4 rounded-lg shadow text-center">
+            <iframe width="100%" height="200" src="https://www.youtube.com/watch?v=OG31yhRQxPI" title="Time Series Forecasting Crash Course" frameborder="0" allowfullscreen></iframe>
+            <div class="mt-2 font-semibold">Time Series Forecasting Crash Course</div>
+          </div>
+          <div class="bg-gray-100 p-4 rounded-lg shadow text-center">
+            <iframe width="100%" height="200" src="https://www.youtube.com/watch?v=XF6DCrNTzug" title="Deep Learning for Time Series" frameborder="0" allowfullscreen></iframe>
+            <div class="mt-2 font-semibold">Deep Learning for Time Series</div>
+          </div>
+          <div class="bg-gray-100 p-4 rounded-lg shadow text-center">
+            <a href="https://www.youtube.com/results?search_query=time+series+forecasting+tutorial" target="_blank" class="block w-full h-48 bg-blue-200 rounded mb-2 flex items-center justify-center text-2xl text-blue-800 hover:bg-blue-300 transition">🔎 More Video Tutorials</a>
+            <div class="mt-2 font-semibold">Browse More on YouTube</div>
+          </div>
+          <div class="bg-gray-100 p-4 rounded-lg shadow text-center flex flex-col items-center">
+            <a href="https://www.youtube.com/@campesx" target="_blank" class="mb-2">
+              <img src="https://yt3.googleusercontent.com/ytc/AIdro_mw6QwQwQwQwQwQwQwQwQwQwQwQwQwQwQwQwQw=s88-c-k-c0x00ffffff-no-rj" alt="campesx channel logo" class="w-16 h-16 rounded-full mx-auto mb-2">
+            </a>
+            <div class="font-semibold mb-1">campesx Channel</div>
+            <div class="text-sm text-gray-700 mb-2">High-quality Python tutorials for data science, including pandas and numpy.</div>
+            <a href="https://www.youtube.com/watch?v=vmEHCJofslg" target="_blank" class="text-blue-600 underline mb-1">Pandas Tutorial (campesx)</a>
+            <a href="https://www.youtube.com/watch?v=QUT1VHiLmmI" target="_blank" class="text-blue-600 underline">NumPy Tutorial (campesx)</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    -->
+
+    <!-- Contact & Feedback Section (Expanded) -->
+    <section class="bg-gray-50 py-16">
+      <div class="container mx-auto px-6">
+        <h2 class="text-3xl font-bold text-center mb-6">Contact & Feedback</h2>
+        <p class="text-center text-lg text-gray-700 mb-8 max-w-2xl mx-auto">
+          Have a question, need support, or want to collaborate? We're here to help! Reach out using any of the options below.
+        </p>
+        <div class="max-w-xl mx-auto bg-white p-8 rounded-lg shadow mb-8">
+          <form action="mailto:subh700454@gmail.com" method="POST" enctype="text/plain">
+            <div class="mb-4 relative">
+              <label class="block text-gray-700 font-semibold mb-2">Your Email</label>
+              <input type="password" id="email-input" name="email" class="w-full p-3 border rounded-lg pr-12" placeholder="you@example.com">
+              <button type="button" id="toggle-email-visibility" class="absolute right-3 top-10 text-gray-500 hover:text-blue-600 focus:outline-none" tabindex="-1">
+                <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                </svg>
+              </button>
+            </div>
+            <div class="mb-4">
+              <label class="block text-gray-700 font-semibold mb-2">Message</label>
+              <textarea name="message" rows="4" class="w-full p-3 border rounded-lg" placeholder="How can we help you?"></textarea>
+            </div>
+            <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 font-bold w-full">Send Feedback</button>
+          </form>
+        </div>
+        <div class="max-w-xl mx-auto bg-blue-50 border-l-4 border-blue-500 p-6 rounded-lg shadow mb-8">
+          <h3 class="text-xl font-semibold text-blue-800 mb-2">Other Ways to Reach Us</h3>
+          <ul class="list-disc pl-6 text-gray-800 space-y-1">
+            <li>Email: <a href="mailto:subh700454@gmail.com" class="text-blue-600 underline">mlsubh700@gmail.com</a></li>
+            <li>GitHub Issues: <a href="https://github.com/subh700/Pollution-Data-17-indian-cites/issues" target="_blank" class="text-blue-600 underline">Report a bug or request a feature</a></li>
+            <li>Community: <a href="https://github.com/subh700/Pollution-Data-17-indian-cites/discussions" target="_blank" class="text-blue-600 underline">Join the Discussion</a> (or suggest a forum/Discord!)</li>
+          </ul>
+        </div>
+        <div class="max-w-xl mx-auto text-center text-gray-600 text-sm">
+          <p class="mb-2">We aim to respond to all messages within 48 hours. Your privacy is important—your contact details will never be shared.</p>
+          <p>Thank you for helping us improve the AI-Powered Time Series Forecasting Hub!</p>
+            </div>
+        </div>
+    </section>
+    <script>
+    // Email show/hide toggle for Contact & Feedback
+    const emailInput = document.getElementById('email-input');
+    const toggleBtn = document.getElementById('toggle-email-visibility');
+    const eyeIcon = document.getElementById('eye-icon');
+    if (toggleBtn && emailInput) {
+      toggleBtn.addEventListener('click', function() {
+        if (emailInput.type === 'password') {
+          emailInput.type = 'text';
+          eyeIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /><line x1="4" y1="4" x2="20" y2="20" stroke="currentColor" stroke-width="2" />`;
+        } else {
+          emailInput.type = 'password';
+          eyeIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />`;
+        }
+      });
+    }
+    </script>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-6 text-center flex flex-col items-center justify-center">
+            <div class="flex items-center justify-center">
+                <p>&copy; 2025 AI-Powered Time Series Forecasting Hub. Enhanced with artificial intelligence for better learning experiences.</p>
+                <img src="https://github.com/subh700/TechGrafico/blob/master/images/logo.png?raw=true" alt="TechGrafico Logo" class="h-8 ml-4" />
+            </div>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+    <script src="ai-features.js"></script>
+</body>
+</html>

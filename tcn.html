@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TCN Model - TSM Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-slate-100 text-slate-800">
+<!-- Enhanced Navigation for Model Pages -->
+<nav class="bg-white shadow-lg sticky top-0 z-50 mb-8">
+    <div class="container mx-auto px-6 py-4">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <a href="index.html" class="text-2xl font-bold text-blue-600">🏠 TS Forecasting Hub</a>
+                <div class="hidden md:flex items-center space-x-1 bg-gray-100 rounded-lg p-1">
+                    <a href="models.html" class="nav-link px-3 py-2 rounded">📚 All Models</a>
+                    <a href="comparison.html" class="nav-link px-3 py-2 rounded">📊 Compare</a>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+                <!-- AI Features Quick Access -->
+                <div class="hidden md:flex items-center space-x-2">
+                    <a href="model-selector.html" class="bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-600 text-sm flex items-center">
+                        🤖 AI Recommender
+                    </a>
+                    <a href="chat.html" class="bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-600 text-sm flex items-center">
+                        💬 AI Assistant
+                    </a>
+                    <a href="forecast-simulator.html?model={{MODEL_NAME}}" class="bg-purple-500 text-white px-3 py-2 rounded-lg hover:bg-purple-600 text-sm flex items-center">
+                        🚀 Try in Simulator
+                    </a>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <button class="md:hidden p-2" onclick="toggleMobileMenu()">☰</button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 border-t">
+            <div class="flex flex-col space-y-2">
+                <a href="models.html" class="text-gray-600 hover:text-blue-600 py-2">📚 All Models</a>
+                <a href="comparison.html" class="text-gray-600 hover:text-blue-600 py-2">📊 Compare Models</a>
+                <a href="model-selector.html" class="text-gray-600 hover:text-blue-600 py-2">🤖 AI Recommender</a>
+                <a href="chat.html" class="text-gray-600 hover:text-blue-600 py-2">💬 AI Assistant</a>
+                <a href="forecast-simulator.html" class="text-gray-600 hover:text-blue-600 py-2">🚀 Simulator</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-slate-900">TSM Hub</a>
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="concepts.html" class="nav-link">Concepts</a>
+                <a href="models.html" class="nav-link active">Models</a>
+                <a href="comparison.html" class="nav-link">Comparison</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden p-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="index.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Home</a>
+            <a href="concepts.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Concepts</a>
+            <a href="models.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Models</a>
+            <a href="comparison.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Comparison</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        <div class="bg-white p-8 rounded-lg shadow-md">
+            <header class="border-b-2 border-slate-200 pb-6 mb-8">
+                 <a href="models.html" class="text-blue-600 hover:underline mb-4 inline-block">&larr; Back to Model Library</a>
+                <h1 class="text-4xl md:text-5xl font-bold text-slate-900">TCN Model</h1>
+                <p class="mt-2 text-lg text-slate-600">Temporal Convolutional Network</p>
+            </header>
+            
+            <article class="prose max-w-none">
+                <section>
+                    <h2>Overview</h2>
+                    <p>Temporal Convolutional Networks (TCNs) are a class of convolutional neural networks specifically designed for sequence modeling tasks, including time series forecasting. They offer a compelling alternative to recurrent neural networks (RNNs) like LSTMs and GRUs, often demonstrating superior performance in terms of accuracy and computational efficiency. The key innovations in TCNs are their use of **causal convolutions** and **dilated convolutions** to capture long-range dependencies effectively.</p>
+                    
+                    <h2>Architecture & Components</h2>
+                    <p>A typical TCN architecture is built upon a stack of residual blocks, each containing several key elements:</p>
+                    <ul>
+                        <li><strong>Causal Convolutions:</strong> A fundamental property of TCNs, ensuring that the output at time step $t$ depends only on inputs from time steps $t$ and earlier. This is achieved by padding the input sequence on the left side before convolution. This prevents information leakage from the future, which is critical for forecasting tasks.</li>
+                        <li><strong>Dilated Convolutions:</strong> Similar to WaveNet, TCNs use dilated convolutions to efficiently increase the receptive field without increasing the number of parameters or pooling layers. This allows the network to learn from a wide range of past data with fewer layers. The dilation rate typically increases exponentially with depth (e.g., 1, 2, 4, 8, ...).</li>
+                        <li><strong>Residual Connections:</strong> These connections are crucial for training very deep TCNs. They allow the output of a layer to be added to its input, enabling the network to learn residual mappings and preventing the vanishing gradient problem.
+                            <p class="font-mono text-center bg-slate-100 p-2 rounded-md">
+                                $ \text{Output} = \text{Activation}(\text{Conv}(\text{Input})) + \text{Input} $
+                            </p>
+                        </li>
+                        <li><strong>Weight Normalization & Dropout:</strong> These techniques are often applied within TCN blocks to stabilize training and prevent overfitting, respectively.</li>
+                    </ul>
+                     <div class="bg-slate-100 p-4 rounded-lg my-6 text-center">
+                        <img src="https://placehold.co/600x300/e2e8f0/334155?text=Diagram+of+TCN+Block" alt="TCN Architecture Diagram" class="mx-auto rounded-md">
+                        <p class="text-sm text-slate-500 mt-2">Conceptual diagram illustrating a TCN residual block with dilated causal convolutions.</p>
+                    </div>
+                </section>
+                
+                <section>
+                    <h2>When to Use TCN</h2>
+                    <p>TCNs are a strong choice for time series forecasting when:</p>
+                    <ul>
+                        <li>You need to capture long-range dependencies efficiently, often outperforming RNNs in this regard.</li>
+                        <li>Computational speed and parallelization are important, as convolutions can be computed in parallel across the sequence.</li>
+                        <li>The time series exhibits complex, non-linear patterns.</li>
+                        <li>You are dealing with large datasets, as TCNs scale well.</li>
+                        <li>You prefer a convolutional architecture over a recurrent one due to issues like vanishing/exploding gradients in traditional RNNs.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Pros and Cons</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2 text-green-600">Pros</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Handles Long-Term Dependencies:</strong> Dilated convolutions allow for a very large receptive field, effectively capturing long-range patterns.</li>
+                                <li><strong>Computational Efficiency & Parallelization:</strong> Convolutions are inherently parallel, leading to faster training and inference than RNNs.</li>
+                                <li><strong>Stable Gradients:</strong> Residual connections help mitigate vanishing/exploding gradients, allowing for deeper networks.</li>
+                                <li><strong>Flexible Receptive Field:</strong> The receptive field can be easily controlled by adjusting the number of layers and dilation rates.</li>
+                                <li><strong>Good Performance:</strong> Often achieves state-of-the-art results comparable to or surpassing RNNs and even some Transformer models on various time series tasks.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2 text-red-600">Cons</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Less Interpretable:</strong> Like other deep neural networks, it acts as a "black box."</li>
+                                <li><strong>Fixed Receptive Field:</strong> Once trained, the receptive field is fixed, which might be a limitation if the optimal dependency length varies significantly.</li>
+                                <li><strong>Requires Data Reshaping:</strong> Input data needs to be prepared in a specific format for convolutional layers.</li>
+                                <li><strong>Hyperparameter Tuning:</strong> Can be sensitive to parameters like kernel size, number of filters, and dilation rates.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Example Implementation</h2>
+                    <p>Here's an example of implementing a TCN model for time series forecasting using TensorFlow/Keras and PyTorch. The core idea is to stack dilated causal convolutional layers within residual blocks.</p>
+
+                    <h3>TensorFlow/Keras Example (Conceptual)</h3>
+                    <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto"><code class="language-python">
+import numpy as np
+import tensorflow as tf
+from tensorflow.keras.models import Model
+from tensorflow.keras.layers import Input, Conv1D, Activation, Add, Dropout, Dense
+from tensorflow.keras.optimizers import Adam
+from sklearn.preprocessing import MinMaxScaler
+import matplotlib.pyplot as plt
+
+# 1. Generate sample data
+np.random.seed(42)
+n_samples = 500
+time = np.arange(n_samples)
+data = np.sin(time / 20) * 10 + time * 0.1 + np.random.randn(n_samples) * 2
+data = data.reshape(-1, 1)
+
+# 2. Scale data
+scaler = MinMaxScaler(feature_range=(0, 1))
+scaled_data = scaler.fit_transform(data)
+
+# 3. Create sequences for TCN input
+def create_sequences(data, look_back):
+    X, y = [], []
+    for i in range(len(data) - look_back):
+        X.append(data[i:(i + look_back), 0])
+        y.append(data[i + look_back, 0])
+    return np.array(X), np.array(y)
+
+look_back = 50 # Input sequence length
+X, y = create_sequences(scaled_data, look_back)
+
+# Reshape X for Conv1D: (samples, timesteps, features)
+X = X.reshape(X.shape[0], X.shape[1], 1)
+
+# 4. Define a TCN residual block
+def tcn_block(input_layer, filters, kernel_size, dilation_rate, dropout_rate):
+    # Store input for residual connection
+    residual = input_layer
+
+    # First dilated causal convolution
+    conv1 = Conv1D(filters, kernel_size, padding='causal', dilation_rate=dilation_rate)(input_layer)
+    conv1 = Activation('relu')(conv1)
+    conv1 = Dropout(dropout_rate)(conv1)
+
+    # Second dilated causal convolution
+    conv2 = Conv1D(filters, kernel_size, padding='causal', dilation_rate=dilation_rate)(conv1)
+    conv2 = Activation('relu')(conv2)
+    conv2 = Dropout(dropout_rate)(conv2)
+
+    # Adjust residual if feature dimensions don't match
+    if residual.shape[-1] != filters:
+        residual = Conv1D(filters, 1, padding='same')(residual) # 1x1 convolution for dimension matching
+
+    # Add residual connection
+    # Ensure residual and conv2 have same sequence length for Add
+    # conv2 will have the same sequence length as input_layer due to 'causal' padding
+    output = Add()([residual, conv2])
+    output = Activation('relu')(output) # Final activation for the block
+
+    return output
+
+# 5. Build the TCN model
+input_layer = Input(shape=(look_back, 1))
+x = input_layer
+
+filters = 64
+kernel_size = 2
+dropout_rate = 0.2
+dilation_rates = [1, 2, 4, 8, 16] # Example dilation rates
+
+# Stack TCN blocks
+for dilation_rate in dilation_rates:
+    x = tcn_block(x, filters, kernel_size, dilation_rate, dropout_rate)
+
+# Output layer: take the last time step's prediction
+output_prediction = Dense(1)(x[:, -1, :]) # Predict the next single value
+
+model = Model(inputs=input_layer, outputs=output_prediction)
+
+# 6. Compile and train
+model.compile(optimizer=Adam(learning_rate=0.001), loss='mean_squared_error')
+model.fit(X, y, epochs=50, batch_size=32, verbose=0)
+
+print("TensorFlow/Keras TCN model training complete.")
+
+# 7. Make predictions (conceptual)
+train_predict = model.predict(X)
+train_predict = scaler.inverse_transform(train_predict)
+y_original = scaler.inverse_transform(y.reshape(-1, 1))
+
+print(f"First 5 original values: {y_original[:5].flatten()}")
+print(f"First 5 predicted values: {train_predict[:5].flatten()}")
+
+# Plotting (conceptual)
+# plt.figure(figsize=(14, 7))
+# plt.plot(data[look_back:], label='Original Data')
+# plt.plot(train_predict, label='Training Prediction', linestyle='--')
+# plt.title('TensorFlow/Keras TCN Time Series Forecast')
+# plt.xlabel('Time Step')
+# plt.ylabel('Value')
+# plt.legend()
+# plt.grid(True)
+# plt.show()
+                        </code></pre>
+                    </div>
+
+                    <h3>PyTorch Example (Conceptual)</h3>
+                    <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto"><code class="language-python">
+import torch
+import torch.nn as nn
+import numpy as np
+from sklearn.preprocessing import MinMaxScaler
+import matplotlib.pyplot as plt
+
+# 1. Generate sample data
+np.random.seed(42)
+n_samples = 500
+time = np.arange(n_samples)
+data = np.sin(time / 20) * 10 + time * 0.1 + np.random.randn(n_samples) * 2
+data = data.reshape(-1, 1)
+
+# 2. Scale data
+scaler = MinMaxScaler(feature_range=(0, 1))
+scaled_data = scaler.fit_transform(data)
+
+# 3. Create sequences for PyTorch
+def create_sequences(data, look_back):
+    xs, ys = [], []
+    for i in range(len(data) - look_back):
+        x = data[i:(i + look_back)]
+        y = data[i + look_back]
+        xs.append(x)
+        ys.append(y)
+    return torch.tensor(xs, dtype=torch.float32), torch.tensor(ys, dtype=torch.float32)
+
+look_back = 50
+X_tensor, y_tensor = create_sequences(scaled_data, look_back)
+
+# Reshape X for PyTorch Conv1d: (batch_size, features, timesteps)
+X_tensor = X_tensor.permute(0, 2, 1)
+
+# 4. Define a TCN residual block
+class TemporalBlock(nn.Module):
+    def __init__(self, n_inputs, n_outputs, kernel_size, stride, dilation, padding, dropout=0.2):
+        super(TemporalBlock, self).__init__()
+        self.conv1 = nn.Conv1d(n_inputs, n_outputs, kernel_size,
+                               stride=stride, padding=padding, dilation=dilation)
+        self.chomp1 = Chomp1d(padding) # Custom Chomp1d for causal padding
+        self.relu1 = nn.ReLU()
+        self.dropout1 = nn.Dropout(dropout)
+
+        self.conv2 = nn.Conv1d(n_outputs, n_outputs, kernel_size,
+                               stride=stride, padding=padding, dilation=dilation)
+        self.chomp2 = Chomp1d(padding) # Custom Chomp1d for causal padding
+        self.relu2 = nn.ReLU()
+        self.dropout2 = nn.Dropout(dropout)
+
+        self.net = nn.Sequential(self.conv1, self.chomp1, self.relu1, self.dropout1,
+                                 self.conv2, self.chomp2, self.relu2, self.dropout2)
+        self.downsample = nn.Conv1d(n_inputs, n_outputs, 1) if n_inputs != n_outputs else None
+        self.relu = nn.ReLU()
+        self.init_weights()
+
+    def init_weights(self):
+        self.conv1.weight.data.normal_(0, 0.01)
+        self.conv2.weight.data.normal_(0, 0.01)
+        if self.downsample is not None:
+            self.downsample.weight.data.normal_(0, 0.01)
+
+    def forward(self, x):
+        out = self.net(x)
+        res = x if self.downsample is None else self.downsample(x)
+        return self.relu(out + res)
+
+# Custom Chomp1d layer to ensure causality by removing excess padding
+class Chomp1d(nn.Module):
+    def __init__(self, chomp_size):
+        super(Chomp1d, self).__init__()
+        self.chomp_size = chomp_size
+
+    def forward(self, x):
+        return x[:, :, :-self.chomp_size].contiguous()
+
+# 5. Define the TCN model
+class TCN(nn.Module):
+    def __init__(self, input_size, output_size, num_channels, kernel_size, dropout):
+        super(TCN, self).__init__()
+        layers = []
+        num_levels = len(num_channels)
+        for i in range(num_levels):
+            dilation_size = 2 ** i
+            in_channels = input_size if i == 0 else num_channels[i-1]
+            out_channels = num_channels[i]
+            layers += [TemporalBlock(in_channels, out_channels, kernel_size, stride=1, dilation=dilation_size,
+                                     padding=(kernel_size-1) * dilation_size, dropout=dropout)]
+
+        self.network = nn.Sequential(*layers)
+        self.linear = nn.Linear(num_channels[-1], output_size)
+
+    def forward(self, x):
+        # x input shape: (batch_size, input_features, seq_len)
+        o = self.network(x)
+        # Take the last output of the sequence for prediction
+        return self.linear(o[:, :, -1])
+
+# Instantiate TCN model
+input_size = 1 # Univariate
+output_size = 1
+num_channels = [30] * 5 # 5 layers with 30 filters each
+kernel_size = 2
+dropout = 0.2
+
+model = TCN(input_size, output_size, num_channels, kernel_size, dropout)
+loss_function = nn.MSELoss()
+optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+
+# 6. Train the model
+epochs = 50
+for epoch in range(epochs):
+    for i, (seq, label) in enumerate(zip(X_tensor, y_tensor)):
+        optimizer.zero_grad()
+        
+        # Add batch dimension and ensure input_features dimension
+        seq = seq.unsqueeze(0) # (1, seq_len, 1)
+        seq = seq.permute(0, 2, 1) # (1, 1, seq_len) for Conv1d
+        
+        y_pred = model(seq)
+        
+        single_loss = loss_function(y_pred.squeeze(), label.squeeze())
+        single_loss.backward()
+        optimizer.step()
+    
+    if epoch % 10 == 0:
+        print(f'Epoch {epoch} loss: {single_loss.item()}')
+
+print("PyTorch TCN model training complete.")
+
+# 7. Make predictions (conceptual)
+model.eval()
+with torch.no_grad():
+    test_predictions = []
+    for seq, label in zip(X_tensor, y_tensor):
+        seq = seq.unsqueeze(0)
+        seq = seq.permute(0, 2, 1)
+        y_pred = model(seq)
+        test_predictions.append(y_pred.item())
+
+train_predict = scaler.inverse_transform(np.array(test_predictions).reshape(-1, 1))
+y_original = scaler.inverse_transform(y_tensor.numpy().reshape(-1, 1))
+
+print(f"First 5 original values: {y_original[:5].flatten()}")
+print(f"First 5 predicted values: {train_predict[:5].flatten()}")
+
+# Plotting (conceptual)
+# plt.figure(figsize=(14, 7))
+# plt.plot(data[look_back:], label='Original Data')
+# plt.plot(train_predict, label='Training Prediction', linestyle='--')
+# plt.title('PyTorch TCN Time Series Forecast')
+# plt.xlabel('Time Step')
+# plt.ylabel('Value')
+# plt.legend()
+# plt.grid(True)
+# plt.show()
+                        </code></pre>
+                    </div>
+                </section>
+                
+                <section>
+                    <h2>Dependencies & Resources</h2>
+                    <p><strong>Dependencies:</strong> <code>numpy</code>, <code>scikit-learn</code> (for `MinMaxScaler`), <code>tensorflow</code>/<code>keras</code> (for TensorFlow example), <code>torch</code> (for PyTorch example), <code>matplotlib</code> (for plotting).</p>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><a href="https://arxiv.org/abs/1803.01271" target="_blank" rel="noopener noreferrer">An Empirical Evaluation of Generic Convolutional and Recurrent Networks for Sequence Modeling (Original Paper) ↗</a></li>
+                        <li><a href="https://github.com/locuslab/TCN" target="_blank" rel="noopener noreferrer">Official PyTorch TCN Repository ↗</a></li>
+                        <li><a href="https://github.com/philipperemy/keras-tcn" target="_blank" rel="noopener noreferrer">Keras TCN Implementation ↗</a></li>
+                    </ul>
+                </section>
+            </article>
+        </div>
+    </main>
+
+    <footer class="text-center p-6 bg-slate-200 mt-12">
+        <p class="text-slate-600 text-sm">TSM Hub: An Interactive Resource for Time Series Analysis</p>
+    </footer>
+
+    <script src="main.js"></script>
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</body>
+</html>

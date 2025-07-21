@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ETS Model - TSM Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-slate-100 text-slate-800">
+<!-- Enhanced Navigation for Model Pages -->
+<nav class="bg-white shadow-lg sticky top-0 z-50 mb-8">
+    <div class="container mx-auto px-6 py-4">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <a href="index.html" class="text-2xl font-bold text-blue-600">🏠 TS Forecasting Hub</a>
+                <div class="hidden md:flex items-center space-x-1 bg-gray-100 rounded-lg p-1">
+                    <a href="models.html" class="nav-link px-3 py-2 rounded">📚 All Models</a>
+                    <a href="comparison.html" class="nav-link px-3 py-2 rounded">📊 Compare</a>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+                <!-- AI Features Quick Access -->
+                <div class="hidden md:flex items-center space-x-2">
+                    <a href="model-selector.html" class="bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-600 text-sm flex items-center">
+                        🤖 AI Recommender
+                    </a>
+                    <a href="chat.html" class="bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-600 text-sm flex items-center">
+                        💬 AI Assistant
+                    </a>
+                    <a href="forecast-simulator.html?model={{MODEL_NAME}}" class="bg-purple-500 text-white px-3 py-2 rounded-lg hover:bg-purple-600 text-sm flex items-center">
+                        🚀 Try in Simulator
+                    </a>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <button class="md:hidden p-2" onclick="toggleMobileMenu()">☰</button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 border-t">
+            <div class="flex flex-col space-y-2">
+                <a href="models.html" class="text-gray-600 hover:text-blue-600 py-2">📚 All Models</a>
+                <a href="comparison.html" class="text-gray-600 hover:text-blue-600 py-2">📊 Compare Models</a>
+                <a href="model-selector.html" class="text-gray-600 hover:text-blue-600 py-2">🤖 AI Recommender</a>
+                <a href="chat.html" class="text-gray-600 hover:text-blue-600 py-2">💬 AI Assistant</a>
+                <a href="forecast-simulator.html" class="text-gray-600 hover:text-blue-600 py-2">🚀 Simulator</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-slate-900">TSM Hub</a>
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="concepts.html" class="nav-link">Concepts</a>
+                <a href="models.html" class="nav-link active">Models</a>
+                <a href="comparison.html" class="nav-link">Comparison</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden p-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="index.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Home</a>
+            <a href="concepts.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Concepts</a>
+            <a href="models.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Models</a>
+            <a href="comparison.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Comparison</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        <div class="bg-white p-8 rounded-lg shadow-md">
+            <header class="border-b-2 border-slate-200 pb-6 mb-8">
+                 <a href="models.html" class="text-blue-600 hover:underline mb-4 inline-block">&larr; Back to Model Library</a>
+                <h1 class="text-4xl md:text-5xl font-bold text-slate-900">ETS Model</h1>
+                <p class="mt-2 text-lg text-slate-600">Exponential Smoothing</p>
+            </header>
+            
+            <article class="prose max-w-none">
+                <section>
+                    <h2>Overview</h2>
+                    <p>Exponential Smoothing (ETS) models are a family of forecasting methods that provide robust and widely used approaches for time series data. The core idea behind exponential smoothing is to assign exponentially decreasing weights to past observations, meaning more recent observations are given more weight in forecasting future values. These models are particularly effective for data exhibiting trend and/or seasonality.</p>
+                    
+                    <h2>Architecture & Components</h2>
+                    <p>ETS models are characterized by their error (E), trend (T), and seasonality (S) components. Each component can be additive (A), multiplicative (M), or none (N). This leads to a rich taxonomy of 30 possible ETS models, though not all are commonly used or stable.</p>
+                    <ul>
+                        <li><strong>Error (E):</strong> Describes the nature of the residual error.
+                            <ul>
+                                <li>Additive (A): Error is constant over time.</li>
+                                <li>Multiplicative (M): Error scales with the level of the series.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Trend (T):</strong> Describes the behavior of the trend component.
+                            <ul>
+                                <li>None (N): No trend.</li>
+                                <li>Additive (A): Trend is constant over time (e.g., linear increase).</li>
+                                <li>Additive Damped ($A_d$): Additive trend that dampens over time.</li>
+                                <li>Multiplicative (M): Trend scales with the level of the series (e.g., exponential growth).</li>
+                                <li>Multiplicative Damped ($M_d$): Multiplicative trend that dampens over time.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Seasonality (S):</strong> Describes the behavior of the seasonal component.
+                            <ul>
+                                <li>None (N): No seasonality.</li>
+                                <li>Additive (A): Seasonal patterns are constant in magnitude.</li>
+                                <li>Multiplicative (M): Seasonal patterns scale with the level of the series.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>The most common and well-known ETS models include:</p>
+                    <ul>
+                        <li><strong>Simple Exponential Smoothing (ETS(A,N,N)):</strong> For data with no trend or seasonality.</li>
+                        <li><strong>Holt's Linear Trend (ETS(A,A,N)):</strong> For data with a trend but no seasonality.</li>
+                        <li><strong>Holt-Winters (ETS(A,A,A) or ETS(A,M,A) etc.):</strong> For data with both trend and seasonality. This is a very popular variant.</li>
+                    </ul>
+                    <p>The model works by iteratively updating the level, trend, and seasonal components using smoothing parameters (alpha, beta, gamma) that determine how much weight is given to recent observations.</p>
+                </section>
+                
+                <section>
+                    <h2>When to Use ETS</h2>
+                    <p>ETS models are generally suitable for:</p>
+                    <ul>
+                        <li>Short to medium-term forecasting.</li>
+                        <li>Time series data with clear trend and/or seasonal patterns.</li>
+                        <li>When interpretability of components (level, trend, seasonality) is desired.</li>
+                        <li>As a robust baseline for comparison with more complex models.</li>
+                        <li>When the underlying data generating process is relatively stable.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Pros and Cons</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2 text-green-600">Pros</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Simple & Interpretable:</strong> The components (level, trend, seasonality) are intuitive and easy to understand.</li>
+                                <li><strong>Good for Short-Term Forecasts:</strong> Often performs very well for short to medium forecasting horizons.</li>
+                                <li><strong>Handles Trend & Seasonality:</strong> Explicitly models these components, making it versatile for many real-world series.</li>
+                                <li><strong>Robust:</strong> Can be quite robust to noise and some irregularities in the data.</li>
+                                <li><strong>Provides Confidence Intervals:</strong> Allows for quantification of forecast uncertainty.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2 text-red-600">Cons</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Less Flexible for Complex Non-Linearities:</strong> Struggles with highly complex or non-linear patterns not captured by simple trend/seasonal forms.</li>
+                                <li><strong>Assumes Constant Seasonal Period:</strong> Requires a fixed seasonal period, which might not hold for all data.</li>
+                                <li><strong>Sensitivity to Initial Values:</strong> Performance can sometimes be sensitive to the initial values of the smoothing parameters.</li>
+                                <li><strong>Does Not Handle Exogenous Variables:</strong> Cannot directly incorporate external factors (covariates) into the model.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Example Implementation</h2>
+                    <p>Here's an example of implementing an ETS model (specifically, Holt-Winters with additive trend and additive seasonality) using the `statsmodels` library in Python.</p>
+                    <div class="code-block my-4">
+                        <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto"><code class="language-python">
+# Import necessary libraries
+import pandas as pd
+import numpy as np
+from statsmodels.tsa.api import ExponentialSmoothing
+import matplotlib.pyplot as plt
+
+# 1. Generate sample data with trend and seasonality
+np.random.seed(42)
+n_samples = 120 # 10 years of monthly data
+time_index = pd.date_range(start='2010-01-01', periods=n_samples, freq='MS')
+data = (50 + np.arange(n_samples) * 0.5 + # Trend
+        20 * np.sin(np.arange(n_samples) * 2 * np.pi / 12) + # Monthly seasonality
+        np.random.normal(0, 3, n_samples)) # Noise
+series = pd.Series(data, index=time_index)
+
+# 2. Split data into train and test
+train_size = 100
+train, test = series[0:train_size], series[train_size:n_samples]
+
+# 3. Fit an ETS model (Holt-Winters with additive trend and additive seasonality)
+# seasonal_periods should be the length of one seasonal cycle (e.g., 12 for monthly data)
+model = ExponentialSmoothing(
+    train, 
+    seasonal_periods=12, 
+    trend='add', # 'add' for additive trend, 'mul' for multiplicative trend
+    seasonal='add', # 'add' for additive seasonality, 'mul' for multiplicative seasonality
+    initialization_method="estimated" # Let statsmodels estimate initial values
+)
+model_fit = model.fit()
+
+# 4. Make a forecast
+forecast_steps = len(test)
+forecast = model_fit.forecast(steps=forecast_steps)
+
+# 5. Display the forecast (conceptual, actual plotting requires matplotlib setup)
+print("ETS Model Forecast:")
+print(forecast)
+
+# Example plotting (uncomment and run in a Python environment with matplotlib)
+# plt.figure(figsize=(12, 6))
+# plt.plot(train.index, train, label='Training Data')
+# plt.plot(test.index, test, label='Actual Data', color='orange')
+# plt.plot(forecast.index, forecast, label='ETS Forecast', color='green', linestyle='--')
+# plt.title('ETS Model (Holt-Winters) Forecast')
+# plt.xlabel('Date')
+# plt.ylabel('Value')
+# plt.legend()
+# plt.grid(True)
+# plt.show()
+                        </code></pre>
+                    </div>
+                </section>
+                
+                <section>
+                    <h2>Dependencies & Resources</h2>
+                    <p><strong>Dependencies:</strong> <code>pandas</code>, <code>numpy</code>, <code>statsmodels</code>, <code>matplotlib</code> (for plotting).</p>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><a href="https://www.statsmodels.org/stable/tsa.html#exponential-smoothing" target="_blank" rel="noopener noreferrer">Statsmodels Exponential Smoothing Documentation ↗</a></li>
+                        <li><a href="https://otexts.com/fpp2/ets.html" target="_blank" rel="noopener noreferrer">Forecasting: Principles and Practice - ETS Models ↗</a></li>
+                    </ul>
+                </section>
+            </article>
+        </div>
+    </main>
+
+    <footer class="text-center p-6 bg-slate-200 mt-12">
+        <p class="text-slate-600 text-sm">TSM Hub: An Interactive Resource for Time Series Analysis</p>
+    </footer>
+
+    <script src="main.js"></script>
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</body>
+</html>

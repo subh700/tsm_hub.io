@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Holt-Winters Model - TSM Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-slate-100 text-slate-800">
+<!-- Enhanced Navigation for Model Pages -->
+<nav class="bg-white shadow-lg sticky top-0 z-50 mb-8">
+    <div class="container mx-auto px-6 py-4">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <a href="index.html" class="text-2xl font-bold text-blue-600">🏠 TS Forecasting Hub</a>
+                <div class="hidden md:flex items-center space-x-1 bg-gray-100 rounded-lg p-1">
+                    <a href="models.html" class="nav-link px-3 py-2 rounded">📚 All Models</a>
+                    <a href="comparison.html" class="nav-link px-3 py-2 rounded">📊 Compare</a>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+                <!-- AI Features Quick Access -->
+                <div class="hidden md:flex items-center space-x-2">
+                    <a href="model-selector.html" class="bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-600 text-sm flex items-center">
+                        🤖 AI Recommender
+                    </a>
+                    <a href="chat.html" class="bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-600 text-sm flex items-center">
+                        💬 AI Assistant
+                    </a>
+                    <a href="forecast-simulator.html?model={{MODEL_NAME}}" class="bg-purple-500 text-white px-3 py-2 rounded-lg hover:bg-purple-600 text-sm flex items-center">
+                        🚀 Try in Simulator
+                    </a>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <button class="md:hidden p-2" onclick="toggleMobileMenu()">☰</button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 border-t">
+            <div class="flex flex-col space-y-2">
+                <a href="models.html" class="text-gray-600 hover:text-blue-600 py-2">📚 All Models</a>
+                <a href="comparison.html" class="text-gray-600 hover:text-blue-600 py-2">📊 Compare Models</a>
+                <a href="model-selector.html" class="text-gray-600 hover:text-blue-600 py-2">🤖 AI Recommender</a>
+                <a href="chat.html" class="text-gray-600 hover:text-blue-600 py-2">💬 AI Assistant</a>
+                <a href="forecast-simulator.html" class="text-gray-600 hover:text-blue-600 py-2">🚀 Simulator</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-slate-900">TSM Hub</a>
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="concepts.html" class="nav-link">Concepts</a>
+                <a href="models.html" class="nav-link active">Models</a>
+                <a href="comparison.html" class="nav-link">Comparison</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden p-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="index.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Home</a>
+            <a href="concepts.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Concepts</a>
+            <a href="models.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Models</a>
+            <a href="comparison.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Comparison</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        <div class="bg-white p-8 rounded-lg shadow-md">
+            <header class="border-b-2 border-slate-200 pb-6 mb-8">
+                 <a href="models.html" class="text-blue-600 hover:underline mb-4 inline-block">&larr; Back to Model Library</a>
+                <h1 class="text-4xl md:text-5xl font-bold text-slate-900">Holt-Winters Model</h1>
+                <p class="mt-2 text-lg text-slate-600">Triple Exponential Smoothing</p>
+            </header>
+            
+            <article class="prose max-w-none">
+                <section>
+                    <h2>Overview</h2>
+                    <p>The Holt-Winters exponential smoothing method, also known as Triple Exponential Smoothing, is a widely used forecasting technique for time series data that exhibits both trend and seasonality. It extends simple exponential smoothing (for level) and Holt's linear trend method (for level and trend) by adding a third component for seasonality.</p>
+                    
+                    <h2>Architecture & Components</h2>
+                    <p>Holt-Winters maintains three smoothing equations, each with its own smoothing parameter:</p>
+                    <ul>
+                        <li><strong>Level ($L_t$):</strong> Updated by $\alpha$ (alpha) which controls the weight given to the most recent observation.</li>
+                        <li><strong>Trend ($T_t$):</strong> Updated by $\beta$ (beta) which controls the weight given to the most recent trend estimate.</li>
+                        <li><strong>Seasonality ($S_t$):</strong> Updated by $\gamma$ (gamma) which controls the weight given to the most recent seasonal component estimate.</li>
+                    </ul>
+                    <p>There are two main variations of the Holt-Winters method, depending on the nature of the seasonal component:</p>
+                    <ul>
+                        <li><strong>Additive Holt-Winters:</strong> Used when the magnitude of the seasonal fluctuations does not vary with the level of the series. The seasonal component is added to the trend-adjusted level.
+                            <p class="font-mono text-center bg-slate-100 p-4 rounded-md">
+                                $ L_t = \alpha(Y_t - S_{t-m}) + (1-\alpha)(L_{t-1} + T_{t-1}) $ <br>
+                                $ T_t = \beta(L_t - L_{t-1}) + (1-\beta)T_{t-1} $ <br>
+                                $ S_t = \gamma(Y_t - L_{t-1} - T_{t-1}) + (1-\gamma)S_{t-m} $ <br>
+                                $ \hat{Y}_{t+h} = L_t + h T_t + S_{t-m+h} $
+                            </p>
+                        </li>
+                        <li><strong>Multiplicative Holt-Winters:</strong> Used when the magnitude of the seasonal fluctuations increases or decreases with the level of the series. The seasonal component is multiplied by the trend-adjusted level.
+                            <p class="font-mono text-center bg-slate-100 p-4 rounded-md">
+                                $ L_t = \alpha \frac{Y_t}{S_{t-m}} + (1-\alpha)(L_{t-1} + T_{t-1}) $ <br>
+                                $ T_t = \beta(L_t - L_{t-1}) + (1-\beta)T_{t-1} $ <br>
+                                $ S_t = \gamma \frac{Y_t}{(L_{t-1} + T_{t-1})} + (1-\gamma)S_{t-m} $ <br>
+                                $ \hat{Y}_{t+h} = (L_t + h T_t) S_{t-m+h} $
+                            </p>
+                        </li>
+                    </ul>
+                    <p>Where $m$ is the length of the seasonal period, and $\hat{Y}_{t+h}$ is the forecast for $h$ steps ahead.</p>
+                </section>
+                
+                <section>
+                    <h2>When to Use Holt-Winters</h2>
+                    <p>Holt-Winters is an excellent choice for:</p>
+                    <ul>
+                        <li>Time series data that clearly exhibits both a trend (increasing or decreasing) and a seasonal pattern (e.g., monthly sales, quarterly earnings).</li>
+                        <li>Short to medium-term forecasting horizons.</li>
+                        <li>When you need a relatively simple yet effective model that captures these common time series characteristics.</li>
+                        <li>When the seasonal pattern is consistent in its length (e.g., exactly 12 months for yearly seasonality).</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Pros and Cons</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2 text-green-600">Pros</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Effective for Trend and Seasonality:</strong> Explicitly models and adapts to both components.</li>
+                                <li><strong>Relatively Simple & Interpretable:</strong> The concept of level, trend, and seasonal components is intuitive.</li>
+                                <li><strong>Good for Short-Term Forecasts:</strong> Often provides accurate forecasts for immediate future periods.</li>
+                                <li><strong>Provides Confidence Intervals:</strong> Allows for quantification of forecast uncertainty.</li>
+                                <li><strong>Handles Both Additive & Multiplicative Seasonality:</strong> Flexible to different types of seasonal patterns.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2 text-red-600">Cons</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Assumes Constant Seasonal Period:</strong> Struggles if the length of the seasonal cycle changes over time.</li>
+                                <li><strong>Less Flexible for Complex Non-Linearities:</strong> Cannot capture highly complex or rapidly changing non-linear patterns.</li>
+                                <li><strong>Sensitivity to Initial Values:</strong> The performance can sometimes be sensitive to the initial values of the smoothing parameters, although `statsmodels` can estimate these.</li>
+                                <li><strong>Does Not Handle Exogenous Variables:</strong> Cannot directly incorporate external factors (covariates).</li>
+                                <li><strong>Can Over-smooth:</strong> If smoothing parameters are too high, it might over-react to noise.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Example Implementation</h2>
+                    <p>Here's an example of implementing a Holt-Winters model using the `statsmodels` library in Python. We'll use additive trend and multiplicative seasonality, which is a common and effective combination for many real-world datasets.</p>
+                    <div class="code-block my-4">
+                        <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto"><code class="language-python">
+# Import necessary libraries
+import pandas as pd
+import numpy as np
+from statsmodels.tsa.api import ExponentialSmoothing
+import matplotlib.pyplot as plt
+
+# 1. Generate sample data with trend and multiplicative seasonality
+np.random.seed(42)
+n_samples = 120 # 10 years of monthly data
+time_index = pd.date_range(start='2010-01-01', periods=n_samples, freq='MS')
+# Data with increasing trend and seasonality that grows with the trend
+data = (50 + np.arange(n_samples) * 0.5) * (1 + 0.2 * np.sin(np.arange(n_samples) * 2 * np.pi / 12)) + np.random.normal(0, 3, n_samples)
+series = pd.Series(data, index=time_index)
+
+# 2. Split data into train and test
+train_size = 100
+train, test = series[0:train_size], series[train_size:n_samples]
+
+# 3. Fit the Holt-Winters model
+# seasonal_periods should be the length of one seasonal cycle (e.g., 12 for monthly data)
+# 'add' for additive trend, 'mul' for multiplicative trend
+# 'add' for additive seasonality, 'mul' for multiplicative seasonality
+model = ExponentialSmoothing(
+    train, 
+    seasonal_periods=12, 
+    trend='add',          # Additive trend
+    seasonal='mul',       # Multiplicative seasonality
+    initialization_method="estimated" # Let statsmodels estimate initial values
+)
+model_fit = model.fit()
+
+# 4. Make a forecast
+forecast_steps = len(test)
+forecast = model_fit.forecast(steps=forecast_steps)
+
+# 5. Display the forecast (conceptual, actual plotting requires matplotlib setup)
+print("Holt-Winters Model Summary:")
+print(model_fit.summary())
+print("\nHolt-Winters Forecast:")
+print(forecast)
+
+# Example plotting (uncomment and run in a Python environment with matplotlib)
+# plt.figure(figsize=(14, 7))
+# plt.plot(train.index, train, label='Training Data')
+# plt.plot(test.index, test, label='Actual Data', color='orange')
+# plt.plot(forecast.index, forecast, label='Holt-Winters Forecast', color='green', linestyle='--')
+# plt.title('Holt-Winters (Additive Trend, Multiplicative Seasonality) Forecast')
+# plt.xlabel('Date')
+# plt.ylabel('Value')
+# plt.legend()
+# plt.grid(True)
+# plt.show()
+                        </code></pre>
+                    </div>
+                </section>
+                
+                <section>
+                    <h2>Dependencies & Resources</h2>
+                    <p><strong>Dependencies:</strong> <code>pandas</code>, <code>numpy</code>, <code>statsmodels</code>, <code>matplotlib</code> (for plotting).</p>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><a href="https://www.statsmodels.org/stable/tsa.html#exponential-smoothing" target="_blank" rel="noopener noreferrer">Statsmodels Exponential Smoothing Documentation ↗</a></li>
+                        <li><a href="https://otexts.com/fpp2/holt-winters.html" target="_blank" rel="noopener noreferrer">Forecasting: Principles and Practice - Holt-Winters ↗</a></li>
+                    </ul>
+                </section>
+            </article>
+        </div>
+    </main>
+
+    <footer class="text-center p-6 bg-slate-200 mt-12">
+        <p class="text-slate-600 text-sm">TSM Hub: An Interactive Resource for Time Series Analysis</p>
+    </footer>
+
+    <script src="main.js"></script>
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</body>
+</html>

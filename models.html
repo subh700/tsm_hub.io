@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Model Library</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+  <!-- Navigation -->
+  <nav class="bg-white shadow-lg sticky top-0 z-50">
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+      <div class="text-2xl font-bold text-blue-600">🤖 AI Forecasting Hub</div>
+      <div class="hidden md:flex space-x-6">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="models.html" class="nav-link active">Model Library</a>
+        <!-- <a href="model-selector.html" class="nav-link">AI Recommender</a>
+        <a href="chat.html" class="nav-link">AI Assistant</a> -->
+        <a href="forecast-simulator.html" class="nav-link">Simulator</a>
+        <a href="comparison.html" class="nav-link">Compare</a>
+      </div>
+    </div>
+  </nav>
+  <main class="container mx-auto px-6 py-12">
+    <h1 class="text-4xl font-bold text-center mb-10">Model Library</h1>
+    <div id="model-list" class="grid md:grid-cols-3 lg:grid-cols-4 gap-8"></div>
+  </main>
+  <footer class="bg-gray-800 text-white py-8">
+    <div class="container mx-auto px-6 text-center">
+      <p>&copy; 2025 AI-Powered Time Series Forecasting Hub. Enhanced with artificial intelligence for better learning experiences.</p>
+    </div>
+  </footer>
+  <script src="models-data.js"></script>
+  <script src="models.js"></script>
+</body>
+</html>

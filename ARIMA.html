@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARIMA Model - TSM Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-slate-100 text-slate-800">
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-slate-900">TSM Hub</a>
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="concepts.html" class="nav-link">Concepts</a>
+                <a href="models.html" class="nav-link active">Models</a>
+                <a href="comparison.html" class="nav-link">Comparison</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden p-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="index.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Home</a>
+            <a href="concepts.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Concepts</a>
+            <a href="models.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Models</a>
+            <a href="comparison.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Comparison</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        <div class="bg-white p-8 rounded-lg shadow-md">
+            <header class="border-b-2 border-slate-200 pb-6 mb-8">
+                 <a href="models.html" class="text-blue-600 hover:underline mb-4 inline-block">&larr; Back to Model Library</a>
+                <h1 class="text-4xl md:text-5xl font-bold text-slate-900">ARIMA Model</h1>
+                <p class="mt-2 text-lg text-slate-600">AutoRegressive Integrated Moving Average</p>
+            </header>
+            
+            <article class="prose max-w-none">
+                <section>
+                    <h2>Overview</h2>
+                    <p>The AutoRegressive Integrated Moving Average (ARIMA) model is one of the most fundamental and widely used statistical methods for time series forecasting. It's a class of model that captures temporal structures in time series data. The name reflects its three key components: Autoregression (AR), Integration (I), and Moving Average (MA).</p>
+                    
+                    <h2>Architecture & Components</h2>
+                    <p>ARIMA models are defined by three parameters: (p, d, q).</p>
+                    <ul>
+                        <li><strong>AR (p) - Autoregression:</strong> This component suggests that the value of the series at a given time point is a linear combination of its own past values. The parameter 'p' is the order of the autoregression, meaning it specifies the number of lagged observations to include in the model. For example, if p=2, the model uses the values from the previous two time points to predict the current value.</li>
+                        <li><strong>I (d) - Integration:</strong> This component is used to make the time series stationary by differencing. Stationarity is a key assumption for many time series models. The parameter 'd' is the degree of differencing, representing the number of times the raw observations are differenced. For example, if d=1, the model uses the difference between consecutive observations.</li>
+                        <li><strong>MA (q) - Moving Average:</strong> This component suggests that the value of the series is a linear combination of past forecast errors. The parameter 'q' is the order of the moving average, specifying the size of the moving average window. This allows the model to account for random shocks or unexpected events from the past.</li>
+                    </ul>
+
+                    <h3>Mathematical Formulation</h3>
+                    <p>A non-seasonal ARIMA(p,d,q) model can be written as:</p>
+                    <p class="font-mono text-center bg-slate-100 p-4 rounded-md">
+                        $ (1 - \sum_{i=1}^{p} \phi_i L^i) (1-L)^d Y_t = c + (1 + \sum_{i=1}^{q} \theta_i L^i) \epsilon_t $
+                    </p>
+                    <p>Where:
+                        <ul>
+                            <li>$Y_t$ is the time series value at time t.</li>
+                            <li>$L$ is the lag operator ($L Y_t = Y_{t-1}$).</li>
+                            <li>$\phi_i$ are the parameters of the autoregressive part.</li>
+                            <li>$\theta_i$ are the parameters of the moving average part.</li>
+                            <li>$\epsilon_t$ is the white noise error term.</li>
+                            <li>$d$ is the degree of differencing.</li>
+                            <li>$c$ is a constant.</li>
+                        </ul>
+                    </p>
+                </section>
+                
+                <section>
+                    <h2>When to Use ARIMA</h2>
+                    <p>ARIMA is particularly well-suited for:</p>
+                    <ul>
+                        <li>Forecasting data with a clear trend and without significant non-linearities.</li>
+                        <li>Data that is stationary or can be made stationary through differencing.</li>
+                        <li>Situations where model interpretability is important. The model's parameters have clear statistical interpretations.</li>
+                        <li>As a baseline model to compare against more complex methods.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Example Implementation</h2>
+                    <p>Here's how to implement an ARIMA model in Python using the `statsmodels` library. We first generate some sample data, fit the model, and then plot the forecast.</p>
+                    <div class="code-block my-4">
+                        <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto"><code class="language-python">
+# Import necessary libraries
+import pandas as pd
+import numpy as np
+from statsmodels.tsa.arima.model import ARIMA
+import matplotlib.pyplot as plt
+
+# Generate sample data with a trend
+np.random.seed(42)
+n_samples = 150
+time = np.arange(n_samples)
+data = 20 + time * 0.5 + np.random.randn(n_samples) * 5
+series = pd.Series(data, index=pd.date_range(start='2020-01-01', periods=n_samples, freq='D'))
+
+# Split data into train and test
+train_size = 120
+train, test = series[0:train_size], series[train_size:n_samples]
+
+# Fit the ARIMA model
+# We choose (p,d,q) = (5,1,0). 'd=1' for the trend, 'p=5' to capture some autoregression.
+model = ARIMA(train, order=(5,1,0))
+model_fit = model.fit()
+
+# Make a forecast
+forecast_steps = len(test)
+forecast = model_fit.forecast(steps=forecast_steps)
+
+# Plotting the results (conceptual, actual plotting requires matplotlib setup)
+print("Forecasted Values:")
+print(forecast)
+# plt.figure(figsize=(12, 6))
+# plt.plot(train.index, train, label='Training Data')
+# plt.plot(test.index, test, label='Actual Data', color='orange')
+# plt.plot(test.index, forecast, label='ARIMA Forecast', color='green', linestyle='--')
+# plt.title('ARIMA Model Forecast')
+# plt.legend()
+# plt.show()
+                        </code></pre>
+                    </div>
+                </section>
+            </article>
+        </div>
+    </main>
+
+    <footer class="text-center p-6 bg-slate-200 mt-12">
+        <p class="text-slate-600 text-sm">TSM Hub: An Interactive Resource for Time Series Analysis</p>
+    </footer>
+
+    <script src="main.js"></script>
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</body>
+</html>

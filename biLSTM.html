@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>biLSTM | AI Forecasting Hub</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+  <!-- Navigation -->
+  <nav class="bg-white shadow-lg sticky top-0 z-50">
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+      <div class="text-2xl font-bold text-blue-600">🤖 AI Forecasting Hub</div>
+      <div class="hidden md:flex space-x-6">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="models.html" class="nav-link">Model Library</a>
+        <a href="forecast-simulator.html" class="nav-link">Simulator</a>
+        <a href="comparison.html" class="nav-link">Compare</a>
+        <a href="Concepts.html" class="nav-link">Concepts</a>
+        <a href="time-series-plots.html" class="nav-link">Plots & Graphs</a>
+      </div>
+    </div>
+  </nav>
+  <main class="container mx-auto px-6 py-12">
+    <div class="bg-white rounded-lg shadow-lg p-8 max-w-3xl mx-auto">
+      <div class="flex items-center mb-6">
+        <span class="text-4xl mr-4">🔁</span>
+        <h1 class="text-3xl font-bold">Bidirectional LSTM (biLSTM)</h1>
+      </div>
+      <p class="text-gray-700 mb-6"><strong>Bidirectional LSTM (biLSTM)</strong> is a type of recurrent neural network that uses two LSTM layers: one processes the sequence forward, the other backward. This allows the model to capture information from both past and future time steps, making it powerful for sequence modeling and time series forecasting.</p>
+      <h2 class="text-xl font-semibold mb-2">Key Features</h2>
+      <ul class="list-disc list-inside mb-4 text-gray-700">
+        <li>Captures dependencies in both directions (past and future).</li>
+        <li>Handles long-term dependencies and vanishing gradient problem.</li>
+        <li>Widely used in time series, NLP, and speech recognition.</li>
+        <li>More expressive than vanilla RNNs and GRUs.</li>
+      </ul>
+      <h2 class="text-xl font-semibold mb-2">Architecture</h2>
+      <div class="flex flex-col items-center mb-4">
+        <svg width="320" height="120" viewBox="0 0 320 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="320" height="120" fill="#f1f5f9"/>
+          <polyline points="40,60 80,60 120,60 160,60 200,60 240,60" fill="none" stroke="#3b82f6" stroke-width="4"/>
+          <polyline points="240,80 200,80 160,80 120,80 80,80 40,80" fill="none" stroke="#f59e42" stroke-width="4"/>
+          <rect x="32" y="52" width="16" height="16" rx="8" fill="#3b82f6"/>
+          <rect x="72" y="52" width="16" height="16" rx="8" fill="#3b82f6"/>
+          <rect x="112" y="52" width="16" height="16" rx="8" fill="#3b82f6"/>
+          <rect x="152" y="52" width="16" height="16" rx="8" fill="#3b82f6"/>
+          <rect x="192" y="52" width="16" height="16" rx="8" fill="#3b82f6"/>
+          <rect x="232" y="52" width="16" height="16" rx="8" fill="#3b82f6"/>
+          <rect x="32" y="72" width="16" height="16" rx="8" fill="#f59e42"/>
+          <rect x="72" y="72" width="16" height="16" rx="8" fill="#f59e42"/>
+          <rect x="112" y="72" width="16" height="16" rx="8" fill="#f59e42"/>
+          <rect x="152" y="72" width="16" height="16" rx="8" fill="#f59e42"/>
+          <rect x="192" y="72" width="16" height="16" rx="8" fill="#f59e42"/>
+          <rect x="232" y="72" width="16" height="16" rx="8" fill="#f59e42"/>
+          <text x="160" y="30" text-anchor="middle" fill="#64748b" font-size="16">biLSTM: Forward & Backward</text>
+        </svg>
+        <span class="text-xs text-gray-500 mt-1">Illustrative Architecture (SVG)</span>
+      </div>
+      <h2 class="text-xl font-semibold mb-2">Python Example (Keras)</h2>
+      <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto">from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Bidirectional, LSTM, Dense
+
+model = Sequential([
+    Bidirectional(LSTM(64, return_sequences=True), input_shape=(timesteps, features)),
+    Bidirectional(LSTM(32)),
+    Dense(1)
+])
+model.compile(optimizer='adam', loss='mse')
+model.summary()</pre>
+      <h2 class="text-xl font-semibold mb-2">Use Cases</h2>
+      <ul class="list-disc list-inside mb-4 text-gray-700">
+        <li>Time series forecasting (energy, finance, weather, etc.)</li>
+        <li>Natural language processing (NLP)</li>
+        <li>Speech recognition</li>
+        <li>Sequence labeling and classification</li>
+      </ul>
+      <h2 class="text-xl font-semibold mb-2">References</h2>
+      <ul class="list-disc list-inside text-blue-700 mb-2">
+        <li><a href="https://keras.io/api/layers/recurrent_layers/bidirectional/" target="_blank">Keras Bidirectional Layer</a></li>
+        <li><a href="https://colah.github.io/posts/2015-08-Understanding-LSTMs/" target="_blank">Understanding LSTMs (Colah's Blog)</a></li>
+        <li><a href="https://arxiv.org/abs/1402.1128" target="_blank">LSTM: Long Short-Term Memory</a></li>
+      </ul>
+    </div>
+  </main>
+  <footer class="bg-gray-800 text-white py-8 mt-12">
+    <div class="container mx-auto px-6 text-center">
+      <p>&copy; 2025 AI-Powered Time Series Forecasting Hub. Enhanced with artificial intelligence for better learning experiences.</p>
+    </div>
+  </footer>
+</body>
+</html> 

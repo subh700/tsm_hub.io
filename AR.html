@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AR Model - TSM Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-slate-100 text-slate-800">
+<!-- Enhanced Navigation for Model Pages -->
+<nav class="bg-white shadow-lg sticky top-0 z-50 mb-8">
+    <div class="container mx-auto px-6 py-4">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <a href="index.html" class="text-2xl font-bold text-blue-600">🏠 TS Forecasting Hub</a>
+                <div class="hidden md:flex items-center space-x-1 bg-gray-100 rounded-lg p-1">
+                    <a href="models.html" class="nav-link px-3 py-2 rounded">📚 All Models</a>
+                    <a href="comparison.html" class="nav-link px-3 py-2 rounded">📊 Compare</a>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+                <!-- AI Features Quick Access -->
+                <div class="hidden md:flex items-center space-x-2">
+                    <a href="model-selector.html" class="bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-600 text-sm flex items-center">
+                        🤖 AI Recommender
+                    </a>
+                    <a href="chat.html" class="bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-600 text-sm flex items-center">
+                        💬 AI Assistant
+                    </a>
+                    <a href="forecast-simulator.html?model={{MODEL_NAME}}" class="bg-purple-500 text-white px-3 py-2 rounded-lg hover:bg-purple-600 text-sm flex items-center">
+                        🚀 Try in Simulator
+                    </a>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <button class="md:hidden p-2" onclick="toggleMobileMenu()">☰</button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 border-t">
+            <div class="flex flex-col space-y-2">
+                <a href="models.html" class="text-gray-600 hover:text-blue-600 py-2">📚 All Models</a>
+                <a href="comparison.html" class="text-gray-600 hover:text-blue-600 py-2">📊 Compare Models</a>
+                <a href="model-selector.html" class="text-gray-600 hover:text-blue-600 py-2">🤖 AI Recommender</a>
+                <a href="chat.html" class="text-gray-600 hover:text-blue-600 py-2">💬 AI Assistant</a>
+                <a href="forecast-simulator.html" class="text-gray-600 hover:text-blue-600 py-2">🚀 Simulator</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-slate-900">TSM Hub</a>
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="concepts.html" class="nav-link">Concepts</a>
+                <a href="models.html" class="nav-link active">Models</a>
+                <a href="comparison.html" class="nav-link">Comparison</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden p-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="index.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Home</a>
+            <a href="concepts.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Concepts</a>
+            <a href="models.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Models</a>
+            <a href="comparison.html" class="block py-2 px-4 text-sm hover:bg-slate-200">Comparison</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        <div class="bg-white p-8 rounded-lg shadow-md">
+            <header class="border-b-2 border-slate-200 pb-6 mb-8">
+                 <a href="models.html" class="text-blue-600 hover:underline mb-4 inline-block">&larr; Back to Model Library</a>
+                <h1 class="text-4xl md:text-5xl font-bold text-slate-900">AR Model</h1>
+                <p class="mt-2 text-lg text-slate-600">Autoregressive Model</p>
+            </header>
+            
+            <article class="prose max-w-none">
+                <section>
+                    <h2>Overview</h2>
+                    <p>The Autoregressive (AR) model is one of the simplest and most fundamental models in time series analysis. It forecasts future values based on a linear combination of its own past values. The core idea is that the current value of a time series can be explained by a weighted sum of its previous values plus a random error term. AR models are a component of more complex models like ARIMA.</p>
+                    
+                    <h2>Architecture & Components</h2>
+                    <p>An AR model is defined by a single parameter, <code>p</code>, which is the order of the autoregression. This parameter indicates the number of lagged (past) observations that are included in the model.</p>
+                    <h3>Mathematical Formulation</h3>
+                    <p>An AR(p) model is mathematically expressed as:</p>
+                    <p class="font-mono text-center bg-slate-100 p-4 rounded-md">
+                        $ Y_t = c + \phi_1 Y_{t-1} + \phi_2 Y_{t-2} + ... + \phi_p Y_{t-p} + \epsilon_t $
+                    </p>
+                    <p>Where:</p>
+                    <ul>
+                        <li>$Y_t$ is the value of the time series at time $t$.</li>
+                        <li>$c$ is a constant (intercept).</li>
+                        <li>$\phi_1, \phi_2, ..., \phi_p$ are the autoregressive coefficients, representing the weights of the past observations.</li>
+                        <li>$Y_{t-1}, Y_{t-2}, ..., Y_{t-p}$ are the past observations (lagged values) up to order $p$.</li>
+                        <li>$\epsilon_t$ is the white noise error term at time $t$, assumed to be independently and identically distributed with a mean of zero and constant variance.</li>
+                    </ul>
+                    <p>For an AR(1) model, the current value depends only on the immediately preceding value: $Y_t = c + \phi_1 Y_{t-1} + \epsilon_t$.</p>
+                </section>
+                
+                <section>
+                    <h2>When to Use AR Models</h2>
+                    <p>AR models are suitable for:</p>
+                    <ul>
+                        <li>Time series data that is stationary (mean, variance, and autocorrelation are constant over time). If the data is non-stationary, differencing is usually applied first.</li>
+                        <li>Data where the current value is linearly dependent on a few recent past values.</li>
+                        <li>As a simple baseline model for time series forecasting.</li>
+                        <li>When interpretability is important, as the coefficients directly show the influence of past values.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Pros and Cons</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2 text-green-600">Pros</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Simple & Interpretable:</strong> Easy to understand how past values influence current predictions.</li>
+                                <li><strong>Foundation for Complex Models:</strong> Forms the basis for ARIMA and SARIMA models.</li>
+                                <li><strong>Efficient to Fit:</strong> Relatively quick to estimate parameters, especially for lower orders.</li>
+                                <li><strong>Provides Confidence Intervals:</strong> Allows for quantification of forecast uncertainty.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2 text-red-600">Cons</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Assumes Stationarity:</strong> Requires the time series to be stationary, or to be made stationary through transformations.</li>
+                                <li><strong>Does Not Handle Trend or Seasonality Directly:</strong> Cannot directly model trends or seasonal patterns; these must be removed or accounted for before applying AR.</li>
+                                <li><strong>Limited to Linear Relationships:</strong> Struggles with non-linear dependencies in the data.</li>
+                                <li><strong>Sensitive to Outliers:</strong> Can be sensitive to extreme values in the past data.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Example Implementation</h2>
+                    <p>Here's an example of implementing an AR model using the `statsmodels` library in Python. We'll generate a simple autoregressive time series and then fit the model.</p>
+                    <div class="code-block my-4">
+                        <pre class="bg-yellow-100 rounded p-4 text-sm mb-2 overflow-x-auto"><code class="language-python">
+# Import necessary libraries
+import pandas as pd
+import numpy as np
+from statsmodels.tsa.ar_model import AutoReg
+import matplotlib.pyplot as plt
+
+# 1. Generate sample data (AR(1) process)
+# Y_t = 0.7 * Y_{t-1} + epsilon_t
+np.random.seed(42)
+n_samples = 100
+data = np.zeros(n_samples)
+data[0] = 10 # Initial value
+for i in range(1, n_samples):
+    data[i] = 0.7 * data[i-1] + np.random.normal(0, 1, 1) # AR(1) with noise
+
+series = pd.Series(data, index=pd.date_range(start='2020-01-01', periods=n_samples, freq='D'))
+
+# 2. Split data into train and test
+train_size = 80
+train, test = series[0:train_size], series[train_size:n_samples]
+
+# 3. Fit the AR model
+# lags=5 means we are fitting an AR(5) model
+model = AutoReg(train, lags=5)
+model_fit = model.fit()
+
+# 4. Make a forecast
+forecast_steps = len(test)
+# The predict method can take start and end indices
+forecast = model_fit.predict(start=len(train), end=len(train) + forecast_steps - 1)
+
+# 5. Display the forecast (conceptual, actual plotting requires matplotlib setup)
+print("AR Model Summary:")
+print(model_fit.summary())
+print("\nAR Model Forecast:")
+print(forecast)
+
+# Example plotting (uncomment and run in a Python environment with matplotlib)
+# plt.figure(figsize=(12, 6))
+# plt.plot(train.index, train, label='Training Data')
+# plt.plot(test.index, test, label='Actual Data', color='orange')
+# plt.plot(forecast.index, forecast, label='AR Forecast', color='green', linestyle='--')
+# plt.title('AR(5) Model Forecast')
+# plt.xlabel('Date')
+# plt.ylabel('Value')
+# plt.legend()
+# plt.grid(True)
+# plt.show()
+                        </code></pre>
+                    </div>
+                </section>
+                
+                <section>
+                    <h2>Dependencies & Resources</h2>
+                    <p><strong>Dependencies:</strong> <code>pandas</code>, <code>numpy</code>, <code>statsmodels</code>, <code>matplotlib</code> (for plotting).</p>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><a href="https://www.statsmodels.org/stable/generated/statsmodels.tsa.ar_model.AutoReg.html" target="_blank" rel="noopener noreferrer">Statsmodels AutoReg Documentation ↗</a></li>
+                        <li><a href="https://otexts.com/fpp2/AR.html" target="_blank" rel="noopener noreferrer">Forecasting: Principles and Practice - AR Models ↗</a></li>
+                    </ul>
+                </section>
+            </article>
+        </div>
+    </main>
+
+    <footer class="text-center p-6 bg-slate-200 mt-12">
+        <p class="text-slate-600 text-sm">TSM Hub: An Interactive Resource for Time Series Analysis</p>
+    </footer>
+
+    <script src="main.js"></script>
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</body>
+</html>
