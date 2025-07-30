@@ -3,19 +3,19 @@ const models = [
     name: "ARIMA",
     icon: "📈",
     description: "AutoRegressive Integrated Moving Average: A classic statistical model for time series forecasting.",
-    link: "arima.html"
+    link: "ARIMA.html"
   },
   {
     name: "LSTM",
     icon: "🧠",
     description: "Long Short-Term Memory: A deep learning model for sequential data and time series.",
-    link: "lstm.html"
+    link: "LSTM.html"
   },
   {
     name: "Prophet",
     icon: "🔮",
     description: "Facebook Prophet: Robust forecasting for time series with trends and seasonality.",
-    link: "prophet.html"
+    link: "Prophet.html"
   },
   {
     name: "ETS",
