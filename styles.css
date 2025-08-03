@@ -1,7 +1,14 @@
 /* Enhanced styles with AI interface elements */
+/* Modern look enhancements */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    body {
+        @apply bg-gradient-to-br from-blue-50 via-white to-indigo-100 min-h-screen font-inter;
+    }
+}
 
 @layer components {
     .nav-link {
@@ -105,4 +112,33 @@
         34%, 66% { content: '..'; }
         67%, 100% { content: '...'; }
     }
+    
+    .glass-card {
+        @apply bg-white/70 backdrop-blur-lg rounded-xl shadow-lg p-6 border border-slate-100;
+    }
+    
+    .modern-btn {
+        @apply px-6 py-2 rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 text-white font-semibold shadow-lg hover:scale-105 transition-transform duration-200;
+    }
+    
+    .modern-input {
+        @apply rounded-lg border border-slate-200 px-4 py-2 shadow focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition-all;
+    }
+    
+    .modern-section {
+        @apply my-8 p-8 rounded-2xl bg-white/80 shadow-xl;
+    }
+    
+    .soft-shadow {
+    box-shadow: 0 4px 24px rgba(60, 80, 180, 0.08);
+}
+}
+
+/* Subtle animation for cards */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px);}
+    to { opacity: 1; transform: translateY(0);}
+}
+.animate-fadeInUp {
+    animation: fadeInUp 0.8s cubic-bezier(.4,0,.2,1) both;
 }

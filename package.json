@@ -1,0 +1,14 @@
+{
+  "name": "tsm-hub",
+  "version": "1.0.0",
+  "description": "Time Series Models Hub - Modern Documentation",
+  "scripts": {
+    "dev": "npx tailwindcss -i ./src/styles/main.css -o ./dist/styles.css --watch",
+    "build": "npx tailwindcss -i ./src/styles/main.css -o ./dist/styles.css --minify"
+  },
+  "devDependencies": {
+    "@tailwindcss/forms": "^0.5.7",
+    "@tailwindcss/typography": "^0.5.10",
+    "tailwindcss": "^3.4.1"
+  }
+}

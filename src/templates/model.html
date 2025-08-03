@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${modelName} - TSM Hub</title>
+    <link rel="stylesheet" href="/dist/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-slate-50 text-slate-900 custom-scrollbar">
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-lg shadow-sm z-50">
+        <nav class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <a href="/" class="flex items-center space-x-2">
+                    <svg class="w-8 h-8 text-primary-600" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                    </svg>
+                    <span class="text-xl font-bold text-slate-900">TSM Hub</span>
+                </a>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="/" class="nav-link">Home</a>
+                    <a href="/concepts" class="nav-link">Concepts</a>
+                    <a href="/models" class="nav-link active">Models</a>
+                    <a href="/comparison" class="nav-link">Comparison</a>
+                    <button id="theme-toggle" class="p-2 rounded-lg hover:bg-slate-100 transition-colors">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <button id="mobile-menu-button" class="md:hidden p-2">
+                    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/>
+                    </svg>
+                </button>
+            </div>
+
+            <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4">
+                <a href="/" class="block py-2 px-4 hover:bg-slate-100 rounded-lg">Home</a>
+                <a href="/concepts" class="block py-2 px-4 hover:bg-slate-100 rounded-lg">Concepts</a>
+                <a href="/models" class="block py-2 px-4 hover:bg-slate-100 rounded-lg">Models</a>
+                <a href="/comparison" class="block py-2 px-4 hover:bg-slate-100 rounded-lg">Comparison</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 pt-24 pb-12">
+        <div class="max-w-4xl mx-auto">
+            <!-- Back Navigation -->
+            <a href="/models" class="inline-flex items-center space-x-2 text-primary-600 hover:text-primary-700 mb-8 group">
+                <svg class="w-5 h-5 transform transition-transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                </svg>
+                <span>Back to Model Library</span>
+            </a>
+
+            <!-- Model Header -->
+            <div class="glass-card mb-8">
+                <h1 class="text-4xl font-bold text-slate-900 mb-2">${modelName}</h1>
+                <p class="text-lg text-slate-600">${modelDescription}</p>
+            </div>
+
+            <!-- Content Sections -->
+            <div class="space-y-8">
+                <!-- Overview -->
+                <section class="gradient-border p-8 bg-white">
+                    <h2 class="text-2xl font-bold text-slate-900 mb-4">Overview</h2>
+                    <div class="prose prose-slate max-w-none">
+                        ${overviewContent}
+                    </div>
+                </section>
+
+                <!-- Architecture -->
+                <section class="gradient-border p-8 bg-white">
+                    <h2 class="text-2xl font-bold text-slate-900 mb-4">Architecture</h2>
+                    <div class="prose prose-slate max-w-none">
+                        ${architectureContent}
+                    </div>
+                </section>
+
+                <!-- Implementation -->
+                <section class="gradient-border p-8 bg-white">
+                    <h2 class="text-2xl font-bold text-slate-900 mb-4">Implementation</h2>
+                    <div class="prose prose-slate max-w-none">
+                        <pre class="language-python"><code>${implementationCode}</code></pre>
+                    </div>
+                </section>
+
+                <!-- Examples -->
+                <section class="gradient-border p-8 bg-white">
+                    <h2 class="text-2xl font-bold text-slate-900 mb-4">Examples</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        ${exampleCards}
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-white font-semibold mb-4">TSM Hub</h3>
+                    <p class="text-sm">Your comprehensive resource for time series modeling and forecasting.</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="/" class="hover:text-white transition-colors">Home</a></li>
+                        <li><a href="/concepts" class="hover:text-white transition-colors">Concepts</a></li>
+                        <li><a href="/models" class="hover:text-white transition-colors">Models</a></li>
+                        <li><a href="/comparison" class="hover:text-white transition-colors">Comparison</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Resources</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="/documentation" class="hover:text-white transition-colors">Documentation</a></li>
+                        <li><a href="/tutorials" class="hover:text-white transition-colors">Tutorials</a></li>
+                        <li><a href="/examples" class="hover:text-white transition-colors">Examples</a></li>
+                        <li><a href="/api" class="hover:text-white transition-colors">API Reference</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Connect</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="https://github.com/your-repo" class="hover:text-white transition-colors">GitHub</a></li>
+                        <li><a href="/contact" class="hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-slate-800 mt-8 pt-8 text-center text-sm">
+                <p>&copy; 2025 TSM Hub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/src/js/main.js"></script>
+    <script src="/src/js/prism.js"></script>
+</body>
+</html>

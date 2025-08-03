@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SUBHAM - Time Series Models</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet">
+    <!-- Include Tailwind CSS from CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter var', 'sans-serif'],
+                        display: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 text-gray-900">
+    <!-- Header/Navigation -->
+    <header class="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-lg border-b border-gray-200/50 z-50">
+        <nav class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <a href="/" class="flex items-center space-x-2">
+                    <span class="text-2xl font-bold text-gray-900">SUBHAM</span>
+                </a>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="/" class="nav-link active">Home</a>
+                    <a href="concepts.html" class="nav-link">Concepts</a>
+                    <a href="models.html" class="nav-link">Models</a>
+                    <a href="comparison.html" class="nav-link">Comparison</a>
+                    <button id="theme-toggle" class="p-2 rounded-lg hover:bg-gray-100">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                  d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <button id="mobile-menu-button" class="md:hidden p-2">
+                    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4">
+                <a href="/" class="block py-2 px-4 hover:bg-gray-100">Home</a>
+                <a href="concepts.html" class="block py-2 px-4 hover:bg-gray-100">Concepts</a>
+                <a href="models.html" class="block py-2 px-4 hover:bg-gray-100">Models</a>
+                <a href="comparison.html" class="block py-2 px-4 hover:bg-gray-100">Comparison</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <main class="pt-20">
+        <section class="relative overflow-hidden bg-gradient-to-br from-primary-50 to-gray-50 py-20">
+            <div class="container mx-auto px-4">
+                <div class="max-w-3xl">
+                    <h1 class="text-4xl md:text-6xl font-bold mb-6">
+                        Modern Time Series Analysis
+                    </h1>
+                    <p class="text-xl text-gray-600 mb-8">
+                        Explore cutting-edge time series models with interactive examples and comprehensive documentation.
+                    </p>
+                    <a href="models.html" class="inline-flex items-center justify-center px-6 py-3 text-lg font-medium text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors">
+                        Explore Models
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Models -->
+        <section class="py-16">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold mb-8">Popular Models</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Model Cards -->
+                    <div class="card animate-on-scroll opacity-0">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3 py-1 text-sm rounded-full bg-blue-100 text-blue-800">Neural Network</span>
+                            <span class="px-3 py-1 text-sm rounded-full bg-yellow-100 text-yellow-800">Intermediate</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">LSTM</h3>
+                        <p class="text-gray-600 mb-4">Long Short-Term Memory networks for sequential data prediction</p>
+                        <a href="models/lstm.html" class="btn btn-primary w-full">Learn More</a>
+                    </div>
+
+                    <div class="card animate-on-scroll opacity-0">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3 py-1 text-sm rounded-full bg-green-100 text-green-800">Statistical</span>
+                            <span class="px-3 py-1 text-sm rounded-full bg-green-100 text-green-800">Beginner</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Prophet</h3>
+                        <p class="text-gray-600 mb-4">Facebook's time series forecasting tool for business applications</p>
+                        <a href="models/prophet.html" class="btn btn-primary w-full">Learn More</a>
+                    </div>
+
+                    <div class="card animate-on-scroll opacity-0">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3 py-1 text-sm rounded-full bg-purple-100 text-purple-800">Neural Network</span>
+                            <span class="px-3 py-1 text-sm rounded-full bg-red-100 text-red-800">Advanced</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Transformer</h3>
+                        <p class="text-gray-600 mb-4">Attention-based architecture for sequence modeling</p>
+                        <a href="models/transformer.html" class="btn btn-primary w-full">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="py-16 bg-gray-50">
+            <div class="container mx-auto px-4">
+                <div class="max-w-3xl mx-auto text-center">
+                    <h2 class="text-3xl font-bold mb-4">Why Choose SUBHAM?</h2>
+                    <p class="text-gray-600 mb-12">
+                        We provide comprehensive resources and tools for time series analysis,
+                        making complex models accessible to everyone.
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="card p-6 text-center">
+                            <div class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <svg class="w-6 h-6 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                          d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                </svg>
+                            </div>
+                            <h3 class="font-semibold mb-2">Fast Implementation</h3>
+                            <p class="text-gray-600">Quick and efficient implementation with clear examples</p>
+                        </div>
+                        <div class="card p-6 text-center">
+                            <div class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <svg class="w-6 h-6 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                          d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                                </svg>
+                            </div>
+                            <h3 class="font-semibold mb-2">Comprehensive Guide</h3>
+                            <p class="text-gray-600">Detailed documentation with practical use cases</p>
+                        </div>
+                        <div class="card p-6 text-center">
+                            <div class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <svg class="w-6 h-6 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                          d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                                </svg>
+                            </div>
+                            <h3 class="font-semibold mb-2">Performance Analysis</h3>
+                            <p class="text-gray-600">Detailed model comparison and benchmarks</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400">
+        <div class="container mx-auto px-4 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-white font-semibold mb-4">SUBHAM</h3>
+                    <p class="text-sm">Your comprehensive resource for time series modeling and forecasting.</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="/" class="hover:text-white transition-colors">Home</a></li>
+                        <li><a href="concepts.html" class="hover:text-white transition-colors">Concepts</a></li>
+                        <li><a href="models.html" class="hover:text-white transition-colors">Models</a></li>
+                        <li><a href="comparison.html" class="hover:text-white transition-colors">Comparison</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Resources</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="documentation.html" class="hover:text-white transition-colors">Documentation</a></li>
+                        <li><a href="tutorials.html" class="hover:text-white transition-colors">Tutorials</a></li>
+                        <li><a href="examples.html" class="hover:text-white transition-colors">Examples</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Connect</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="https://github.com/subh700" class="hover:text-white transition-colors">GitHub</a></li>
+                        <li><a href="contact.html" class="hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-sm">
+                <p>&copy; 2025 SUBHAM. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

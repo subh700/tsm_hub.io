@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Series Models - SUBHAM</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter var', 'sans-serif'],
+                        display: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 text-gray-900">
+    <!-- Header (Same as index.html) -->
+    <header class="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-lg border-b border-gray-200/50 z-50">
+        <!-- Navigation content here -->
+    </header>
+
+    <main class="pt-20">
+        <div class="container mx-auto px-4 py-8">
+            <!-- Page Header -->
+            <div class="max-w-3xl mx-auto text-center mb-12">
+                <h1 class="text-4xl font-bold mb-4">Time Series Models</h1>
+                <p class="text-xl text-gray-600">
+                    Explore our comprehensive collection of time series models
+                </p>
+            </div>
+
+            <!-- Model Categories -->
+            <div class="mb-12">
+                <div class="flex flex-wrap gap-4 justify-center">
+                    <button class="btn btn-primary">All Models</button>
+                    <button class="btn btn-secondary">Neural Networks</button>
+                    <button class="btn btn-secondary">Statistical Models</button>
+                    <button class="btn btn-secondary">Hybrid Models</button>
+                </div>
+            </div>
+
+            <!-- Models Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- LSTM -->
+                <div class="card animate-on-scroll opacity-0">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="px-3 py-1 text-sm rounded-full bg-blue-100 text-blue-800">Neural Network</span>
+                        <span class="px-3 py-1 text-sm rounded-full bg-yellow-100 text-yellow-800">Intermediate</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">LSTM</h3>
+                    <p class="text-gray-600 mb-4">Long Short-Term Memory networks for sequential data prediction</p>
+                    <a href="models/lstm.html" class="btn btn-primary w-full">Learn More</a>
+                </div>
+
+                <!-- Prophet -->
+                <div class="card animate-on-scroll opacity-0">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="px-3 py-1 text-sm rounded-full bg-green-100 text-green-800">Statistical</span>
+                        <span class="px-3 py-1 text-sm rounded-full bg-green-100 text-green-800">Beginner</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Prophet</h3>
+                    <p class="text-gray-600 mb-4">Facebook's time series forecasting tool for business applications</p>
+                    <a href="models/prophet.html" class="btn btn-primary w-full">Learn More</a>
+                </div>
+
+                <!-- ARIMA -->
+                <div class="card animate-on-scroll opacity-0">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="px-3 py-1 text-sm rounded-full bg-green-100 text-green-800">Statistical</span>
+                        <span class="px-3 py-1 text-sm rounded-full bg-yellow-100 text-yellow-800">Intermediate</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">ARIMA</h3>
+                    <p class="text-gray-600 mb-4">AutoRegressive Integrated Moving Average for time series analysis</p>
+                    <a href="models/arima.html" class="btn btn-primary w-full">Learn More</a>
+                </div>
+
+                <!-- Transformer -->
+                <div class="card animate-on-scroll opacity-0">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="px-3 py-1 text-sm rounded-full bg-purple-100 text-purple-800">Neural Network</span>
+                        <span class="px-3 py-1 text-sm rounded-full bg-red-100 text-red-800">Advanced</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Transformer</h3>
+                    <p class="text-gray-600 mb-4">Attention-based architecture for sequence modeling</p>
+                    <a href="models/transformer.html" class="btn btn-primary w-full">Learn More</a>
+                </div>
+
+                <!-- N-BEATS -->
+                <div class="card animate-on-scroll opacity-0">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="px-3 py-1 text-sm rounded-full bg-blue-100 text-blue-800">Neural Network</span>
+                        <span class="px-3 py-1 text-sm rounded-full bg-yellow-100 text-yellow-800">Intermediate</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">N-BEATS</h3>
+                    <p class="text-gray-600 mb-4">Neural basis expansion analysis for interpretable time series forecasting</p>
+                    <a href="models/nbeats.html" class="btn btn-primary w-full">Learn More</a>
+                </div>
+
+                <!-- TFT -->
+                <div class="card animate-on-scroll opacity-0">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="px-3 py-1 text-sm rounded-full bg-purple-100 text-purple-800">Neural Network</span>
+                        <span class="px-3 py-1 text-sm rounded-full bg-red-100 text-red-800">Advanced</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">TFT</h3>
+                    <p class="text-gray-600 mb-4">Temporal Fusion Transformer for interpretable multi-horizon forecasting</p>
+                    <a href="models/tft.html" class="btn btn-primary w-full">Learn More</a>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="flex justify-center mt-12">
+                <nav class="flex items-center space-x-2">
+                    <button class="btn btn-secondary px-4">Previous</button>
+                    <button class="btn btn-primary px-4">1</button>
+                    <button class="btn btn-secondary px-4">2</button>
+                    <button class="btn btn-secondary px-4">3</button>
+                    <button class="btn btn-secondary px-4">Next</button>
+                </nav>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer (Same as index.html) -->
+    <footer class="bg-gray-900 text-gray-400">
+        <!-- Footer content here -->
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

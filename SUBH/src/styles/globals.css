@@ -1,0 +1,74 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-white dark:bg-gray-900 text-gray-900 dark:text-white;
+  }
+
+  ::selection {
+    @apply bg-primary-500/20;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center px-4 py-2 rounded-lg font-medium transition-all duration-200;
+  }
+
+  .btn-primary {
+    @apply bg-primary-500 text-white hover:bg-primary-600 focus:ring-2 focus:ring-primary-500/20;
+  }
+
+  .btn-secondary {
+    @apply bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 
+           hover:bg-gray-50 dark:hover:bg-gray-700;
+  }
+
+  .card {
+    @apply bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6;
+  }
+
+  .glass {
+    @apply bg-white/70 dark:bg-gray-900/70 backdrop-blur-lg rounded-xl border border-gray-200/50 dark:border-gray-700/50;
+  }
+
+  .input {
+    @apply block w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800
+           focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 dark:focus:border-primary-400
+           dark:text-white placeholder-gray-400 dark:placeholder-gray-500;
+  }
+
+  .nav-link {
+    @apply relative px-2 py-1 text-gray-600 dark:text-gray-300 hover:text-primary-500 dark:hover:text-primary-400
+           after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-primary-500 
+           after:transition-all after:duration-300 hover:after:w-full;
+  }
+
+  .nav-link.active {
+    @apply text-primary-500 dark:text-primary-400 after:w-full;
+  }
+}
+
+/* Custom Scrollbar */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: theme('colors.primary.500 / 0.3') transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-primary-500/30 rounded-full hover:bg-primary-500/50;
+}

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LSTM Model - SUBHAM</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter var', 'sans-serif'],
+                        display: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Add Prism.js for code highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-tomorrow.min.css" rel="stylesheet" />
+</head>
+<body class="bg-gray-50 text-gray-900">
+    <!-- Header (Same as index.html) -->
+    <header class="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-lg border-b border-gray-200/50 z-50">
+        <!-- Navigation content here -->
+    </header>
+
+    <main class="pt-20">
+        <div class="container mx-auto px-4 py-8">
+            <!-- Breadcrumb -->
+            <nav class="flex mb-8" aria-label="Breadcrumb">
+                <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                    <li class="inline-flex items-center">
+                        <a href="../index.html" class="text-gray-600 hover:text-primary-600">Home</a>
+                    </li>
+                    <li>
+                        <div class="flex items-center">
+                            <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <a href="../models.html" class="text-gray-600 hover:text-primary-600">Models</a>
+                        </div>
+                    </li>
+                    <li aria-current="page">
+                        <div class="flex items-center">
+                            <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="text-gray-500">LSTM</span>
+                        </div>
+                    </li>
+                </ol>
+            </nav>
+
+            <!-- Model Header -->
+            <div class="glass-card mb-8">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="px-3 py-1 text-sm rounded-full bg-blue-100 text-blue-800">Neural Network</span>
+                    <span class="px-3 py-1 text-sm rounded-full bg-yellow-100 text-yellow-800">Intermediate</span>
+                </div>
+                <h1 class="text-4xl font-bold mb-4">LSTM Model</h1>
+                <p class="text-xl text-gray-600">Long Short-Term Memory Network for Time Series Prediction</p>
+            </div>
+
+            <!-- Content Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Main Content -->
+                <div class="lg:col-span-2 space-y-8">
+                    <!-- Overview -->
+                    <section class="card">
+                        <h2 class="text-2xl font-bold mb-4">Overview</h2>
+                        <div class="prose max-w-none">
+                            <p>
+                                Long Short-Term Memory (LSTM) networks are a specialized type of Recurrent Neural Network
+                                designed to learn long-term dependencies. They were introduced by Hochreiter & Schmidhuber
+                                (1997) and were refined and popularized by many people in following work.
+                            </p>
+                            <p>
+                                LSTMs are explicitly designed to avoid the long-term dependency problem. Remembering
+                                information for long periods of time is practically their default behavior, not something
+                                they struggle to learn!
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- Architecture -->
+                    <section class="card">
+                        <h2 class="text-2xl font-bold mb-4">Architecture</h2>
+                        <div class="prose max-w-none">
+                            <p>
+                                The key to LSTMs is the cell state, which runs straight down the entire chain, with only
+                                minor linear interactions. Information can easily flow along it unchanged. The LSTM can
+                                remove or add information to the cell state, carefully regulated by structures called gates.
+                            </p>
+                            <img src="../images/lstm-architecture.png" alt="LSTM Architecture" class="my-4 rounded-lg shadow-lg">
+                        </div>
+                    </section>
+
+                    <!-- Implementation -->
+                    <section class="card">
+                        <h2 class="text-2xl font-bold mb-4">Implementation</h2>
+                        <div class="prose max-w-none">
+                            <p>Here's a basic implementation using PyTorch:</p>
+                            <pre><code class="language-python">
+import torch
+import torch.nn as nn
+
+class LSTMModel(nn.Module):
+    def __init__(self, input_size, hidden_size, num_layers):
+        super(LSTMModel, self).__init__()
+        self.hidden_size = hidden_size
+        self.num_layers = num_layers
+        self.lstm = nn.LSTM(input_size, hidden_size, num_layers, batch_first=True)
+        self.fc = nn.Linear(hidden_size, 1)
+    
+    def forward(self, x):
+        h0 = torch.zeros(self.num_layers, x.size(0), self.hidden_size)
+        c0 = torch.zeros(self.num_layers, x.size(0), self.hidden_size)
+        out, _ = self.lstm(x, (h0, c0))
+        out = self.fc(out[:, -1, :])
+        return out
+                            </code></pre>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="lg:col-span-1 space-y-8">
+                    <!-- Quick Info -->
+                    <div class="card">
+                        <h3 class="text-xl font-bold mb-4">Quick Info</h3>
+                        <ul class="space-y-3">
+                            <li class="flex justify-between">
+                                <span class="text-gray-600">Type:</span>
+                                <span class="font-medium">Neural Network</span>
+                            </li>
+                            <li class="flex justify-between">
+                                <span class="text-gray-600">Complexity:</span>
+                                <span class="font-medium">Intermediate</span>
+                            </li>
+                            <li class="flex justify-between">
+                                <span class="text-gray-600">Use Case:</span>
+                                <span class="font-medium">Sequence Prediction</span>
+                            </li>
+                            <li class="flex justify-between">
+                                <span class="text-gray-600">Input Type:</span>
+                                <span class="font-medium">Sequential Data</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Resources -->
+                    <div class="card">
+                        <h3 class="text-xl font-bold mb-4">Resources</h3>
+                        <ul class="space-y-3">
+                            <li>
+                                <a href="#" class="text-primary-600 hover:text-primary-700 flex items-center">
+                                    <svg class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                              d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                                    </svg>
+                                    Documentation
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="text-primary-600 hover:text-primary-700 flex items-center">
+                                    <svg class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                              d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"/>
+                                    </svg>
+                                    Tutorial
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="text-primary-600 hover:text-primary-700 flex items-center">
+                                    <svg class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                              d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                                    </svg>
+                                    Code Example
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Performance Stats -->
+                    <div class="card">
+                        <h3 class="text-xl font-bold mb-4">Performance Stats</h3>
+                        <canvas id="performanceChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer (Same as index.html) -->
+    <footer class="bg-gray-900 text-gray-400">
+        <!-- Footer content here -->
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+        // Performance chart
+        const ctx = document.getElementById('performanceChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: ['Accuracy', 'Speed', 'Memory', 'Scalability', 'Interpretability'],
+                datasets: [{
+                    label: 'LSTM Performance',
+                    data: [85, 75, 65, 80, 60],
+                    backgroundColor: 'rgba(14, 165, 233, 0.2)',
+                    borderColor: 'rgb(14, 165, 233)',
+                    pointBackgroundColor: 'rgb(14, 165, 233)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgb(14, 165, 233)'
+                }]
+            },
+            options: {
+                scales: {
+                    r: {
+                        angleLines: {
+                            display: true
+                        },
+                        suggestedMin: 0,
+                        suggestedMax: 100
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
